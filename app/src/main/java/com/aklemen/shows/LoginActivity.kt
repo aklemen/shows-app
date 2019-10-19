@@ -52,6 +52,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+
+        // Login button listener to start new activity
+
         login_button_login.setOnClickListener{
             val intent = Intent(this, WelcomeActivity::class.java)
             intent.putExtra("USER_NAME", login_username.text.toString())
