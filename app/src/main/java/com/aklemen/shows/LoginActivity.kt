@@ -1,6 +1,6 @@
 package com.aklemen.shows
 
-import android.graphics.Typeface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -19,38 +19,47 @@ class LoginActivity : AppCompatActivity() {
 
         // Listening to text changes
 
-        main_username.addTextListener {
+        login_username.addTextListener {
 
             if (it.isEmpty()){
-                main_username_layout.error = "Please type in a valid email or you shall not pass."
-                main_button_login.isEnabled = false
+                login_username_layout.error = "Please type in a valid email or you shall not pass."
+                login_button_login.isEnabled = false
             }
             else{
-                if (isEmailValid(main_username.text.toString())){
-                    main_username_layout.error = null
-                    if (main_password.text!!.length >= 6){
-                        main_button_login.isEnabled = true
+                if (isEmailValid(login_username.text.toString())){
+                    login_username_layout.error = null
+                    if (login_password.text!!.length >= 6){
+                        login_button_login.isEnabled = true
                     }
                 }
                 else{
-                    main_username_layout.error = "Please type in a valid email or you shall not pass."
-                    main_button_login.isEnabled = false
+                    login_username_layout.error = "Please type in a valid email or you shall not pass."
+                    login_button_login.isEnabled = false
                 }
             }
 
         }
 
-        main_password.addTextListener {
+        login_password.addTextListener {
 
             if (it.length < 6) {
-                main_password_layout.error = "At least six characters needed. You can do it!"
-                main_button_login.isEnabled = false
+                login_password_layout.error = "At least six characters needed. You can do it!"
+                login_button_login.isEnabled = false
             }
             else {
-                main_password_layout.error = null
-                main_button_login.isEnabled = isEmailValid(main_username.text.toString())
+                login_password_layout.error = null
+                login_button_login.isEnabled = isEmailValid(login_username.text.toString())
             }
         }
+
+        login_button_login.setOnClickListener{
+            val intent = Intent(this, WelcomeActivity::class.java)
+            intent.putExtra("USER_NAME", login_username.text.toString())
+            startActivity(intent)
+        }
+
+
+
     }
 
     // Checks if email is valid
