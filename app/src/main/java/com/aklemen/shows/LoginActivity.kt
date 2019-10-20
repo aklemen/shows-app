@@ -16,7 +16,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
+/*
         // Listening to text changes
 
         login_username.addTextListener {
@@ -52,8 +52,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-
+*/
         // Login button listener to start new activity
+
+        login_button_login.isEnabled = true
 
         login_button_login.setOnClickListener{
             val intent = Intent(this, WelcomeActivity::class.java)
@@ -64,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     }
-
+/*
     // Checks if email is valid
 
     fun isEmailValid(email: String): Boolean {
@@ -85,5 +87,10 @@ class LoginActivity : AppCompatActivity() {
                 afterTextChanged.invoke(editable.toString())
             }
         })
+
+
     }
+
+ */
+
 }
