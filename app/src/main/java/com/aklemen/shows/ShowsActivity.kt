@@ -2,6 +2,8 @@ package com.aklemen.shows
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_shows.*
 
 class ShowsActivity : AppCompatActivity() {
 
@@ -42,6 +44,11 @@ class ShowsActivity : AppCompatActivity() {
                 mutableListOf(),
                 R.drawable.sherlock)
         )
+
+
+
+        shows_recyclerview.layoutManager = LinearLayoutManager(this)
+        shows_recyclerview.adapter = ShowsAdapter(listOfShows)
 
 
     }
