@@ -9,6 +9,7 @@
         <item name="android:statusBarColor">@color/colorBlack15</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/karla</item>
+        <item name="android:background">@android:color/white</item>
     </style>
 
 </resources>
