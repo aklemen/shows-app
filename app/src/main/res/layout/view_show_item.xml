@@ -26,7 +26,7 @@
         android:contentDescription="@string/password" />
 
     <TextView
-        android:id="@+id/shows_title"
+        android:id="@+id/shows_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -37,14 +37,14 @@
         android:padding="16dp"/>
 
     <TextView
-        android:id="@+id/shows_year"
+        android:id="@+id/shows_text_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         tools:text="2009 - 2015"
         android:textColor="@color/colorBlackish2"
         app:layout_constraintStart_toEndOf="@id/shows_image"
-        app:layout_constraintTop_toBottomOf="@id/shows_title"
+        app:layout_constraintTop_toBottomOf="@id/shows_text_title"
         android:layout_marginStart="16dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

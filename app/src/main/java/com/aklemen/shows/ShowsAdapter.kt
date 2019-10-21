@@ -26,8 +26,8 @@ class ShowsAdapter (private val data : List<Show>, val action : (Show) -> Unit) 
 
         fun bind(show: Show){
             itemView.shows_image.setImageResource(show.imgResId)
-            itemView.shows_title.text = show.name
-            itemView.shows_year.text = show.year
+            itemView.shows_text_title.text = show.name
+            itemView.shows_text_year.text = show.year
             itemView.setOnClickListener{
                 action(show)
             }

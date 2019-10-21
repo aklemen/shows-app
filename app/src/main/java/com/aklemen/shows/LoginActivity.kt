@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_login.*
@@ -20,27 +19,27 @@ class LoginActivity : AppCompatActivity() {
 
         // Listening to text changes
 
-        login_username.addTextListener {
+        login_edit_username.addTextListener {
 
-            if (isEmailValid(login_username.text.toString())){
-                login_username_layout.error = null
-                login_button_login.isEnabled = isPasswordValid(login_password.text.toString())
+            if (isEmailValid(login_edit_username.text.toString())){
+                login_layout_username.error = null
+                login_button_login.isEnabled = isPasswordValid(login_edit_password.text.toString())
             }
             else{
-                login_username_layout.error = "Please type in a valid email or you shall not pass."
+                login_layout_username.error = "Please type in a valid email or you shall not pass."
                 login_button_login.isEnabled = false
             }
 
         }
 
-        login_password.addTextListener {
+        login_edit_password.addTextListener {
 
             if (isPasswordValid(it)) {
-                login_password_layout.error = null
-                login_button_login.isEnabled = isEmailValid(login_username.text.toString())
+                login_layout_password.error = null
+                login_button_login.isEnabled = isEmailValid(login_edit_username.text.toString())
             }
             else {
-                login_password_layout.error = "At least six characters needed. You can do it!"
+                login_layout_password.error = "At least six characters needed. You can do it!"
                 login_button_login.isEnabled = false
             }
         }
@@ -51,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
 //        login_button_login.isEnabled = true
 
         login_button_login.setOnClickListener{
-            startActivity(WelcomeActivity.newStartIntent(this, login_username.text.toString()))
+            startActivity(WelcomeActivity.newStartIntent(this, login_edit_username.text.toString()))
         }
 
 
