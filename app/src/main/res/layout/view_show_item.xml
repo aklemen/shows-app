@@ -14,38 +14,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/shows_image"
-        android:layout_width="64dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/sherlock"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:contentDescription="@string/password" />
+        <ImageView
+            android:id="@+id/shows_image"
+            android:layout_width="64dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/sherlock" />
 
-    <TextView
-        android:id="@+id/shows_text_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        tools:text="Sherlock"
-        android:textColor="@color/colorBlackish2"
-        app:layout_constraintStart_toEndOf="@id/shows_image"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="16dp"/>
+        <TextView
+            android:id="@+id/shows_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlackish2"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/shows_text_year"
+            app:layout_constraintStart_toEndOf="@id/shows_image"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp"
+            tools:text="Sherlock" />
 
-    <TextView
-        android:id="@+id/shows_text_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        tools:text="2009 - 2015"
-        android:textColor="@color/colorBlackish2"
-        app:layout_constraintStart_toEndOf="@id/shows_image"
-        app:layout_constraintTop_toBottomOf="@id/shows_text_title"
-        android:layout_marginStart="16dp"/>
+        <TextView
+            android:id="@+id/shows_text_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlackish2"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/shows_image"
+            app:layout_constraintTop_toBottomOf="@+id/shows_text_title"
+            android:layout_marginStart="16dp"
+            tools:text="2009 - 2015" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
