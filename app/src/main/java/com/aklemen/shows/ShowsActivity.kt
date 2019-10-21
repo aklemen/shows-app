@@ -1,5 +1,7 @@
 package com.aklemen.shows
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +9,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_shows.*
 
+
 class ShowsActivity : AppCompatActivity() {
+
+    companion object{
+        fun newStartIntent(context: Context): Intent {
+            val intent = Intent(context, ShowsActivity::class.java)
+            return intent
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +87,6 @@ class ShowsActivity : AppCompatActivity() {
                 mutableListOf(),
                 R.drawable.sherlock)
         )
-
 
 
         shows_recyclerview.layoutManager = LinearLayoutManager(this)
