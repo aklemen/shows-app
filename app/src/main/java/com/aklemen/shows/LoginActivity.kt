@@ -59,13 +59,9 @@ class LoginActivity : AppCompatActivity() {
 
     // Checks if email is valid
 
-    fun isEmailValid(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
+    fun isEmailValid(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
-    fun isPasswordValid(password: String) : Boolean {
-        return password.length >= MIN_PASSWORD_LENGTH
-    }
+    fun isPasswordValid(password: String) : Boolean = password.length >= MIN_PASSWORD_LENGTH
 
     // Adding the extension function to make it easy to listen to the changes in EditText
 

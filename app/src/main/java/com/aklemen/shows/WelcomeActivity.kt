@@ -8,11 +8,12 @@ import android.os.Handler
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 
-private const val EXTRA_USER_NAME = "WelcomeActivity.username"
-
 class WelcomeActivity : AppCompatActivity() {
 
     companion object{
+
+        private const val EXTRA_USER_NAME = "WelcomeActivity.username"
+
         fun newStartIntent(context: Context, username: String): Intent {
             val intent = Intent(context, WelcomeActivity::class.java)
             intent.putExtra(EXTRA_USER_NAME, username)
@@ -26,7 +27,7 @@ class WelcomeActivity : AppCompatActivity() {
 
         val username : String = intent.getStringExtra(EXTRA_USER_NAME)
 
-        welcome_text_welcome.text = "Welcome ${username}"
+        welcome_text_welcome.text = "Welcome $username"
 
         Handler().postDelayed({
             startActivity(ShowsActivity.newStartIntent(this))

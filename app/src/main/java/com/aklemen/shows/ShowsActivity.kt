@@ -23,7 +23,7 @@ class ShowsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows)
 
-        val listOfShows = mutableListOf(
+        var listOfShows = mutableListOf(
             Show("0",
                 "The Big Bang Theory",
                 "2007-2019", """A woman who moves into an apartment across the hall from two brilliant but socially awkward physicists shows
@@ -92,6 +92,8 @@ class ShowsActivity : AppCompatActivity() {
         shows_recyclerview.layoutManager = LinearLayoutManager(this)
         shows_recyclerview.adapter = ShowsAdapter(listOfShows) {
             Toast.makeText(this, it.name,Toast.LENGTH_LONG).show()
+            it.listOfEpisodes.add(Episode("Sher", "Lorem ipsum"))
+            startActivity(ShowDetailActivity.newStartIntent(this, it))
         }
 
         shows_recyclerview.addItemDecoration(MarginItemDecoration(25))

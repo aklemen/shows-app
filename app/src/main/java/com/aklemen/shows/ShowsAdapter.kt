@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_show_item.view.*
 
-class ShowsAdapter (private val data : List<Show>, val action : (Show) -> Unit) : RecyclerView.Adapter<ShowsAdapter.ShowsViewHolder>() {
+class ShowsAdapter (private val data : MutableList<Show>, val action : (Show) -> Unit) : RecyclerView.Adapter<ShowsAdapter.ShowsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowsViewHolder {
 
@@ -25,9 +25,9 @@ class ShowsAdapter (private val data : List<Show>, val action : (Show) -> Unit) 
     inner class ShowsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
         fun bind(show: Show){
-            itemView.shows_image.setImageResource(show.imgResId)
-            itemView.shows_text_title.text = show.name
-            itemView.shows_text_year.text = show.year
+            itemView.show_image.setImageResource(show.imgResId)
+            itemView.show_text_title.text = show.name
+            itemView.show_text_year.text = show.year
             itemView.setOnClickListener{
                 action(show)
             }
