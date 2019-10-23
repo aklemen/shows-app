@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_episode.*
 import kotlinx.android.synthetic.main.activity_show_detail.*
@@ -42,13 +43,22 @@ class AddEpisodeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        setResult(Activity.RESULT_CANCELED)
 
-        if (add_edit_title.text.toString().isNotEmpty() ){
-
+        if (add_edit_title.text.toString().isNotEmpty() && add_edit_description.text.toString().isNotEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("Watch out")
+                .setMessage("Your changes will be lost. Are you sure you want to continue?")
+                .setPositiveButton("Yes") { _, _ ->
+                    setResult(Activity.RESULT_CANCELED)
+                    super.onBackPressed()
+                }
+                .setNegativeButton("No, cancel", null)
+                .create()
+                .show()
+        } else {
+            setResult(Activity.RESULT_CANCELED)
+            super.onBackPressed()
         }
-
-        super.onBackPressed()
     }
 
 }
