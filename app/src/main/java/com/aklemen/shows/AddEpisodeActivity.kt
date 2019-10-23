@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_episode.*
-import kotlinx.android.synthetic.main.activity_show_detail.*
 
 class AddEpisodeActivity : AppCompatActivity() {
 
@@ -40,6 +40,14 @@ class AddEpisodeActivity : AppCompatActivity() {
 
         }
 
+        add_edit_title.addTextListener {
+            setSaveButtonState(it, add_edit_description)
+        }
+
+        add_edit_description.addTextListener {
+            setSaveButtonState(it, add_edit_title)
+        }
+
     }
 
     override fun onBackPressed() {
@@ -61,4 +69,11 @@ class AddEpisodeActivity : AppCompatActivity() {
         }
     }
 
+    fun setSaveButtonState(text : String, editText: EditText) {
+        if (text.isNotEmpty() && editText.text.toString().isNotEmpty()) {
+            add_button_save.isEnabled = true
+        } else {
+            add_button_save.isEnabled = false
+        }
+    }
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_add_episode.*
 import kotlinx.android.synthetic.main.activity_show_detail.*
 
 class ShowDetailActivity : AppCompatActivity() {
