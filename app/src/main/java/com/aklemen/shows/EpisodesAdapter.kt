@@ -1,5 +1,6 @@
 package com.aklemen.shows
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_episode_item.view.*
 import kotlinx.android.synthetic.main.view_show_item.view.*
 
-class EpisodesAdapter (private val data : MutableList<Episode>) : RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
+class EpisodesAdapter (private var data : MutableList<Episode>) : RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodesViewHolder {
 
@@ -26,7 +27,7 @@ class EpisodesAdapter (private val data : MutableList<Episode>) : RecyclerView.A
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
         fun bind(episode: Episode, position: Int){
-            itemView.episode_text_title.text = "$position. ${episode.title}"
+            itemView.episode_text_title.text = "${position+1}. ${episode.title}"
         }
 
     }

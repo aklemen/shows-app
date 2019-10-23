@@ -2,10 +2,9 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_shows.*
 
@@ -14,14 +13,8 @@ class ShowsActivity : AppCompatActivity() {
 
     companion object{
         fun newStartIntent(context: Context): Intent {
-            val intent = Intent(context, ShowsActivity::class.java)
-            return intent
+            return Intent(context, ShowsActivity::class.java)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shows)
 
         var listOfShows = mutableListOf(
             Show("0",
@@ -87,16 +80,30 @@ class ShowsActivity : AppCompatActivity() {
                 mutableListOf(),
                 R.drawable.sherlock)
         )
+    }
+
+    var showsAdapter : ShowsAdapter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_shows)
 
 
         shows_recyclerview.layoutManager = LinearLayoutManager(this)
-        shows_recyclerview.adapter = ShowsAdapter(listOfShows) {
-            Toast.makeText(this, it.name,Toast.LENGTH_LONG).show()
-            it.listOfEpisodes.add(Episode("Sher", "Lorem ipsum"))
+
+        showsAdapter = ShowsAdapter(listOfShows) {
             startActivity(ShowDetailActivity.newStartIntent(this, it))
+            Log.d("ORIGINAL", it.toString())
         }
+
+        shows_recyclerview.adapter = showsAdapter
 
         shows_recyclerview.addItemDecoration(MarginItemDecoration(25))
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showsAdapter?.notifyDataSetChanged()
     }
 }

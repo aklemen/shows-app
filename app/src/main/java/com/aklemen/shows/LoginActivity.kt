@@ -18,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         // Listening to text changes
-
+/*
         login_edit_username.addTextListener {
 
             if (isEmailValid(login_edit_username.text.toString())){
@@ -46,8 +46,8 @@ class LoginActivity : AppCompatActivity() {
 
 
         // Login button listener to start new activity
-
-//        login_button_login.isEnabled = true
+*/
+        login_button_login.isEnabled = true
 
         login_button_login.setOnClickListener{
             startActivity(WelcomeActivity.newStartIntent(this, login_edit_username.text.toString()))
