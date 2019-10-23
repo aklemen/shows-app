@@ -1,10 +1,6 @@
 package com.aklemen.shows
 
-import android.os.Parcel
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class Show(
     val id : String,
     val name: String,
@@ -12,4 +8,4 @@ data class Show(
     val description : String,
     var listOfEpisodes : MutableList<Episode>,
     val imgResId : Int
-) : Parcelable
+)

@@ -2,9 +2,8 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_shows.*
 
@@ -82,28 +81,17 @@ class ShowsActivity : AppCompatActivity() {
         )
     }
 
-    var showsAdapter : ShowsAdapter? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows)
 
 
         shows_recyclerview.layoutManager = LinearLayoutManager(this)
-
-        showsAdapter = ShowsAdapter(listOfShows) {
-            startActivity(ShowDetailActivity.newStartIntent(this, it))
-            Log.d("ORIGINAL", it.toString())
+        shows_recyclerview.adapter = ShowsAdapter(listOfShows) {
+            startActivity(ShowDetailActivity.newStartIntent(this, it.id.toInt()))
         }
-
-        shows_recyclerview.adapter = showsAdapter
 
         shows_recyclerview.addItemDecoration(MarginItemDecoration(25))
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        showsAdapter?.notifyDataSetChanged()
     }
 }

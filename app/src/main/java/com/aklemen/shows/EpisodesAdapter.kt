@@ -1,12 +1,10 @@
 package com.aklemen.shows
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_episode_item.view.*
-import kotlinx.android.synthetic.main.view_show_item.view.*
 
 class EpisodesAdapter (private var data : MutableList<Episode>) : RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
 

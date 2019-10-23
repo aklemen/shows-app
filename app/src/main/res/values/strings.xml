@@ -11,4 +11,6 @@
     <string name="episode_title">Episode title</string>
     <string name="episode_description">Episode description</string>
     <string name="save">Save</string>
+    <string name="wake_him_up">Someone has fallen asleep.\nDon’t wake him up.</string>
+    <string name="add_some_episodes">Add some episodes</string>
 </resources>
