@@ -10,11 +10,15 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddEpisodeActivity"></activity>
+        <activity
+            android:name=".AddEpisodeActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ShowDetailActivity" />
         <activity android:name=".ShowsActivity" />
         <activity android:name=".WelcomeActivity" />
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

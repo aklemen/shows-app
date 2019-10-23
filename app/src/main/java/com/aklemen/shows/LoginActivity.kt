@@ -63,8 +63,6 @@ class LoginActivity : AppCompatActivity() {
 
         // Login button listener to start new activity
 
-        login_button_login.isEnabled = true
-
         login_button_login.setOnClickListener{
             startActivity(WelcomeActivity.newStartIntent(this, login_edit_username.text.toString()))
         }
