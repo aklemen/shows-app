@@ -25,8 +25,12 @@ class AddEpisodeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_episode)
 
+        // Back button toolbar navigation
 
         add_toolbar.setNavigationOnClickListener { onBackPressed() }
+
+
+        // Save button listener and states
 
         add_button_save.setOnClickListener {
 
@@ -50,6 +54,9 @@ class AddEpisodeActivity : AppCompatActivity() {
 
     }
 
+
+    // Alert dialog when user presses back button
+
     override fun onBackPressed() {
 
         if (add_edit_title.text.toString().isNotEmpty() && add_edit_description.text.toString().isNotEmpty()) {
@@ -69,7 +76,10 @@ class AddEpisodeActivity : AppCompatActivity() {
         }
     }
 
-    fun setSaveButtonState(text : String, editText: EditText) {
+
+    // Function for handling button state depending on EditTexts
+
+    fun setSaveButtonState(text: String, editText: EditText) {
         if (text.isNotEmpty() && editText.text.toString().isNotEmpty()) {
             add_button_save.isEnabled = true
         } else {

@@ -8,16 +8,14 @@ import android.util.Patterns
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_login.*
 
+// Adding the extension function to make it easy to listen to the changes in EditText
 
 fun EditText.addTextListener(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
-
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
         }
-
         override fun afterTextChanged(s: Editable?) {
             afterTextChanged.invoke(s.toString())
         }
@@ -36,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         // Listening to text changes
-/*
+
         login_edit_username.addTextListener {
 
             if (isEmailValid(login_edit_username.text.toString())){
@@ -64,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         // Login button listener to start new activity
-*/
+
         login_button_login.isEnabled = true
 
         login_button_login.setOnClickListener{
@@ -80,11 +78,5 @@ class LoginActivity : AppCompatActivity() {
     fun isEmailValid(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     fun isPasswordValid(password: String) : Boolean = password.length >= MIN_PASSWORD_LENGTH
-
-    // Adding the extension function to make it easy to listen to the changes in EditText
-
-
-
-
 
 }

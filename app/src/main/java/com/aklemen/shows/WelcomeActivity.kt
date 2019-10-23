@@ -12,6 +12,8 @@ class WelcomeActivity : AppCompatActivity() {
 
     companion object{
 
+        // Constants and function to start the new activity
+
         private const val EXTRA_USER_NAME = "WelcomeActivity.username"
 
         fun newStartIntent(context: Context, username: String): Intent {

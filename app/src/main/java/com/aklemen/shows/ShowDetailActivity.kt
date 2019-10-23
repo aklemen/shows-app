@@ -16,6 +16,8 @@ class ShowDetailActivity : AppCompatActivity() {
 
     companion object {
 
+        // Constants and function to start the new activity
+
         private const val EXTRA_SHOW_INDEX = "ShowDetailActivity.showList"
 
         private const val REQUEST_ADD_EPISODE = 111
@@ -37,9 +39,13 @@ class ShowDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_detail)
 
+
+        // Back button toolbar navigation
+
         detail_toolbar.setNavigationOnClickListener { onBackPressed() }
 
 
+        // Defining vars, setting views
 
         val currentShowIndex = intent.getIntExtra(EXTRA_SHOW_INDEX, 0)
         show  = ShowsActivity.listOfShows[currentShowIndex]
@@ -48,6 +54,9 @@ class ShowDetailActivity : AppCompatActivity() {
 
         detail_toolbar.title = show?.name
         detail_text_desciption.text = show?.description
+
+
+        // Handling the layout of the screen, depending on the list of episodes
 
         if (show?.listOfEpisodes?.isNotEmpty() == true){
             detail_group.visibility = View.GONE
@@ -59,6 +68,9 @@ class ShowDetailActivity : AppCompatActivity() {
             detail_recyclerview.visibility = View.GONE
             detail_group.visibility = View.VISIBLE
         }
+
+
+        // RecyclerView and some listeners to add episode
 
         detail_recyclerview.layoutManager = LinearLayoutManager(this)
         detail_recyclerview.adapter = episodesAdapter
@@ -74,6 +86,9 @@ class ShowDetailActivity : AppCompatActivity() {
         }
 
     }
+
+
+    // Receiving the activity result from AddEpisodeActivity
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
@@ -97,6 +112,9 @@ class ShowDetailActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    // Refreshing the layout onStart
 
     override fun onStart() {
         super.onStart()
