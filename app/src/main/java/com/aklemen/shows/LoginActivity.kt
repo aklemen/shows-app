@@ -1,89 +1,58 @@
 package com.aklemen.shows
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
-import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_login.*
 
+
 class LoginActivity : AppCompatActivity() {
+
+    companion object {
+        private const val MIN_PASSWORD_LENGTH: Int = 6
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        initListeners()
+    }
 
-        // Listening to text changes
+    private fun initListeners() {
+        loginEditUsername.doOnTextChanged { _, _, _, _ -> validateUserInput() }
+        loginEditPassword.doOnTextChanged { _, _, _, _ -> validateUserInput() }
 
-        login_username.addTextListener {
+        loginButtonLogin.setOnClickListener { login() }
+    }
 
-            if (it.isEmpty()){
-                login_username_layout.error = "Please type in a valid email or you shall not pass."
-                login_button_login.isEnabled = false
-            }
-            else{
-                if (isEmailValid(login_username.text.toString())){
-                    login_username_layout.error = null
-                    if (login_password.text!!.length >= 6){
-                        login_button_login.isEnabled = true
-                    }
-                }
-                else{
-                    login_username_layout.error = "Please type in a valid email or you shall not pass."
-                    login_button_login.isEnabled = false
-                }
-            }
+    private fun login() {
+        startActivity(WelcomeActivity.newStartIntent(this, loginEditUsername.text.toString()))
+        finish()
+    }
 
+    private fun validateUserInput() {
+        val isUsernameOk = isEmailValid(loginEditUsername.text.toString())
+        val isPasswordOk = isPasswordValid(loginEditPassword.text.toString())
+
+        if (!isUsernameOk) {
+            loginLayoutUsername.error = "Please type in a valid email or you shall not pass."
+        } else {
+            loginLayoutUsername.error = null
         }
 
-        login_password.addTextListener {
-
-            if (it.length < 6) {
-                login_password_layout.error = "At least six characters needed. You can do it!"
-                login_button_login.isEnabled = false
-            }
-            else {
-                login_password_layout.error = null
-                login_button_login.isEnabled = isEmailValid(login_username.text.toString())
-            }
+        if (!isPasswordOk) {
+            loginLayoutPassword.error = "At least six characters needed. You can do it!"
+        } else {
+            loginEditPassword.error = null
         }
 
-
-        // Login button listener to start new activity
-
-        login_button_login.setOnClickListener{
-            val intent = Intent(this, WelcomeActivity::class.java)
-            intent.putExtra("USER_NAME", login_username.text.toString())
-            startActivity(intent)
-        }
-
-
+        loginButtonLogin.isEnabled = isUsernameOk && isPasswordOk
 
     }
 
-    // Checks if email is valid
+    private fun isEmailValid(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
-    fun isEmailValid(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    // Adding the extension function to make it easy to listen to the changes in EditText
-
-    fun EditText.addTextListener(afterTextChanged: (String) -> Unit) {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(editable: Editable?) {
-                afterTextChanged.invoke(editable.toString())
-            }
-        })
-    }
+    private fun isPasswordValid(password: String): Boolean = password.length >= MIN_PASSWORD_LENGTH
 }
