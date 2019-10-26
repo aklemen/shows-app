@@ -49,7 +49,7 @@ class AddEpisodeActivity : AppCompatActivity() {
     // Alert on back button
 
     override fun onBackPressed() {
-        if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
+        if (addEditTitle.text.toString().isNotEmpty() || addEditDescription.text.toString().isNotEmpty()) {
             AlertDialog.Builder(this)
                 .setTitle("Watch out")
                 .setMessage("Your changes will be lost. Are you sure you want to continue?")
