@@ -9,7 +9,7 @@
     android:layout_margin="16dp">
 
     <TextView
-        android:id="@+id/shows_text_pagetitle"
+        android:id="@+id/showsTextPageTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/shows"
@@ -23,11 +23,11 @@
         android:paddingBottom="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shows_recyclerview"
+        android:id="@+id/showsRecyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/shows_text_pagetitle"
+        app:layout_constraintTop_toBottomOf="@id/showsTextPageTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

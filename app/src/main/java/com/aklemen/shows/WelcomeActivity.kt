@@ -29,7 +29,7 @@ class WelcomeActivity : AppCompatActivity() {
 
         val username : String = intent.getStringExtra(EXTRA_USER_NAME)
 
-        welcome_text_welcome.text = "Welcome $username"
+        welcomeTextWelcome.text = "Welcome $username"
 
         Handler().postDelayed({
             startActivity(ShowsActivity.newStartIntent(this))

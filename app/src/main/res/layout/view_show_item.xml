@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/show_image"
+            android:id="@+id/showImage"
             android:layout_width="64dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -25,26 +25,26 @@
             tools:src="@drawable/sherlock" />
 
         <TextView
-            android:id="@+id/show_text_title"
+            android:id="@+id/showTextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlackish2"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/show_text_year"
-            app:layout_constraintStart_toEndOf="@id/show_image"
+            app:layout_constraintBottom_toTopOf="@+id/showTextYear"
+            app:layout_constraintStart_toEndOf="@id/showImage"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
             tools:text="Sherlock" />
 
         <TextView
-            android:id="@+id/show_text_year"
+            android:id="@+id/showTextYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlackish2"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/show_image"
-            app:layout_constraintTop_toBottomOf="@+id/show_text_title"
+            app:layout_constraintStart_toEndOf="@id/showImage"
+            app:layout_constraintTop_toBottomOf="@+id/showTextTitle"
             android:layout_marginStart="16dp"
             tools:text="2009 - 2015" />
     </androidx.constraintlayout.widget.ConstraintLayout>

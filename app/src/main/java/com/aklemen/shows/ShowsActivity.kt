@@ -115,12 +115,12 @@ class ShowsActivity : AppCompatActivity() {
 
         // Setting the RecyclerView
 
-        shows_recyclerview.layoutManager = LinearLayoutManager(this)
-        shows_recyclerview.adapter = ShowsAdapter(listOfShows) {
+        showsRecyclerview.layoutManager = LinearLayoutManager(this)
+        showsRecyclerview.adapter = ShowsAdapter(listOfShows) {
             startActivity(ShowDetailActivity.newStartIntent(this, it.id.toInt()))
         }
 
-        shows_recyclerview.addItemDecoration(MarginItemDecoration(25))
+        showsRecyclerview.addItemDecoration(MarginItemDecoration(25))
 
     }
 }

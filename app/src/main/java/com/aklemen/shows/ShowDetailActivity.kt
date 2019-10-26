@@ -2,13 +2,11 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_add_episode.*
 import kotlinx.android.synthetic.main.activity_show_detail.*
 
 class ShowDetailActivity : AppCompatActivity() {
@@ -42,7 +40,7 @@ class ShowDetailActivity : AppCompatActivity() {
 
         // Back button toolbar navigation
 
-        detail_toolbar.setNavigationOnClickListener { onBackPressed() }
+        detailToolbar.setNavigationOnClickListener { onBackPressed() }
 
 
         // Defining vars, setting views
@@ -52,36 +50,36 @@ class ShowDetailActivity : AppCompatActivity() {
 
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
 
-        detail_toolbar.title = show?.name
-        detail_text_desciption.text = show?.description
+        detailToolbar.title = show?.name
+        detailTextDescription.text = show?.description
 
 
         // Handling the layout of the screen, depending on the list of episodes
 
         if (show?.listOfEpisodes?.isNotEmpty() == true){
-            detail_group.visibility = View.GONE
-            detail_recyclerview.visibility = View.VISIBLE
-            detail_recyclerview.layoutManager = LinearLayoutManager(this)
-            detail_recyclerview.adapter = episodesAdapter
+            detailGroup.visibility = View.GONE
+            detailRecyclerview.visibility = View.VISIBLE
+            detailRecyclerview.layoutManager = LinearLayoutManager(this)
+            detailRecyclerview.adapter = episodesAdapter
         }
         else{
-            detail_recyclerview.visibility = View.GONE
-            detail_group.visibility = View.VISIBLE
+            detailRecyclerview.visibility = View.GONE
+            detailGroup.visibility = View.VISIBLE
         }
 
 
         // RecyclerView and some listeners to add episode
 
-        detail_recyclerview.layoutManager = LinearLayoutManager(this)
-        detail_recyclerview.adapter = episodesAdapter
+        detailRecyclerview.layoutManager = LinearLayoutManager(this)
+        detailRecyclerview.adapter = episodesAdapter
 
 
-        detail_fab.setOnClickListener {
+        detailFab.setOnClickListener {
             startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE)
         }
 
 
-        detail_text_addEpisodes.setOnClickListener {
+        detailTextAddEpisodes.setOnClickListener {
             startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE)
         }
 
@@ -119,14 +117,14 @@ class ShowDetailActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (show?.listOfEpisodes?.isNotEmpty() == true){
-            detail_group.visibility = View.GONE
-            detail_recyclerview.visibility = View.VISIBLE
-            detail_recyclerview.layoutManager = LinearLayoutManager(this)
-            detail_recyclerview.adapter = episodesAdapter
+            detailGroup.visibility = View.GONE
+            detailRecyclerview.visibility = View.VISIBLE
+            detailRecyclerview.layoutManager = LinearLayoutManager(this)
+            detailRecyclerview.adapter = episodesAdapter
         }
         else{
-            detail_recyclerview.visibility = View.GONE
-            detail_group.visibility = View.VISIBLE
+            detailRecyclerview.visibility = View.GONE
+            detailGroup.visibility = View.VISIBLE
         }
     }
 }

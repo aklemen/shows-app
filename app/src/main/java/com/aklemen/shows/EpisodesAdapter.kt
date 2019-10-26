@@ -25,7 +25,7 @@ class EpisodesAdapter (private var data : MutableList<Episode>) : RecyclerView.A
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
         fun bind(episode: Episode, position: Int){
-            itemView.episode_text_title.text = "${position+1}. ${episode.title}"
+            itemView.episodeTextTitle.text = "${position+1}. ${episode.title}"
         }
 
     }

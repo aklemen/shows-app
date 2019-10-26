@@ -7,7 +7,7 @@
     tools:context=".ShowDetailActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/detail_fab"
+        android:id="@+id/detailFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
@@ -17,7 +17,7 @@
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/detail_toolbar"
+        android:id="@+id/detailToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
 
 
     <TextView
-        android:id="@+id/detail_text_desciption"
+        android:id="@+id/detailTextDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -40,12 +40,12 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_toolbar"
+        app:layout_constraintTop_toBottomOf="@id/detailToolbar"
         tools:text="A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium." />
 
 
     <TextView
-        android:id="@+id/detail_text_episodes"
+        android:id="@+id/detailTextEpisodes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
@@ -57,44 +57,44 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_text_desciption" />
+        app:layout_constraintTop_toBottomOf="@id/detailTextDescription" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/detail_recyclerview"
+        android:id="@+id/detailRecyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_text_episodes"
+        app:layout_constraintTop_toBottomOf="@id/detailTextEpisodes"
         tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/detail_guide"
+        android:id="@+id/detailGuide"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintGuide_percent="0.5"
         android:orientation="horizontal"/>
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/detail_group"
+        android:id="@+id/detailGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="detail_image,detail_text_wakeText,detail_text_addEpisodes" />
+        app:constraint_referenced_ids="detailImage,detailTextWake,detailTextAddEpisodes" />
 
     <ImageView
-        android:id="@+id/detail_image"
+        android:id="@+id/detailImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/img_placeholder_registration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_guide" />
+        app:layout_constraintTop_toBottomOf="@id/detailGuide" />
 
 
     <TextView
-        android:id="@+id/detail_text_wakeText"
+        android:id="@+id/detailTextWake"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -104,10 +104,10 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_image" />
+        app:layout_constraintTop_toBottomOf="@id/detailImage" />
 
     <TextView
-        android:id="@+id/detail_text_addEpisodes"
+        android:id="@+id/detailTextAddEpisodes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -119,7 +119,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_text_wakeText" />
+        app:layout_constraintTop_toBottomOf="@id/detailTextWake" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,12 +8,12 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:id="@+id/login_image_logo"
+        android:id="@+id/loginImageLogo"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/img_logo_mark"
-        app:layout_constraintBottom_toTopOf="@+id/login_layout_username"
+        app:layout_constraintBottom_toTopOf="@+id/loginLayoutUsername"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,18 +22,18 @@
         app:layout_constraintVertical_chainStyle="spread_inside"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_layout_username"
+        android:id="@+id/loginLayoutUsername"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/login_layout_password"
+        app:layout_constraintBottom_toTopOf="@+id/loginLayoutPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_image_logo"
+        app:layout_constraintTop_toBottomOf="@+id/loginImageLogo"
         app:layout_constraintVertical_weight="0.25">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_edit_username"
+            android:id="@+id/loginEditUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="username"
@@ -44,19 +44,19 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_layout_password"
+        android:id="@+id/loginLayoutPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/login_guide_upper"
+        app:layout_constraintBottom_toBottomOf="@+id/loginGuideUpper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_layout_username"
+        app:layout_constraintTop_toBottomOf="@+id/loginLayoutUsername"
         app:passwordToggleEnabled="true"
         app:layout_constraintVertical_weight="0.25">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_edit_password"
+            android:id="@+id/loginEditPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="password"
@@ -68,7 +68,7 @@
 
 
     <Button
-        android:id="@+id/login_button_login"
+        android:id="@+id/loginButtonLogin"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@drawable/bg_round_pink_states"
@@ -82,7 +82,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/login_guide_upper"
+        android:id="@+id/loginGuideUpper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

@@ -25,9 +25,9 @@ class ShowsAdapter (private val data : MutableList<Show>, val action : (Show) ->
     inner class ShowsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
         fun bind(show: Show){
-            itemView.show_image.setImageResource(show.imgResId)
-            itemView.show_text_title.text = show.name
-            itemView.show_text_year.text = show.year
+            itemView.showImage.setImageResource(show.imgResId)
+            itemView.showTextTitle.text = show.name
+            itemView.showTextYear.text = show.year
             itemView.setOnClickListener{
                 action(show)
             }

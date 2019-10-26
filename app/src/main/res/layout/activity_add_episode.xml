@@ -9,7 +9,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/add_toolbar"
+        android:id="@+id/addToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:title="@string/add_episode"
@@ -19,15 +19,15 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_layout_title"
+        android:id="@+id/addLayoutTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/addToolbar">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_edit_title"
+            android:id="@+id/addEditTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/episode_title"
@@ -37,15 +37,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_layout_description"
+        android:id="@+id/addLayoutDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_layout_title">
+        app:layout_constraintTop_toBottomOf="@id/addLayoutTitle">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_edit_description"
+            android:id="@+id/addEditDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/episode_description"
@@ -55,7 +55,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/add_button_save"
+        android:id="@+id/addButtonSave"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:enabled="false"

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_add_episode.*
 
 class AddEpisodeActivity : AppCompatActivity() {
@@ -27,30 +28,29 @@ class AddEpisodeActivity : AppCompatActivity() {
 
         // Back button toolbar navigation
 
-        add_toolbar.setNavigationOnClickListener { onBackPressed() }
+        addToolbar.setNavigationOnClickListener { onBackPressed() }
 
 
         // Save button listener and states
 
-        add_button_save.setOnClickListener {
+        addButtonSave.setOnClickListener {
 
-            if (add_edit_title.text.toString().isNotEmpty() && add_edit_description.text.toString().isNotEmpty()) {
+            if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
                 setResult(Activity.RESULT_OK, Intent().apply {
-                    putExtra(EXTRA_ADD_TITLE, add_edit_title.text.toString())
-                    putExtra(EXTRA_ADD_DESCRIPTION, add_edit_description.text.toString())
+                    putExtra(EXTRA_ADD_TITLE, addEditTitle.text.toString())
+                    putExtra(EXTRA_ADD_DESCRIPTION, addEditDescription.text.toString())
                 })
                 finish()
             }
 
         }
 
-        add_edit_title.addTextListener {
-            setSaveButtonState(it, add_edit_description)
+        addEditTitle.doOnTextChanged { text, _, _, _ ->
+            setSaveButtonState(text.toString(), addEditDescription)
         }
 
-        add_edit_description.addTextListener {
-            setSaveButtonState(it, add_edit_title)
-        }
+        addEditDescription.doOnTextChanged { text, _, _, _ ->
+            setSaveButtonState(text.toString(), addEditTitle)}
 
     }
 
@@ -59,7 +59,7 @@ class AddEpisodeActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if (add_edit_title.text.toString().isNotEmpty() && add_edit_description.text.toString().isNotEmpty()) {
+        if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
             AlertDialog.Builder(this)
                 .setTitle("Watch out")
                 .setMessage("Your changes will be lost. Are you sure you want to continue?")
@@ -81,9 +81,9 @@ class AddEpisodeActivity : AppCompatActivity() {
 
     fun setSaveButtonState(text: String, editText: EditText) {
         if (text.isNotEmpty() && editText.text.toString().isNotEmpty()) {
-            add_button_save.isEnabled = true
+            addButtonSave.isEnabled = true
         } else {
-            add_button_save.isEnabled = false
+            addButtonSave.isEnabled = false
         }
     }
 }
