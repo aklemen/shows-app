@@ -10,9 +10,7 @@ import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity : AppCompatActivity() {
 
-    companion object{
-
-        // Constants and function to start the new activity
+    companion object {
 
         private const val EXTRA_USER_NAME = "WelcomeActivity.username"
 
@@ -21,20 +19,34 @@ class WelcomeActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_USER_NAME, username)
             return intent
         }
+
     }
+
+    var handler: Handler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        val username : String = intent.getStringExtra(EXTRA_USER_NAME)
+        initViewsAndVariables()
+        startNextActivityWithDelay(2000)
+    }
 
+    private fun initViewsAndVariables(){
+        val username: String = intent.getStringExtra(EXTRA_USER_NAME)
         welcomeTextWelcome.text = "Welcome $username"
+    }
 
-        Handler().postDelayed({
+    private fun startNextActivityWithDelay(delay: Long){
+        handler = Handler()
+        handler?.postDelayed({
             startActivity(ShowsActivity.newStartIntent(this))
-        }, 2000)
+            finish()
+        }, delay)
+    }
 
-
+    override fun onBackPressed() {
+        handler?.removeCallbacksAndMessages(null)
+        super.onBackPressed()
     }
 }

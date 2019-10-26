@@ -12,15 +12,9 @@ class ShowsActivity : AppCompatActivity() {
 
     companion object {
 
-
-        // Function to start the new activity
-
         fun newStartIntent(context: Context): Intent {
             return Intent(context, ShowsActivity::class.java)
         }
-
-
-        // Hardcoded list of shows
 
         var listOfShows = mutableListOf(
             Show(
@@ -112,15 +106,11 @@ class ShowsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows)
 
+        initViewsAndVariables()
+    }
 
-        // Setting the RecyclerView
-
+    private fun initViewsAndVariables() {
         showsRecyclerview.layoutManager = LinearLayoutManager(this)
-        showsRecyclerview.adapter = ShowsAdapter(listOfShows) {
-            startActivity(ShowDetailActivity.newStartIntent(this, it.id.toInt()))
-        }
-
-        showsRecyclerview.addItemDecoration(MarginItemDecoration(25))
-
+        showsRecyclerview.adapter = ShowsAdapter(listOfShows) { startActivity(ShowDetailActivity.newStartIntent(this, it.id.toInt())) }
     }
 }

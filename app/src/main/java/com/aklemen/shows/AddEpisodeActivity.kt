@@ -26,15 +26,13 @@ class AddEpisodeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_episode)
 
-        // Back button toolbar navigation
+        initListeners()
+    }
 
+    private fun initListeners() {
         addToolbar.setNavigationOnClickListener { onBackPressed() }
 
-
-        // Save button listener and states
-
         addButtonSave.setOnClickListener {
-
             if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
                 setResult(Activity.RESULT_OK, Intent().apply {
                     putExtra(EXTRA_ADD_TITLE, addEditTitle.text.toString())
@@ -42,23 +40,15 @@ class AddEpisodeActivity : AppCompatActivity() {
                 })
                 finish()
             }
-
         }
 
-        addEditTitle.doOnTextChanged { text, _, _, _ ->
-            setSaveButtonState(text.toString(), addEditDescription)
-        }
-
-        addEditDescription.doOnTextChanged { text, _, _, _ ->
-            setSaveButtonState(text.toString(), addEditTitle)}
-
+        addEditTitle.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditDescription) }
+        addEditDescription.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditTitle) }
     }
 
-
-    // Alert dialog when user presses back button
+    // Alert on back button
 
     override fun onBackPressed() {
-
         if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
             AlertDialog.Builder(this)
                 .setTitle("Watch out")
@@ -67,23 +57,17 @@ class AddEpisodeActivity : AppCompatActivity() {
                     setResult(Activity.RESULT_CANCELED)
                     super.onBackPressed()
                 }
-                .setNegativeButton("No, cancel", null)
+                .setNegativeButton("Cancel", null)
                 .create()
                 .show()
         } else {
-            setResult(Activity.RESULT_CANCELED)
             super.onBackPressed()
         }
     }
 
-
     // Function for handling button state depending on EditTexts
 
-    fun setSaveButtonState(text: String, editText: EditText) {
-        if (text.isNotEmpty() && editText.text.toString().isNotEmpty()) {
-            addButtonSave.isEnabled = true
-        } else {
-            addButtonSave.isEnabled = false
-        }
+    private fun setSaveButtonState(text: String, editText: EditText) {
+        addButtonSave.isEnabled = text.isNotEmpty() && editText.text.toString().isNotEmpty()
     }
 }

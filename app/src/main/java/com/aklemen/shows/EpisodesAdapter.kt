@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_episode_item.view.*
 
-class EpisodesAdapter (private var data : MutableList<Episode>) : RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
+class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodesViewHolder {
-
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_episode_item, parent, false)
         return EpisodesViewHolder(view)
     }
@@ -22,10 +21,10 @@ class EpisodesAdapter (private var data : MutableList<Episode>) : RecyclerView.A
         holder.bind(data[position], position)
     }
 
-    inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(episode: Episode, position: Int){
-            itemView.episodeTextTitle.text = "${position+1}. ${episode.title}"
+        fun bind(episode: Episode, position: Int) {
+            itemView.episodeTextTitle.text = "${position + 1}. ${episode.title}"
         }
 
     }

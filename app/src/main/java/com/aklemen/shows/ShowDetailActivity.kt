@@ -14,13 +14,10 @@ class ShowDetailActivity : AppCompatActivity() {
 
     companion object {
 
-        // Constants and function to start the new activity
-
         private const val EXTRA_SHOW_INDEX = "ShowDetailActivity.showList"
-
         private const val REQUEST_ADD_EPISODE = 111
 
-        fun newStartIntent(context: Context, index : Int): Intent {
+        fun newStartIntent(context: Context, index: Int): Intent {
             val intent = Intent(context, ShowDetailActivity::class.java)
             intent.putExtra(EXTRA_SHOW_INDEX, index)
             return intent
@@ -28,68 +25,40 @@ class ShowDetailActivity : AppCompatActivity() {
 
     }
 
-    var show : Show? = null
-
-    var episodesAdapter: EpisodesAdapter? = null
-
+    private var show: Show? = null
+    private var episodesAdapter: EpisodesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_detail)
 
+        initViewsAndVariables()
+        initListeners()
+        refreshEpisodesList()
+    }
 
-        // Back button toolbar navigation
-
-        detailToolbar.setNavigationOnClickListener { onBackPressed() }
-
-
-        // Defining vars, setting views
-
-        val currentShowIndex = intent.getIntExtra(EXTRA_SHOW_INDEX, 0)
-        show  = ShowsActivity.listOfShows[currentShowIndex]
-
+    private fun initViewsAndVariables() {
+        show = ShowsActivity.listOfShows[intent.getIntExtra(EXTRA_SHOW_INDEX, 0)]
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
 
         detailToolbar.title = show?.name
         detailTextDescription.text = show?.description
 
-
-        // Handling the layout of the screen, depending on the list of episodes
-
-        if (show?.listOfEpisodes?.isNotEmpty() == true){
-            detailGroup.visibility = View.GONE
-            detailRecyclerview.visibility = View.VISIBLE
-            detailRecyclerview.layoutManager = LinearLayoutManager(this)
-            detailRecyclerview.adapter = episodesAdapter
-        }
-        else{
-            detailRecyclerview.visibility = View.GONE
-            detailGroup.visibility = View.VISIBLE
-        }
-
-
-        // RecyclerView and some listeners to add episode
-
         detailRecyclerview.layoutManager = LinearLayoutManager(this)
         detailRecyclerview.adapter = episodesAdapter
-
-
-        detailFab.setOnClickListener {
-            startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE)
-        }
-
-
-        detailTextAddEpisodes.setOnClickListener {
-            startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE)
-        }
-
     }
 
+    private fun initListeners() {
+        detailToolbar.setNavigationOnClickListener { onBackPressed() }
+
+        detailFab.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE) }
+        detailTextAddEpisodes.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE) }
+    }
 
     // Receiving the activity result from AddEpisodeActivity
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_ADD_EPISODE) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
@@ -109,20 +78,14 @@ class ShowDetailActivity : AppCompatActivity() {
 
             }
         }
+        refreshEpisodesList()
     }
 
-
-    // Refreshing the layout onStart
-
-    override fun onStart() {
-        super.onStart()
-        if (show?.listOfEpisodes?.isNotEmpty() == true){
+    private fun refreshEpisodesList() {
+        if (show?.listOfEpisodes?.isNotEmpty() == true) {
             detailGroup.visibility = View.GONE
             detailRecyclerview.visibility = View.VISIBLE
-            detailRecyclerview.layoutManager = LinearLayoutManager(this)
-            detailRecyclerview.adapter = episodesAdapter
-        }
-        else{
+        } else {
             detailRecyclerview.visibility = View.GONE
             detailGroup.visibility = View.VISIBLE
         }
