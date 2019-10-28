@@ -15,24 +15,25 @@
         android:layout_height="0dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/img_logo_mark"
-        app:layout_constraintBottom_toTopOf="@+id/loginLayoutUsername"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="0.5"
-        app:layout_constraintVertical_chainStyle="spread_inside"/>
+        app:layout_constraintBottom_toTopOf="@+id/loginGuideUpper"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/loginGuideUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginLayoutUsername"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/loginLayoutPassword"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginImageLogo"
-        app:layout_constraintVertical_weight="0.25">
+        app:layout_constraintTop_toBottomOf="@+id/loginImageLogo">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginEditUsername"
@@ -48,14 +49,12 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginLayoutPassword"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/loginGuideUpper"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginLayoutUsername"
         app:passwordToggleEnabled="true"
-        app:layout_constraintVertical_weight="0.25">
+        android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginEditPassword"
@@ -67,6 +66,16 @@
             android:paddingBottom="25dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/loginCheckboxRemember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remember_me"
+        app:layout_constraintTop_toBottomOf="@id/loginLayoutPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
 
 
     <Button
@@ -84,10 +93,9 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/loginGuideUpper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

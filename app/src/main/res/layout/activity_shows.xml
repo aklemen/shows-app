@@ -18,9 +18,18 @@
         android:textColor="@color/colorBlackish"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/showsImageLogout"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"/>
+
+    <ImageView
+        android:id="@+id/showsImageLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/showsTextPageTitle"
+        app:layout_constraintBottom_toBottomOf="@id/showsTextPageTitle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/showsRecyclerview"

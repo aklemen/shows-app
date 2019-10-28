@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddEpisodeActivity"
-    android:layout_margin="16dp">
+    android:layout_marginVertical="16dp">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addToolbar">
+        app:layout_constraintTop_toBottomOf="@id/addToolbar"
+        android:layout_marginHorizontal="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/addEditTitle"
@@ -42,7 +43,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addLayoutTitle">
+        app:layout_constraintTop_toBottomOf="@id/addLayoutTitle"
+        android:layout_marginHorizontal="16dp">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/addEditDescription"
@@ -66,6 +69,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
