@@ -8,12 +8,14 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_add_episode.*
+import android.net.Uri
+
 
 class AddEpisodeActivity : AppCompatActivity() {
 
@@ -21,7 +23,8 @@ class AddEpisodeActivity : AppCompatActivity() {
 
         const val EXTRA_ADD_TITLE = "AddEpisodeActivity.addTitle"
         const val EXTRA_ADD_DESCRIPTION = "AddEpisodeActivity.addDescription"
-        const val REQUEST_CAMERA = 222
+        const val PERMISSION_REQUEST_CAMERA = 222
+        const val ACTIVITY_REQUEST_TAKE_PHOTO = 333
 
         fun newStartIntent(context: Context): Intent {
             return Intent(context, AddEpisodeActivity::class.java)
@@ -60,22 +63,36 @@ class AddEpisodeActivity : AppCompatActivity() {
     }
 
     private fun openCamera() {
-        //TODO Check permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), ACTIVITY_REQUEST_TAKE_PHOTO)
+        } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                 AlertDialog.Builder(this)
-                    .setMessage("We just need your permission so you can take a photo of you.")
+                    .setMessage("We just need your permission so you can take a photo.")
                     .setPositiveButton("Ok") { _, _ ->
+                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_CAMERA)
                     }
                     .create()
                     .show()
             } else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA)
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_CAMERA)
             }
         }
-        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CAMERA)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            PERMISSION_REQUEST_CAMERA -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openCamera()
+                } else {
+                    Toast.makeText(this, "Camera permission not granted", Toast.LENGTH_LONG).show()
+                }
+            }
+            else -> {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            }
+        }
     }
 
     // Alert on back button

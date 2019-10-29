@@ -15,7 +15,7 @@ class ShowDetailActivity : AppCompatActivity() {
     companion object {
 
         private const val EXTRA_SHOW_INDEX = "ShowDetailActivity.showList"
-        private const val REQUEST_ADD_EPISODE = 111
+        private const val ACTIVITY_REQUEST_ADD_EPISODE = 111
 
         fun newStartIntent(context: Context, index: Int): Intent {
             val intent = Intent(context, ShowDetailActivity::class.java)
@@ -51,15 +51,15 @@ class ShowDetailActivity : AppCompatActivity() {
     private fun initListeners() {
         detailToolbar.setNavigationOnClickListener { onBackPressed() }
 
-        detailFab.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE) }
-        detailTextAddEpisodes.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), REQUEST_ADD_EPISODE) }
+        detailFab.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), ACTIVITY_REQUEST_ADD_EPISODE) }
+        detailTextAddEpisodes.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), ACTIVITY_REQUEST_ADD_EPISODE) }
     }
 
     // Receiving the activity result from AddEpisodeActivity
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_ADD_EPISODE) {
+        if (requestCode == ACTIVITY_REQUEST_ADD_EPISODE) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     if (show?.listOfEpisodes?.add(
