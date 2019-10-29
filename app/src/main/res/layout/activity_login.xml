@@ -5,37 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
+    android:fillViewport="true"
     tools:context=".LoginActivity">
 
-    <!-- TODO Fix the layout, it cuts off some things-->
-
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/loginScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/loginButtonLogin"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/loginImageLogo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginVertical="50dp"
+                android:layout_height="0dp"
                 android:contentDescription="@string/logo"
-                android:src="@drawable/img_logo_mark" />
+                android:src="@drawable/img_logo_mark"
+                app:layout_constraintBottom_toTopOf="@+id/loginGuideUpper"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/loginGuideUpper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.3" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/loginLayoutUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginImageLogo">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loginEditUsername"
@@ -50,9 +59,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/loginLayoutPassword"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginLayoutUsername"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -71,29 +83,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/remember_me" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/loginGuideLower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.7" />
-        </LinearLayout>
+                android:text="@string/remember_me"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loginLayoutPassword" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <Button
         android:id="@+id/loginButtonLogin"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_round_pink_states"
         android:enabled="false"
         android:fontFamily="@font/karla_bold"
         android:text="@string/log_in"
         android:textColor="@android:color/white"
         android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/loginScrollView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
