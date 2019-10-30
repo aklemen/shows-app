@@ -5,13 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -167,7 +164,7 @@ class AddEpisodeActivity : AppCompatActivity() {
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_",
             ".jpg",
@@ -203,26 +200,29 @@ class AddEpisodeActivity : AppCompatActivity() {
         when (requestCode) {
             ACTIVITY_REQUEST_TAKE_PHOTO -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    addGroupEpisodePlaceholder.visibility = View.GONE
-                    addGroupEpisodeImage.visibility = View.VISIBLE
-                    addImageEpisode.setImageURI(Uri.parse(currentPhotoPath))
+                    replaceImage(Uri.parse(currentPhotoPath))
                 }
             }
             ACTIVITY_REQUEST_CHOOSE_PHOTO -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    addGroupEpisodePlaceholder.visibility = View.GONE
-                    addGroupEpisodeImage.visibility = View.VISIBLE
-                    addImageEpisode.setImageURI(data?.data)
+                    replaceImage(data?.data)
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    private fun replaceImage(uri: Uri?) {
+        addGroupEpisodePlaceholder.visibility = View.GONE
+        addGroupEpisodeImage.visibility = View.VISIBLE
+        addImageEpisode.setImageURI(uri)
+    }
+
+
     // Alert on back button
 
     override fun onBackPressed() {
-        if (addEditTitle.text.toString().isNotEmpty() || addEditDescription.text.toString().isNotEmpty()) {
+        if (addEditTitle.text.toString().isNotEmpty() || addEditDescription.text.toString().isNotEmpty() || addImageEpisode.drawable != null) {
             AlertDialog.Builder(this)
                 .setTitle("Watch out")
                 .setMessage("Your changes will be lost. Are you sure you want to continue?")

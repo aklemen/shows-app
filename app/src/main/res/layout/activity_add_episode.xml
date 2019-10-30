@@ -11,7 +11,7 @@
         android:id="@+id/addGroupEpisodePlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="addImageCamera,addTextUploadImage"/>
+        app:constraint_referenced_ids="addImageCamera,addTextUploadImage" />
 
     <ImageView
         android:id="@+id/addImageCamera"
@@ -19,61 +19,61 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:src="@drawable/ic_camera"
+        app:layout_constraintBottom_toTopOf="@id/addTextUploadImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addToolbar"
-        app:layout_constraintBottom_toTopOf="@id/addTextUploadImage"
-        app:layout_constraintVertical_chainStyle="packed"/>
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/addTextUploadImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/karla_bold"
         android:paddingVertical="16dp"
         android:text="@string/upload_photo"
+        android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="15sp"
-        android:textAlignment="center"
-        android:fontFamily="@font/karla_bold"
+        app:layout_constraintBottom_toTopOf="@id/addGuideUpper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addImageCamera"
-        app:layout_constraintBottom_toTopOf="@id/addGuideUpper"/>
+        app:layout_constraintTop_toBottomOf="@id/addImageCamera" />
 
     <androidx.constraintlayout.widget.Group
-        android:visibility="gone"
         android:id="@+id/addGroupEpisodeImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="addImageEpisode,addTextChangeImage"/>
+        android:visibility="gone"
+        app:constraint_referenced_ids="addImageEpisode,addTextChangeImage" />
 
     <ImageView
         android:id="@+id/addImageEpisode"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"
         android:paddingTop="16dp"
-        tools:src="@drawable/ic_camera"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/addTextChangeImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addToolbar"
-        app:layout_constraintBottom_toTopOf="@id/addTextChangeImage"
-        app:layout_constraintVertical_chainStyle="packed"/>
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:src="@drawable/ic_camera" />
 
     <TextView
         android:id="@+id/addTextChangeImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/karla_bold"
         android:paddingVertical="16dp"
         android:text="@string/change_photo"
+        android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="15sp"
-        android:textAlignment="center"
-        android:fontFamily="@font/karla_bold"
+        app:layout_constraintBottom_toTopOf="@id/addGuideUpper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addImageEpisode"
-        app:layout_constraintBottom_toTopOf="@id/addGuideUpper"/>
+        app:layout_constraintTop_toBottomOf="@id/addImageEpisode" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/addGuideUpper"
