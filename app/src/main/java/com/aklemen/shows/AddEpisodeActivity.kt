@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -31,6 +32,7 @@ class AddEpisodeActivity : AppCompatActivity() {
 
         const val EXTRA_ADD_TITLE = "AddEpisodeActivity.addTitle"
         const val EXTRA_ADD_DESCRIPTION = "AddEpisodeActivity.addDescription"
+        const val EXTRA_ADD_IMAGE = "AddEpisodeActivity.image"
         const val PERMISSION_REQUEST_CAMERA = 222
         const val PERMISSION_REQUEST_READ_EXT_STORAGE = 444
         const val ACTIVITY_REQUEST_TAKE_PHOTO = 333
@@ -159,7 +161,7 @@ class AddEpisodeActivity : AppCompatActivity() {
         }
     }
 
-    private var currentPhotoPath: String = ""
+    private var currentPhotoPath: String? = ""
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
