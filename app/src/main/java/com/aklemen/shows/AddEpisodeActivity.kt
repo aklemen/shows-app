@@ -23,6 +23,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+//TODO Ohrani sliko, ko se zamenja orientacija
 
 class AddEpisodeActivity : AppCompatActivity() {
 
