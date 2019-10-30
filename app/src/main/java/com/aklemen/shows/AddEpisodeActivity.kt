@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -141,7 +142,7 @@ class AddEpisodeActivity : AppCompatActivity() {
                     photoFile?.also {
                         val photoURI: Uri = FileProvider.getUriForFile(
                             this,
-                            "com.example.android.fileprovider",
+                            "com.aklemen.shows",
                             it
                         )
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
@@ -183,6 +184,7 @@ class AddEpisodeActivity : AppCompatActivity() {
             storageDir
         ).apply {
             currentPhotoPath = absolutePath
+            Log.d("POT", currentPhotoPath)
         }
     }
 
