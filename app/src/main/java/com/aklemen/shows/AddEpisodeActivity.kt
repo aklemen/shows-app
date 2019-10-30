@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -24,7 +23,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-//TODO Ohrani sliko, ko se zamenja orientacija
 
 class AddEpisodeActivity : AppCompatActivity() {
 
@@ -43,9 +41,22 @@ class AddEpisodeActivity : AppCompatActivity() {
         }
     }
 
+    private var currentImageUri: Uri? = null
+    private var currentPhotoPath: String? = ""
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(EXTRA_ADD_IMAGE, currentImageUri?.toString())
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_episode)
+
+        if (savedInstanceState != null) {
+            currentImageUri = Uri.parse(savedInstanceState.getString(EXTRA_ADD_IMAGE))
+            replaceImage(currentImageUri)
+        }
 
         initListeners()
     }
@@ -161,8 +172,6 @@ class AddEpisodeActivity : AppCompatActivity() {
         }
     }
 
-    private var currentPhotoPath: String? = ""
-
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
@@ -219,6 +228,7 @@ class AddEpisodeActivity : AppCompatActivity() {
         addGroupEpisodePlaceholder.visibility = View.GONE
         addGroupEpisodeImage.visibility = View.VISIBLE
         addImageEpisode.setImageURI(uri)
+        currentImageUri = uri
     }
 
 
