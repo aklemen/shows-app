@@ -184,7 +184,6 @@ class AddEpisodeActivity : AppCompatActivity() {
             storageDir
         ).apply {
             currentPhotoPath = absolutePath
-            Log.d("POT", currentPhotoPath)
         }
     }
 
