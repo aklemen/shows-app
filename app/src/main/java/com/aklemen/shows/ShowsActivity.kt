@@ -1,8 +1,12 @@
 package com.aklemen.shows
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_shows.*
@@ -107,10 +111,33 @@ class ShowsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_shows)
 
         initViewsAndVariables()
+        initListeners()
     }
 
     private fun initViewsAndVariables() {
         showsRecyclerview.layoutManager = LinearLayoutManager(this)
         showsRecyclerview.adapter = ShowsAdapter(listOfShows) { startActivity(ShowDetailActivity.newStartIntent(this, it.id.toInt())) }
+    }
+
+    private fun initListeners() {
+        showsImageLogout.setOnClickListener {
+            logout()
+        }
+    }
+
+    private fun logout() {
+        AlertDialog.Builder(this)
+            .setTitle("Log out")
+            .setMessage("Are you sure you want to log out?")
+            .setPositiveButton("Yes") { _, _ ->
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+                val editor = sharedPreferences.edit()
+                editor.clear().apply()
+                startActivity(LoginActivity.newStartIntent(this))
+                finish()
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+            .show()
     }
 }
