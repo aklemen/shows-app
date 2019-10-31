@@ -40,7 +40,7 @@ class WelcomeActivity : AppCompatActivity() {
     private fun startNextActivityWithDelay(delay: Long){
         handler = Handler()
         handler?.postDelayed({
-            startActivity(ShowsActivity.newStartIntent(this))
+            startActivity(ShowsMasterActivity.newStartIntent(this))
             finish()
         }, delay)
     }

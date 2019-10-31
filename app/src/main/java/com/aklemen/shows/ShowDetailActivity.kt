@@ -38,7 +38,7 @@ class ShowDetailActivity : AppCompatActivity() {
     }
 
     private fun initViewsAndVariables() {
-        show = ShowsActivity.listOfShows[intent.getIntExtra(EXTRA_SHOW_INDEX, 0)]
+        show = ShowsListFragment.listOfShows[intent.getIntExtra(EXTRA_SHOW_INDEX, 0)]
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
 
         detailToolbar.title = show?.name

@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (sharedPrefs?.getString(PREF_USERNAME, "")?.isNotEmpty() == true && sharedPrefs?.getString(PREF_PASSWORD, "")?.isNotEmpty() == true) {
-            startActivity(ShowsActivity.newStartIntent(this))
+            startActivity(ShowsMasterActivity.newStartIntent(this))
             finish()
         }
     }

@@ -1,23 +1,22 @@
 package com.aklemen.shows
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_shows.*
+import kotlinx.android.synthetic.main.fragment_shows.*
 
 
-class ShowsActivity : AppCompatActivity() {
+class ShowsListFragment : Fragment() {
 
     companion object {
 
-        fun newStartIntent(context: Context): Intent {
-            return Intent(context, ShowsActivity::class.java)
+        fun newStartFragment(): ShowsListFragment {
+            return ShowsListFragment()
         }
 
         var listOfShows = mutableListOf(
@@ -106,17 +105,23 @@ class ShowsActivity : AppCompatActivity() {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shows)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_shows, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initViewsAndVariables()
         initListeners()
     }
 
+
     private fun initViewsAndVariables() {
-        showsRecyclerview.layoutManager = LinearLayoutManager(this)
-        showsRecyclerview.adapter = ShowsAdapter(listOfShows) { startActivity(ShowDetailActivity.newStartIntent(this, it.id.toInt())) }
+        showsRecyclerview.layoutManager = LinearLayoutManager(activity)
+        showsRecyclerview.adapter = ShowsAdapter(listOfShows) {
+            startActivity(ShowDetailActivity.newStartIntent(requireContext(), it.id.toInt()))
+        }
     }
 
     private fun initListeners() {
@@ -126,15 +131,16 @@ class ShowsActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(requireContext())
             .setTitle("Log out")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
-                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
                 val editor = sharedPreferences.edit()
                 editor.clear().apply()
-                startActivity(LoginActivity.newStartIntent(this))
-                finish()
+                startActivity(LoginActivity.newStartIntent(requireContext()))
+                // Check if this is OK
+                activity?.finish()
             }
             .setNegativeButton("Cancel", null)
             .create()
