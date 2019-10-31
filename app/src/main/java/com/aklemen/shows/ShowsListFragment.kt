@@ -120,8 +120,16 @@ class ShowsListFragment : Fragment() {
     private fun initViewsAndVariables() {
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
         showsRecyclerview.adapter = ShowsAdapter(listOfShows) {
-            startActivity(ShowDetailActivity.newStartIntent(requireContext(), it.id.toInt()))
+            addShowsDetailFragment()
         }
+    }
+
+    private fun addShowsDetailFragment() {
+        //TODO Not sure if it's ok to add fragment from a fragment?
+        fragmentManager?.beginTransaction()
+            ?.add(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment())
+            ?.addToBackStack("ShowDetailFragment")
+            ?.commit()
     }
 
     private fun initListeners() {
@@ -139,7 +147,6 @@ class ShowsListFragment : Fragment() {
                 val editor = sharedPreferences.edit()
                 editor.clear().apply()
                 startActivity(LoginActivity.newStartIntent(requireContext()))
-                // Check if this is OK
                 activity?.finish()
             }
             .setNegativeButton("Cancel", null)

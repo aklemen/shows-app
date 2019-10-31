@@ -3,24 +3,25 @@ package com.aklemen.shows
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_show_detail.*
+import kotlinx.android.synthetic.main.fragment_show_detail.*
 
-class ShowDetailActivity : AppCompatActivity() {
+class ShowDetailFragment : Fragment() {
 
 
     companion object {
 
-        private const val EXTRA_SHOW_INDEX = "ShowDetailActivity.showList"
         private const val ACTIVITY_REQUEST_ADD_EPISODE = 111
 
-        fun newStartIntent(context: Context, index: Int): Intent {
-            val intent = Intent(context, ShowDetailActivity::class.java)
-            intent.putExtra(EXTRA_SHOW_INDEX, index)
-            return intent
+        fun newStartFragment(): ShowDetailFragment {
+            return ShowDetailFragment()
         }
 
     }
@@ -28,35 +29,46 @@ class ShowDetailActivity : AppCompatActivity() {
     private var show: Show? = null
     private var episodesAdapter: EpisodesAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_show_detail)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_show_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initViewsAndVariables()
         initListeners()
         refreshEpisodesList()
+
     }
 
     private fun initViewsAndVariables() {
-        show = ShowsListFragment.listOfShows[intent.getIntExtra(EXTRA_SHOW_INDEX, 0)]
+        //TODO Get current show index from LiveData
+//        show = ShowsListFragment.listOfShows[intent.getIntExtra(EXTRA_SHOW_INDEX, 0)]
+        show = ShowsListFragment.listOfShows[0]
+
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
 
         detailToolbar.title = show?.name
         detailTextDescription.text = show?.description
 
-        detailRecyclerview.layoutManager = LinearLayoutManager(this)
+        detailRecyclerview.layoutManager = LinearLayoutManager(activity)
         detailRecyclerview.adapter = episodesAdapter
     }
 
     private fun initListeners() {
-        detailToolbar.setNavigationOnClickListener { onBackPressed() }
-
+        detailToolbar.setNavigationOnClickListener {
+            fragmentManager?.popBackStack()
+        }
+/*
         detailFab.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), ACTIVITY_REQUEST_ADD_EPISODE) }
         detailTextAddEpisodes.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), ACTIVITY_REQUEST_ADD_EPISODE) }
+
+ */
     }
 
     // Receiving the activity result from AddEpisodeActivity
-
+/*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ACTIVITY_REQUEST_ADD_EPISODE) {
@@ -80,7 +92,7 @@ class ShowDetailActivity : AppCompatActivity() {
         }
         refreshEpisodesList()
     }
-
+*/
     private fun refreshEpisodesList() {
         if (show?.listOfEpisodes?.isNotEmpty() == true) {
             detailGroup.visibility = View.GONE

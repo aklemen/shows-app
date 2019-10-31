@@ -17,7 +17,7 @@
         <activity
             android:name=".AddEpisodeActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ShowDetailActivity" />
+        <activity android:name=".ShowDetailFragment" />
         <activity android:name=".ShowsListFragment" />
         <activity android:name=".WelcomeActivity" />
         <activity

@@ -24,7 +24,6 @@ class ShowsMasterActivity : AppCompatActivity() {
     private fun addShowsListFragment() {
         supportFragmentManager.beginTransaction()
             .add(R.id.showsFragmentContainer, ShowsListFragment.newStartFragment())
-            .addToBackStack("ShowsListFragment")
             .commit()
     }
 }
