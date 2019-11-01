@@ -1,5 +1,6 @@
 package com.aklemen.shows
 
+import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_shows.*
 
@@ -105,6 +107,14 @@ class ShowsListFragment : Fragment() {
         )
     }
 
+    lateinit var showsViewModel : ShowsViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_shows, container, false)
     }
@@ -120,14 +130,15 @@ class ShowsListFragment : Fragment() {
     private fun initViewsAndVariables() {
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
         showsRecyclerview.adapter = ShowsAdapter(listOfShows) {
+            showsViewModel.indexLiveData.value = it.id.toInt()
             addShowsDetailFragment()
         }
     }
 
     private fun addShowsDetailFragment() {
-        //TODO Not sure if it's ok to add fragment from a fragment?
+        //TODO Not sure if it's ok to add fragment from a fragment? Create interface?
         fragmentManager?.beginTransaction()
-            ?.add(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment())
+            ?.replace(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment())
             ?.addToBackStack("ShowDetailFragment")
             ?.commit()
     }

@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ShowsMasterActivity"></activity>
         <activity
-            android:name=".AddEpisodeActivity"
+            android:name=".AddEpisodeFragment"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ShowDetailFragment" />
         <activity android:name=".ShowsListFragment" />

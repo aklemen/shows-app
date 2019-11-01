@@ -1,17 +1,17 @@
 package com.aklemen.shows
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_show_detail.*
+
 
 class ShowDetailFragment : Fragment() {
 
@@ -29,6 +29,15 @@ class ShowDetailFragment : Fragment() {
     private var show: Show? = null
     private var episodesAdapter: EpisodesAdapter? = null
 
+    lateinit var showsViewModel : ShowsViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
+
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_detail, container, false)
     }
@@ -36,16 +45,17 @@ class ShowDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewsAndVariables()
         initListeners()
         refreshEpisodesList()
 
+        showsViewModel.indexLiveData.observe(this, Observer {
+            initViewsAndVariables(it)
+        })
+
     }
 
-    private fun initViewsAndVariables() {
-        //TODO Get current show index from LiveData
-//        show = ShowsListFragment.listOfShows[intent.getIntExtra(EXTRA_SHOW_INDEX, 0)]
-        show = ShowsListFragment.listOfShows[0]
+    private fun initViewsAndVariables(showIndex : Int) {
+        show = ShowsListFragment.listOfShows[showIndex]
 
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
 
@@ -60,14 +70,26 @@ class ShowDetailFragment : Fragment() {
         detailToolbar.setNavigationOnClickListener {
             fragmentManager?.popBackStack()
         }
-/*
-        detailFab.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), ACTIVITY_REQUEST_ADD_EPISODE) }
-        detailTextAddEpisodes.setOnClickListener { startActivityForResult(AddEpisodeActivity.newStartIntent(this), ACTIVITY_REQUEST_ADD_EPISODE) }
 
- */
+        detailFab.setOnClickListener {
+            addEpisodeFragment()
+        }
+        detailTextAddEpisodes.setOnClickListener {
+            addEpisodeFragment()
+        }
+
+
     }
 
-    // Receiving the activity result from AddEpisodeActivity
+    private fun addEpisodeFragment() {
+        //TODO Not sure if it's ok to add fragment from a fragment? Create interface?
+        fragmentManager?.beginTransaction()
+            ?.replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment())
+            ?.addToBackStack("AddEpisodeFragment")
+            ?.commit()
+    }
+
+    // Receiving the activity result from AddEpisodeFragment
 /*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -76,8 +98,8 @@ class ShowDetailFragment : Fragment() {
                 if (data != null) {
                     if (show?.listOfEpisodes?.add(
                             Episode(
-                                data.getStringExtra(AddEpisodeActivity.EXTRA_ADD_TITLE),
-                                data.getStringExtra(AddEpisodeActivity.EXTRA_ADD_DESCRIPTION)
+                                data.getStringExtra(AddEpisodeFragment.EXTRA_ADD_TITLE),
+                                data.getStringExtra(AddEpisodeFragment.EXTRA_ADD_DESCRIPTION)
                             )
                         ) == true
                     ) {
