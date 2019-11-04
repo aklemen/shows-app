@@ -75,7 +75,7 @@ class AddEpisodeFragment : Fragment() {
     }
 
     private fun initVariables(index : Int){
-        show = ShowsListFragment.listOfShows[index]
+        show = ShowsMasterActivity.listOfShows[index]
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
     }
 

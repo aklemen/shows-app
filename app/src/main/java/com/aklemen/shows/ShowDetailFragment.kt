@@ -55,7 +55,7 @@ class ShowDetailFragment : Fragment() {
     }
 
     private fun initViewsAndVariables(showIndex : Int) {
-        show = ShowsListFragment.listOfShows[showIndex]
+        show = ShowsMasterActivity.listOfShows[showIndex]
 
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
 
