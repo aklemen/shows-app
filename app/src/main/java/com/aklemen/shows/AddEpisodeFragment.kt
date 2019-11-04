@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,69 +37,66 @@ class AddEpisodeFragment : Fragment() {
         }
     }
 
-    private var currentImageUri: Uri? = null
-    private var currentPhotoPath: String? = ""
+    private lateinit var showsViewModel: ShowsViewModel
+    private var addEpisodeFragmentInterface: AddEpisodeFragmentInterface? = null
 
-    private var show: Show? = null
+//    private var currentImageUri: Uri? = null
+//    private var currentPhotoPath: String? = ""
+
+
     private var episodesAdapter: EpisodesAdapter? = null
-
-    lateinit var showsViewModel : ShowsViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
+
+        if (context is AddEpisodeFragmentInterface) {
+            addEpisodeFragmentInterface = context
+        } else {
+            throw RuntimeException("Please implement ShowDetailFragmentInterface")
+        }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(EXTRA_ADD_IMAGE, currentImageUri?.toString())
-        super.onSaveInstanceState(outState)
-    }
-
+    /*
+        override fun onSaveInstanceState(outState: Bundle) {
+            outState.putString(EXTRA_ADD_IMAGE, currentImageUri?.toString())
+            super.onSaveInstanceState(outState)
+        }
+    */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_episode, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+/*
         if (savedInstanceState != null) {
             currentImageUri = Uri.parse(savedInstanceState.getString(EXTRA_ADD_IMAGE))
             replaceImage(currentImageUri)
         }
+*/
 
-        initListeners()
-
-        showsViewModel.indexLiveData.observe(this, Observer {
+        showsViewModel.currentShowLiveData.observe(this, Observer {
+            initListeners(it)
             initVariables(it)
         })
     }
 
-    private fun initVariables(index : Int){
-        show = ShowsMasterActivity.listOfShows[index]
-        episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
+    private fun initVariables(currentShow: Show) {
+        episodesAdapter = EpisodesAdapter(currentShow.listOfEpisodes)
     }
 
-    private fun initListeners() {
+    private fun initListeners(currentShow: Show) {
         addToolbar.setNavigationOnClickListener {
             fragmentManager?.popBackStack()
         }
 
         addButtonSave.setOnClickListener {
             if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
-                if (show?.listOfEpisodes?.add(
-                        Episode(
-                            addEditTitle.text.toString(),
-                            addEditDescription.text.toString()
-                        )
-                    ) == true
-                ) {
-                    show?.listOfEpisodes?.size?.let { episodesAdapter?.notifyItemInserted(it) }
-                    Toast.makeText(requireContext(), "Episode successfully added.", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "Adding the episode failed!", Toast.LENGTH_SHORT).show()
-                }
+                addEpisodeFragmentInterface?.onSaveEpisodeClick(addEditTitle.text.toString(), addEditDescription.text.toString())
             }
+
             fragmentManager?.popBackStack()
         }
 
@@ -150,7 +148,11 @@ class AddEpisodeFragment : Fragment() {
                     .create()
                     .show()
             } else {
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_REQUEST_READ_EXT_STORAGE)
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    PERMISSION_REQUEST_READ_EXT_STORAGE
+                )
             }
         }
     }
@@ -252,12 +254,12 @@ class AddEpisodeFragment : Fragment() {
 //        super.onActivityResult(requestCode, resultCode, data)
 //    }
 
-    private fun replaceImage(uri: Uri?) {
-        addGroupEpisodePlaceholder.visibility = View.GONE
-        addGroupEpisodeImage.visibility = View.VISIBLE
-        addImageEpisode.setImageURI(uri)
-        currentImageUri = uri
-    }
+//    private fun replaceImage(uri: Uri?) {
+//        addGroupEpisodePlaceholder.visibility = View.GONE
+//        addGroupEpisodeImage.visibility = View.VISIBLE
+//        addImageEpisode.setImageURI(uri)
+//        currentImageUri = uri
+//    }
 
 
     // Alert on back button
@@ -284,4 +286,9 @@ class AddEpisodeFragment : Fragment() {
     private fun setSaveButtonState(text: String, editText: EditText) {
         addButtonSave.isEnabled = text.isNotEmpty() && editText.text.toString().isNotEmpty()
     }
+}
+
+
+interface AddEpisodeFragmentInterface {
+    fun onSaveEpisodeClick(title: String, description: String)
 }

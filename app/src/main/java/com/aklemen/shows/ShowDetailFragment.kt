@@ -26,16 +26,22 @@ class ShowDetailFragment : Fragment() {
 
     }
 
-    private var show: Show? = null
-    private var episodesAdapter: EpisodesAdapter? = null
+    private lateinit var showsViewModel: ShowsViewModel
+    private var showDetailFragmentInterface: ShowDetailFragmentInterface? = null
 
-    lateinit var showsViewModel : ShowsViewModel
+    private var show : Show? = null
+    private var episodesAdapter: EpisodesAdapter? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
 
+        if (context is ShowDetailFragmentInterface) {
+            showDetailFragmentInterface = context
+        } else {
+            throw RuntimeException("Please implement ShowDetailFragmentInterface")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,17 +52,14 @@ class ShowDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initListeners()
+
+        show = showsViewModel.currentShowLiveData.value
+
+        initViewsAndVariables()
         refreshEpisodesList()
-
-        showsViewModel.indexLiveData.observe(this, Observer {
-            initViewsAndVariables(it)
-        })
-
     }
 
-    private fun initViewsAndVariables(showIndex : Int) {
-        show = ShowsMasterActivity.listOfShows[showIndex]
-
+    private fun initViewsAndVariables() {
         episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
 
         detailToolbar.title = show?.name
@@ -67,54 +70,13 @@ class ShowDetailFragment : Fragment() {
     }
 
     private fun initListeners() {
-        detailToolbar.setNavigationOnClickListener {
-            fragmentManager?.popBackStack()
-        }
+        detailToolbar.setNavigationOnClickListener { fragmentManager?.popBackStack() }
 
-        detailFab.setOnClickListener {
-            addEpisodeFragment()
-        }
-        detailTextAddEpisodes.setOnClickListener {
-            addEpisodeFragment()
-        }
+        detailFab.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
 
-
+        detailTextAddEpisodes.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
     }
 
-    private fun addEpisodeFragment() {
-        //TODO Not sure if it's ok to add fragment from a fragment? Create interface?
-        fragmentManager?.beginTransaction()
-            ?.replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment())
-            ?.addToBackStack("AddEpisodeFragment")
-            ?.commit()
-    }
-
-    // Receiving the activity result from AddEpisodeFragment
-/*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ACTIVITY_REQUEST_ADD_EPISODE) {
-            if (resultCode == RESULT_OK) {
-                if (data != null) {
-                    if (show?.listOfEpisodes?.add(
-                            Episode(
-                                data.getStringExtra(AddEpisodeFragment.EXTRA_ADD_TITLE),
-                                data.getStringExtra(AddEpisodeFragment.EXTRA_ADD_DESCRIPTION)
-                            )
-                        ) == true
-                    ) {
-                        show?.listOfEpisodes?.size?.let { episodesAdapter?.notifyItemInserted(it) }
-                        Toast.makeText(this, "Episode successfully added.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-            }
-        }
-        refreshEpisodesList()
-    }
-*/
     private fun refreshEpisodesList() {
         if (show?.listOfEpisodes?.isNotEmpty() == true) {
             detailGroup.visibility = View.GONE
@@ -124,4 +86,8 @@ class ShowDetailFragment : Fragment() {
             detailGroup.visibility = View.VISIBLE
         }
     }
+}
+
+interface ShowDetailFragmentInterface {
+    fun onAddEpisodeClick()
 }

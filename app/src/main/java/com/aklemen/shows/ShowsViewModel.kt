@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class ShowsViewModel : ViewModel() {
 
-    val indexLiveData = MutableLiveData<Int>()
+    val currentShowLiveData = MutableLiveData<Show>()
+    val list = MutableLiveData<MutableList<Show>>()
 
 }

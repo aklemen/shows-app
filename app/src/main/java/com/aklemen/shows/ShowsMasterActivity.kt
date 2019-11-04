@@ -2,13 +2,19 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import kotlinx.android.synthetic.main.fragment_add_episode.*
 
-class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface {
-    companion object{
+class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface, AddEpisodeFragmentInterface {
+
+    companion object {
 
         fun newStartIntent(context: Context): Intent {
             return Intent(context, ShowsMasterActivity::class.java)
@@ -100,9 +106,13 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface {
         )
     }
 
+    private lateinit var showsViewModel: ShowsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows_master)
+
+        showsViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
 
         addShowsListFragment()
     }
@@ -136,4 +146,24 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface {
             .show()
     }
 
+    override fun onAddEpisodeClick() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment())
+            .addToBackStack("AddEpisodeFragment")
+            .commit()
+    }
+
+    override fun onSaveEpisodeClick(title : String, description :  String) {
+        if (showsViewModel.currentShowLiveData.value?.listOfEpisodes?.add(
+                Episode(
+                    title,
+                    description
+                )
+            ) == true
+        ) {
+            Toast.makeText(this, "Episode successfully added.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
