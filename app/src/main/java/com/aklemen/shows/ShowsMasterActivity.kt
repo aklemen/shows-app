@@ -153,17 +153,21 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .commit()
     }
 
-    override fun onSaveEpisodeClick(title : String, description :  String) {
-        if (showsViewModel.currentShowLiveData.value?.listOfEpisodes?.add(
+    override fun onSaveEpisodeClick(show : Show, title : String, description :  String) {
+        if (show.listOfEpisodes.add(
                 Episode(
                     title,
                     description
                 )
-            ) == true
+            )
         ) {
             Toast.makeText(this, "Episode successfully added.", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onUploadPhotoClick() {
+
     }
 }

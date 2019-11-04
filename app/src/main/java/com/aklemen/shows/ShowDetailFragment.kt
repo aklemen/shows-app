@@ -2,7 +2,6 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,6 @@ class ShowDetailFragment : Fragment() {
 
     companion object {
 
-        private const val ACTIVITY_REQUEST_ADD_EPISODE = 111
-
         fun newStartFragment(): ShowDetailFragment {
             return ShowDetailFragment()
         }
@@ -29,7 +26,7 @@ class ShowDetailFragment : Fragment() {
     private lateinit var showsViewModel: ShowsViewModel
     private var showDetailFragmentInterface: ShowDetailFragmentInterface? = null
 
-    private var show : Show? = null
+    private var show: Show? = null
     private var episodesAdapter: EpisodesAdapter? = null
 
     override fun onAttach(context: Context) {
@@ -53,10 +50,11 @@ class ShowDetailFragment : Fragment() {
 
         initListeners()
 
-        show = showsViewModel.currentShowLiveData.value
-
-        initViewsAndVariables()
-        refreshEpisodesList()
+        showsViewModel.currentShowLiveData.observe(this, Observer {
+            show = it
+            initViewsAndVariables()
+            refreshEpisodesList()
+        })
     }
 
     private fun initViewsAndVariables() {

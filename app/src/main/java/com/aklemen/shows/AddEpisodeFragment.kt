@@ -94,7 +94,7 @@ class AddEpisodeFragment : Fragment() {
 
         addButtonSave.setOnClickListener {
             if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
-                addEpisodeFragmentInterface?.onSaveEpisodeClick(addEditTitle.text.toString(), addEditDescription.text.toString())
+                addEpisodeFragmentInterface?.onSaveEpisodeClick(currentShow, addEditTitle.text.toString(), addEditDescription.text.toString())
             }
 
             fragmentManager?.popBackStack()
@@ -103,18 +103,10 @@ class AddEpisodeFragment : Fragment() {
         addEditTitle.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditDescription) }
         addEditDescription.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditTitle) }
 
-        addImageCamera.setOnClickListener {
-            showPickerDialog()
-        }
-        addTextUploadImage.setOnClickListener {
-            showPickerDialog()
-        }
-        addImageEpisode.setOnClickListener {
-            showPickerDialog()
-        }
-        addTextChangeImage.setOnClickListener {
-            showPickerDialog()
-        }
+        addImageCamera.setOnClickListener { showPickerDialog() }
+        addTextUploadImage.setOnClickListener { showPickerDialog() }
+        addImageEpisode.setOnClickListener { showPickerDialog() }
+        addTextChangeImage.setOnClickListener { showPickerDialog() }
     }
 
     private fun showPickerDialog() {
@@ -290,5 +282,6 @@ class AddEpisodeFragment : Fragment() {
 
 
 interface AddEpisodeFragmentInterface {
-    fun onSaveEpisodeClick(title: String, description: String)
+    fun onSaveEpisodeClick(show: Show, title: String, description: String)
+    fun onUploadPhotoClick()
 }
