@@ -12,4 +12,10 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.NumberPicker" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/karla_bold</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+
 </resources>

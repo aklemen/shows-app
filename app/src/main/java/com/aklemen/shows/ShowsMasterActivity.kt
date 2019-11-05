@@ -194,10 +194,8 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     override fun onChooseEpisodeNumber() {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.showsFragmentContainer, NumberPickerFragment.newStartFragment())
-            .addToBackStack("NumberPickerFragment")
-            .commit()
+        val dialog = NumberPickerDialog.newStartFragment()
+        dialog.show(supportFragmentManager, "NumberPickerDialog")
     }
 
     override fun onBackNavigation(title: String, description: String) {
