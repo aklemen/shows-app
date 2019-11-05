@@ -24,7 +24,6 @@ class AddEpisodeFragment : Fragment() {
     private lateinit var showsViewModel: ShowsViewModel
     private var addEpisodeFragmentInterface: AddEpisodeFragmentInterface? = null
 
-
     private var episodesAdapter: EpisodesAdapter? = null
 
     override fun onAttach(context: Context) {

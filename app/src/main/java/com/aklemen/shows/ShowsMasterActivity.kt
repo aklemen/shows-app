@@ -17,8 +17,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_shows_master.*
+import kotlinx.android.synthetic.main.dialog_number_picker.*
 import java.io.File
 import java.io.IOException
 import java.text.DecimalFormat
@@ -123,8 +125,8 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     private lateinit var showsViewModel: ShowsViewModel
+    private var dialog : NumberPickerDialog? = null
 
-    //    private var currentImageUri: Uri? = null
     private var currentPhotoPath: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -197,8 +199,8 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     override fun onChooseEpisodeNumber() {
-        val dialog = NumberPickerDialog.newStartFragment()
-        dialog.show(supportFragmentManager, "NumberPickerDialog")
+        dialog = NumberPickerDialog.newStartFragment()
+        dialog?.show(supportFragmentManager, "NumberPickerDialog")
     }
 
     override fun onBackNavigation(title: String, description: String) {
@@ -228,7 +230,6 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         val episodeFormatted = df.format(episode)
         return "S $seasonFormatted, E $episodeFormatted"
     }
-
 
     private fun showPickerDialog() {
         val items = arrayOf("Take a photo", "Choose from gallery")

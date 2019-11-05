@@ -55,9 +55,8 @@ class NumberPickerDialog : DialogFragment() {
     private fun initListeners() {
         dialogPickerSave.setOnClickListener {
             showsViewModel.episodeNumberLiveData.value = EpisodeNumber(dialogPickerSeason.value, dialogPickerEpisode.value)
-            dismiss()
+            dialog?.dismiss()
         }
     }
 
 }
-
