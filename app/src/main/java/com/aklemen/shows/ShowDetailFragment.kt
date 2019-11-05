@@ -48,7 +48,7 @@ class ShowDetailFragment : Fragment() {
 
         initListeners()
 
-        showsViewModel.currentShowLiveData.observe(this, Observer {
+        showsViewModel.showLiveData.observe(this, Observer {
             show = it
             initViewsAndVariables()
             refreshEpisodesList()

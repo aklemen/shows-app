@@ -148,7 +148,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="5dp"
-                android:text="S 01, E 01"
+                android:text="S 00, E 01"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"/>
 

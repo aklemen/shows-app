@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_add_episode.*
+import java.text.DecimalFormat
 
 
 class AddEpisodeFragment : Fragment() {
@@ -45,12 +46,12 @@ class AddEpisodeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showsViewModel.currentShowLiveData.observe(this, Observer {
+        showsViewModel.showLiveData.observe(this, Observer {
             initListeners(it)
             initVariables(it)
         })
 
-        showsViewModel.currentImageLiveData.observe(this, Observer {
+        showsViewModel.imageLiveData.observe(this, Observer {
             if (it != null) {
                 addGroupEpisodePlaceholder.visibility = View.GONE
                 addGroupEpisodeImage.visibility = View.VISIBLE
@@ -58,6 +59,12 @@ class AddEpisodeFragment : Fragment() {
             } else {
                 addGroupEpisodePlaceholder.visibility = View.VISIBLE
                 addGroupEpisodeImage.visibility = View.GONE
+            }
+        })
+//TODO Naredit še v seznamu, da se prikazujejo stvari
+        showsViewModel.episodeNumberLiveData.observe(this, Observer {
+            if (it != null) {
+                addTextEpisodeNumber.text = addEpisodeFragmentInterface?.formatEpisodeWithComma(it.season, it.episode)
             }
         })
     }
@@ -98,4 +105,5 @@ interface AddEpisodeFragmentInterface {
     fun onUploadPhotoClick()
     fun onChooseEpisodeNumber()
     fun onBackNavigation(title: String, description: String)
+    fun formatEpisodeWithComma(season: Int, episode: Int) : String
 }

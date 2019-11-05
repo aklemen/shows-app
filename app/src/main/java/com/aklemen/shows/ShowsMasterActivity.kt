@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_shows_master.*
 import java.io.File
 import java.io.IOException
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -199,21 +200,31 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     override fun onBackNavigation(title: String, description: String) {
-        if (title.isNotEmpty() || description.isNotEmpty() || showsViewModel.currentImageLiveData.value != null) {
+        if (title.isNotEmpty() || description.isNotEmpty() || showsViewModel.imageLiveData.value != null) {
             AlertDialog.Builder(this)
                 .setTitle("Watch out")
                 .setMessage("Your changes will be lost. Are you sure you want to continue?")
                 .setPositiveButton("Yes") { _, _ ->
                     supportFragmentManager.popBackStack()
-                    showsViewModel.currentImageLiveData.value = null
+                    showsViewModel.imageLiveData.value = null
+                    showsViewModel.episodeNumberLiveData.value = null
                 }
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show()
         } else {
             supportFragmentManager.popBackStack()
+            showsViewModel.imageLiveData.value = null
+            showsViewModel.episodeNumberLiveData.value = null
         }
         hideKeyboard(showsFragmentContainer)
+    }
+
+    override fun formatEpisodeWithComma(season: Int, episode: Int) : String{
+        val df = DecimalFormat("00")
+        val seasonFormatted = df.format(season)
+        val episodeFormatted = df.format(episode)
+        return "S $seasonFormatted, E $episodeFormatted"
     }
 
 
@@ -355,7 +366,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     private fun replaceImage(uri: Uri?) {
-        showsViewModel.currentImageLiveData.value = uri
+        showsViewModel.imageLiveData.value = uri
     }
 
     private fun hideKeyboard(view: View) {

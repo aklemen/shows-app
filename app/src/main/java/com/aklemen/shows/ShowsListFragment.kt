@@ -48,7 +48,7 @@ class ShowsListFragment : Fragment() {
     private fun initViewsAndVariables() {
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
         showsRecyclerview.adapter = ShowsAdapter(ShowsMasterActivity.listOfShows) {
-            showsViewModel.currentShowLiveData.value = it
+            showsViewModel.showLiveData.value = it
             showsListInterface?.onShowClicked()
         }
     }
