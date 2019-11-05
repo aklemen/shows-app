@@ -17,9 +17,7 @@ class ShowDetailFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): ShowDetailFragment {
-            return ShowDetailFragment()
-        }
+        fun newStartFragment(): ShowDetailFragment = ShowDetailFragment()
 
     }
 

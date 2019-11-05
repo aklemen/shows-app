@@ -15,9 +15,7 @@ class ShowsListFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): ShowsListFragment {
-            return ShowsListFragment()
-        }
+        fun newStartFragment(): ShowsListFragment = ShowsListFragment()
     }
 
     private lateinit var showsViewModel: ShowsViewModel

@@ -10,15 +10,15 @@ import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
 import android.provider.MediaStore
-import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.fragment_add_episode.*
+import kotlinx.android.synthetic.main.activity_shows_master.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -33,9 +33,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         const val ACTIVITY_REQUEST_TAKE_PHOTO = 333
         const val ACTIVITY_REQUEST_CHOOSE_PHOTO = 555
 
-        fun newStartIntent(context: Context): Intent {
-            return Intent(context, ShowsMasterActivity::class.java)
-        }
+        fun newStartIntent(context: Context): Intent = Intent(context, ShowsMasterActivity::class.java)
 
         var listOfShows = mutableListOf(
             Show(
@@ -175,21 +173,49 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     override fun onSaveEpisodeClick(show: Show, title: String, description: String) {
-        if (show.listOfEpisodes.add(
-                Episode(
-                    title,
-                    description
+        if (title.isNotEmpty() && description.isNotEmpty()) {
+            if (show.listOfEpisodes.add(
+                    Episode(
+                        title,
+                        description
+                    )
                 )
-            )
-        ) {
-            Toast.makeText(this, "Episode successfully added.", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
+            ) {
+                Toast.makeText(this, "Episode successfully added.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
+            }
         }
+        supportFragmentManager.popBackStack()
     }
 
     override fun onUploadPhotoClick() {
         showPickerDialog()
+    }
+
+    override fun onChooseEpisodeNumber() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.showsFragmentContainer, NumberPickerFragment.newStartFragment())
+            .addToBackStack("NumberPickerFragment")
+            .commit()
+    }
+
+    override fun onBackNavigation(title: String, description: String) {
+        if (title.isNotEmpty() || description.isNotEmpty() || showsViewModel.currentImageLiveData.value != null) {
+            AlertDialog.Builder(this)
+                .setTitle("Watch out")
+                .setMessage("Your changes will be lost. Are you sure you want to continue?")
+                .setPositiveButton("Yes") { _, _ ->
+                    supportFragmentManager.popBackStack()
+                    showsViewModel.currentImageLiveData.value = null
+                }
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+        hideKeyboard(showsFragmentContainer)
     }
 
 
@@ -331,28 +357,14 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     private fun replaceImage(uri: Uri?) {
-        showsViewModel.currentImage.value = uri
+        showsViewModel.currentImageLiveData.value = uri
     }
 
-
-    // Alert on back button
-//
-//    override fun onBackPressed() {
-//        if (addEditTitle.text.toString().isNotEmpty() || addEditDescription.text.toString().isNotEmpty() || addImageEpisode.drawable != null) {
-//            AlertDialog.Builder(this)
-//                .setTitle("Watch out")
-//                .setMessage("Your changes will be lost. Are you sure you want to continue?")
-//                .setPositiveButton("Yes") { _, _ ->
-//                    setResult(Activity.RESULT_CANCELED)
-//                    super.onBackPressed()
-//                }
-//                .setNegativeButton("Cancel", null)
-//                .create()
-//                .show()
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
-
+    private fun hideKeyboard(view: View) {
+        view.apply {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
 
 }

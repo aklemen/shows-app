@@ -13,7 +13,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShowsMasterActivity"></activity>
+        <activity android:name=".ShowsMasterActivity"/>
         <activity
             android:name=".AddEpisodeFragment"
             android:windowSoftInputMode="adjustResize" />

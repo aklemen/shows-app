@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModel
 class ShowsViewModel : ViewModel() {
 
     val currentShowLiveData = MutableLiveData<Show>()
-    val currentImage = MutableLiveData<Uri>()
+    val currentImageLiveData = MutableLiveData<Uri>()
+
+    val currentSeasonLiveData = MutableLiveData<Int>()
+    val currentEpisodeLiveData = MutableLiveData<Int>()
 
 }

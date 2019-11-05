@@ -1,20 +1,11 @@
 package com.aklemen.shows
 
-import android.Manifest
-import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -26,9 +17,7 @@ class AddEpisodeFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): AddEpisodeFragment {
-            return AddEpisodeFragment()
-        }
+        fun newStartFragment(): AddEpisodeFragment = AddEpisodeFragment()
     }
 
     private lateinit var showsViewModel: ShowsViewModel
@@ -61,12 +50,12 @@ class AddEpisodeFragment : Fragment() {
             initVariables(it)
         })
 
-        showsViewModel.currentImage.observe(this, Observer {
+        showsViewModel.currentImageLiveData.observe(this, Observer {
             if (it != null) {
                 addGroupEpisodePlaceholder.visibility = View.GONE
                 addGroupEpisodeImage.visibility = View.VISIBLE
                 addImageEpisode.setImageURI(it)
-            }else{
+            } else {
                 addGroupEpisodePlaceholder.visibility = View.VISIBLE
                 addGroupEpisodeImage.visibility = View.GONE
             }
@@ -79,16 +68,11 @@ class AddEpisodeFragment : Fragment() {
 
     private fun initListeners(currentShow: Show) {
         addToolbar.setNavigationOnClickListener {
-            fragmentManager?.popBackStack()
-            showsViewModel.currentImage.value = null
+            addEpisodeFragmentInterface?.onBackNavigation(addEditTitle.text.toString(), addEditDescription.text.toString())
         }
 
         addButtonSave.setOnClickListener {
-            if (addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty()) {
-                addEpisodeFragmentInterface?.onSaveEpisodeClick(currentShow, addEditTitle.text.toString(), addEditDescription.text.toString())
-            }
-
-            fragmentManager?.popBackStack()
+            addEpisodeFragmentInterface?.onSaveEpisodeClick(currentShow, addEditTitle.text.toString(), addEditDescription.text.toString())
         }
 
         addEditTitle.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditDescription) }
@@ -98,6 +82,9 @@ class AddEpisodeFragment : Fragment() {
         addTextUploadImage.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
         addImageEpisode.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
         addTextChangeImage.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
+
+        addTextEpisodeNumber.setOnClickListener { addEpisodeFragmentInterface?.onChooseEpisodeNumber() }
+
     }
 
     private fun setSaveButtonState(text: String, editText: EditText) {
@@ -109,4 +96,6 @@ class AddEpisodeFragment : Fragment() {
 interface AddEpisodeFragmentInterface {
     fun onSaveEpisodeClick(show: Show, title: String, description: String)
     fun onUploadPhotoClick()
+    fun onChooseEpisodeNumber()
+    fun onBackNavigation(title: String, description: String)
 }

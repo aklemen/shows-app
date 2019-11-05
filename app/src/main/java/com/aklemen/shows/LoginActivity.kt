@@ -18,9 +18,7 @@ class LoginActivity : AppCompatActivity() {
         private const val PREF_USERNAME = "LoginActivity.username"
         private const val PREF_PASSWORD = "LoginActivity.password"
 
-        fun newStartIntent(context: Context): Intent {
-            return Intent(context, LoginActivity::class.java)
-        }
+        fun newStartIntent(context: Context): Intent = Intent(context, LoginActivity::class.java)
     }
 
     private var sharedPrefs: SharedPreferences? = null
