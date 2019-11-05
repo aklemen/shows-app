@@ -181,7 +181,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
                     Episode(
                         title,
                         description,
-                        showsViewModel.episodeNumberLiveData.value ?: EpisodeNumber(0,0)
+                        showsViewModel.episodeNumberLiveData.value ?: EpisodeNumber(0,1)
                     )
                 )
             ) {

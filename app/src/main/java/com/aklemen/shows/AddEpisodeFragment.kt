@@ -61,6 +61,8 @@ class AddEpisodeFragment : Fragment() {
             }
         })
 
+        showsViewModel.episodeNumberLiveData.value = EpisodeNumber(0,1)
+
         showsViewModel.episodeNumberLiveData.observe(this, Observer {
             if (it != null) {
                 addTextEpisodeNumber.text = addEpisodeFragmentInterface?.formatEpisodeWithComma(it.season, it.episode)
