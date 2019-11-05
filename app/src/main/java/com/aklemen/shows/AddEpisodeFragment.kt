@@ -61,7 +61,7 @@ class AddEpisodeFragment : Fragment() {
                 addGroupEpisodeImage.visibility = View.GONE
             }
         })
-//TODO Naredit še v seznamu, da se prikazujejo stvari
+
         showsViewModel.episodeNumberLiveData.observe(this, Observer {
             if (it != null) {
                 addTextEpisodeNumber.text = addEpisodeFragmentInterface?.formatEpisodeWithComma(it.season, it.episode)

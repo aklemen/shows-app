@@ -174,11 +174,12 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     override fun onSaveEpisodeClick(show: Show, title: String, description: String) {
-        if (title.isNotEmpty() && description.isNotEmpty()) {
+        if (title.isNotEmpty() && description.isNotEmpty() && showsViewModel.episodeNumberLiveData.value != null) {
             if (show.listOfEpisodes.add(
                     Episode(
                         title,
-                        description
+                        description,
+                        showsViewModel.episodeNumberLiveData.value ?: EpisodeNumber(0,0)
                     )
                 )
             ) {
@@ -187,6 +188,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
                 Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
             }
         }
+        showsViewModel.episodeNumberLiveData.value = null
         supportFragmentManager.popBackStack()
     }
 
