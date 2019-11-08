@@ -19,14 +19,14 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: EpisodesViewHolder, position: Int) {
-        holder.bind(data[position], position)
+        holder.bind(data[position])
     }
 
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(episode: Episode, position: Int) {
+        fun bind(episode: Episode) {
             itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber.season, episode.episodeNumber.episode)
-            itemView.episodeTextTitle.text = "${episode.title}"
+            itemView.episodeTextTitle.text = episode.title
         }
 
     }

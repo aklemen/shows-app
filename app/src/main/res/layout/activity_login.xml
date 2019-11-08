@@ -74,8 +74,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="password"
                     android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:paddingBottom="25dp" />
+                    android:paddingBottom="25dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
