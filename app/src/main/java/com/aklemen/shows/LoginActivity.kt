@@ -5,8 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.text.InputType
-import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
@@ -30,10 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         checkLoginStatus()
-
-        // Need to set this here instead of XML so the right font is applied
-        setPasswordInputType()
-
+        initViews()
         initListeners()
     }
 
@@ -44,6 +39,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(ShowsMasterActivity.newStartIntent(this))
             finish()
         }
+    }
+
+    private fun initViews() {
+        // Need to set this here (via extension fun) instead of XML, so the right font is applied
+        loginEditPassword.setInputTypeToPassword()
     }
 
     private fun initListeners() {
@@ -84,13 +84,6 @@ class LoginActivity : AppCompatActivity() {
 
         loginButtonLogin.isEnabled = isUsernameOk && isPasswordOk
 
-    }
-
-    private fun setPasswordInputType() {
-        loginEditPassword.apply {
-            inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
-            transformationMethod = PasswordTransformationMethod.getInstance()
-        }
     }
 
     private fun isEmailValid(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
