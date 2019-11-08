@@ -51,6 +51,17 @@ class LoginActivity : AppCompatActivity() {
         loginEditPassword.doOnTextChanged { _, _, _, _ -> validateUserInput() }
 
         loginButtonLogin.setOnClickListener { login() }
+
+        loginTextCreate.setOnClickListener {
+            openRegisterFragment()
+        }
+    }
+
+    private fun openRegisterFragment() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.loginFragmentContainer, RegisterFragment.newStartFragment())
+            .addToBackStack("RegisterFragment")
+            .commit()
     }
 
     private fun login() {

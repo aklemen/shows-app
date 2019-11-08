@@ -24,4 +24,6 @@
     <string name="episode">Episode</string>
     <string name="register">Register</string>
     <string name="email">E-mail</string>
+    <string name="or">or</string>
+    <string name="create_an_account">Create an account</string>
 </resources>
