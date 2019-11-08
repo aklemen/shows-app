@@ -18,4 +18,8 @@
         <item name="android:textColorPrimary">@android:color/black</item>
     </style>
 
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily">@font/karla_bold</item>
+    </style>
+
 </resources>
