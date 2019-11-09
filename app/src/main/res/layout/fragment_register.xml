@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:focusedByDefault="true"
                     android:paddingBottom="25dp" />
 
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="password"
-                    android:hint="@string/password"
+                    android:hint="@string/password_again"
                     android:paddingBottom="25dp" />
 
             </com.google.android.material.textfield.TextInputLayout>

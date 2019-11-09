@@ -24,7 +24,7 @@ object Singleton {
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.infinum.academy/api")
+        .baseUrl("https://api.infinum.academy/api/")
         .client(okHttp)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()

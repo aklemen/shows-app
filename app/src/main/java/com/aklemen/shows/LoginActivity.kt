@@ -9,9 +9,12 @@ import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_login.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), RegisterFragmentInterface{
 
     companion object {
         private const val MIN_PASSWORD_LENGTH: Int = 6
@@ -47,8 +50,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        loginEditUsername.doOnTextChanged { _, _, _, _ -> validateUserInput() }
-        loginEditPassword.doOnTextChanged { _, _, _, _ -> validateUserInput() }
+        loginEditUsername.doOnTextChanged { _, _, _, _ -> validateLoginInput() }
+        loginEditPassword.doOnTextChanged { _, _, _, _ -> validateLoginInput() }
 
         loginButtonLogin.setOnClickListener { login() }
 
@@ -65,19 +68,36 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login() {
+//TODO
+//        if (loginCheckboxRemember.isChecked) {
+//            val editor: SharedPreferences.Editor? = sharedPrefs?.edit()
+//            editor?.putString(PREF_USERNAME, loginEditUsername.text.toString())
+//            editor?.putString(PREF_PASSWORD, loginEditPassword.text.toString())
+//            editor?.apply()
+//        }
+//
+//        startActivity(WelcomeActivity.newStartIntent(this, loginEditUsername.text.toString()))
+//        finish()
 
-        if (loginCheckboxRemember.isChecked) {
-            val editor: SharedPreferences.Editor? = sharedPrefs?.edit()
-            editor?.putString(PREF_USERNAME, loginEditUsername.text.toString())
-            editor?.putString(PREF_PASSWORD, loginEditPassword.text.toString())
-            editor?.apply()
-        }
 
-        startActivity(WelcomeActivity.newStartIntent(this, loginEditUsername.text.toString()))
-        finish()
+//        Singleton.service.login(Credentials("y@f.s", "string"))
+//            .enqueue(object : Callback<ResponseBody>{
+//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                    Toast.makeText(this@LoginActivity, "Failed", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                    Toast.makeText(this@LoginActivity, response.raw().toString(), Toast.LENGTH_SHORT).show()
+//                }
+//
+//            })
+
+
+
+
     }
 
-    private fun validateUserInput() {
+    private fun validateLoginInput() {
         val isUsernameOk = isEmailValid(loginEditUsername.text.toString())
         val isPasswordOk = isPasswordValid(loginEditPassword.text.toString())
 
@@ -97,7 +117,20 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun isEmailValid(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    override fun onRegister(email: String, password: String) {
+        Singleton.service.register(Credentials(email, password)).enqueue(object : Callback<User>{
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
-    private fun isPasswordValid(password: String): Boolean = password.length >= MIN_PASSWORD_LENGTH
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
+    }
+
+    override fun isEmailValid(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+    override fun isPasswordValid(password: String): Boolean = password.length >= MIN_PASSWORD_LENGTH
 }

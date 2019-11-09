@@ -26,9 +26,9 @@ data class EpisodeNumber(
 interface InfinumApiService{
 
     @POST("users")
-    fun register(@Body login: Login) : Call<User>
+    fun register(@Body credentials: Credentials) : Call<User>
 
     @POST("users/sessions")
-    fun login (@Body login: Login) : Call<ResponseBody>
+    fun login (@Body credentials: Credentials) : Call<ResponseBody>
 
 }

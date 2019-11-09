@@ -17,13 +17,11 @@
     <string name="upload_photo">Upload photo</string>
     <string name="change_photo">Change photo</string>
     <string name="season_and_episode"><![CDATA[Season & episode]]></string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="season">Season</string>
     <string name="episode">Episode</string>
     <string name="register">Register</string>
     <string name="email">E-mail</string>
     <string name="or">or</string>
     <string name="create_an_account">Create an account</string>
+    <string name="password_again">Password again</string>
 </resources>
