@@ -5,16 +5,18 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class LoginActivity : AppCompatActivity(), RegisterFragmentInterface{
+class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
 
     companion object {
         private const val MIN_PASSWORD_LENGTH: Int = 6
@@ -24,11 +26,15 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface{
         fun newStartIntent(context: Context): Intent = Intent(context, LoginActivity::class.java)
     }
 
+    private lateinit var showsViewModel: ShowsViewModel
+
     private var sharedPrefs: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        showsViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
 
         checkLoginStatus()
         initViews()
@@ -93,8 +99,6 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface{
 //            })
 
 
-
-
     }
 
     private fun validateLoginInput() {
@@ -118,13 +122,25 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface{
     }
 
     override fun onRegister(email: String, password: String) {
-        Singleton.service.register(Credentials(email, password)).enqueue(object : Callback<User>{
+        Singleton.service.register(Credentials(email, password)).enqueue(object : Callback<User> {
             override fun onFailure(call: Call<User>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                showsViewModel.errorLiveData.postValue(t)
             }
 
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
+                        var user = body.let {
+                            User(
+                                id = it.id,
+                                email = it.email,
+                                type = it.type
+                            )
+                        }
+                        Log.d("Uporabnik", user.email)
+                    }
+                }
             }
 
         })

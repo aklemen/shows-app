@@ -1,6 +1,7 @@
 package com.aklemen.shows
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.ResponseBody
@@ -14,6 +15,8 @@ class ShowsViewModel : ViewModel() {
     val imageLiveData = MutableLiveData<Uri>()
 
     val episodeNumberLiveData = MutableLiveData<EpisodeNumber>()
+
+    val errorLiveData = MutableLiveData<Throwable>()
 
 }
 
