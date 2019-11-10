@@ -11,6 +11,10 @@ data class User(
     @Json(name = "type") val type : String
 )
 
+@JsonClass(generateAdapter = true)
+data class DataUser (
+    @Json(name = "data") val data: User
+)
 
 @JsonClass(generateAdapter = true)
 data class Credentials(
@@ -19,11 +23,12 @@ data class Credentials(
 )
 
 @JsonClass(generateAdapter = true)
-class Data (
+data class DataToken (
     @Json(name = "data") val data: Token
 )
 
+
 @JsonClass(generateAdapter = true)
-class Token (
+data class Token (
     @Json(name = "token") val token: String
 )
