@@ -1,7 +1,6 @@
 package com.aklemen.shows
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,13 +11,12 @@ import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.http.*
 
+
 class ShowsViewModel : ViewModel() {
 
     val imageLiveData = MutableLiveData<Uri>()
-
     val episodeNumberLiveData = MutableLiveData<EpisodeNumber>()
 
-    //---------------------------------------------------------
 
     private val _errorLiveData = MutableLiveData<Throwable>()
     val errorLiveData: LiveData<Throwable> = _errorLiveData
@@ -116,7 +114,7 @@ class ShowsViewModel : ViewModel() {
             })
     }
 
-    fun getShow(token : String, showId : String){
+    fun getShow(token: String, showId: String) {
         Singleton.service.getShow(token, showId)
             .enqueue(object : Callback<DataShow> {
                 override fun onFailure(call: Call<DataShow>, t: Throwable) {
@@ -138,7 +136,7 @@ class ShowsViewModel : ViewModel() {
             })
     }
 
-    fun getEpisodesList(token : String, showId : String) {
+    fun getEpisodesList(token: String, showId: String) {
         Singleton.service.getEpisodes(token, showId)
             .enqueue(object : Callback<EpisodeList> {
                 override fun onFailure(call: Call<EpisodeList>, t: Throwable) {
@@ -174,7 +172,10 @@ class ShowsViewModel : ViewModel() {
                     _errorLiveData.postValue(t)
                 }
 
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
                     if (response.isSuccessful) {
                         val body = response.body()
                         if (body != null) {
@@ -213,13 +214,13 @@ interface InfinumApiService {
     @GET("shows/{showId}")
     fun getShow(
         @Header("Authorization") token: String,
-        @Path("showId") showId : String
+        @Path("showId") showId: String
     ): Call<DataShow>
 
     @GET("shows/{showId}/episodes")
     fun getEpisodes(
         @Header("Authorization") token: String,
-        @Path("showId") showId : String
+        @Path("showId") showId: String
     ): Call<EpisodeList>
 
     @POST("episodes")

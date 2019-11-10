@@ -20,12 +20,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_shows_master.*
+import retrofit2.HttpException
 import java.io.File
 import java.io.IOException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.function.LongFunction
 
 class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface,
     AddEpisodeFragmentInterface {
@@ -58,6 +58,21 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         if (savedInstanceState == null) {
             addShowsListFragment()
         }
+
+        showsViewModel.errorLiveData.observe(this, androidx.lifecycle.Observer { error ->
+            when (error) {
+                is HttpException -> Toast.makeText(
+                    this,
+                    "Something didn't go as planned. :( Try again later.",
+                    Toast.LENGTH_LONG
+                ).show()
+                is Throwable -> Toast.makeText(
+                    this,
+                    "Something didn't go as planned. :( Try again later.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 
     private fun addShowsListFragment() {
@@ -107,6 +122,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
 
         if (title.isNotEmpty() && description.isNotEmpty() && showsViewModel.episodeNumberLiveData.value != null) {
             val episodeNumbers = showsViewModel.episodeNumberLiveData.value
+
             showsViewModel.addNewEpisode(
                 sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "",
                 Episode(
@@ -117,7 +133,9 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
                     showId = showId
                 )
             )
+
         }
+        // Refresh list
         showsViewModel.getEpisodesList(
             sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId
         )

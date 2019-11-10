@@ -1,16 +1,11 @@
 package com.aklemen.shows
 
-import android.content.Context
-import android.content.pm.PackageManager
-import android.preference.PreferenceManager
 import android.util.Log
 import com.squareup.moshi.Moshi
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import okhttp3.Response
 
 
 object Singleton {
@@ -38,8 +33,6 @@ object Singleton {
 //
 //        })
         .build()
-
-
 
 
     val moshi = Moshi.Builder()

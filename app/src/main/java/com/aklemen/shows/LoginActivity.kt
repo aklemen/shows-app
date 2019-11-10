@@ -40,19 +40,20 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
 
         initViewsAndVariables()
         checkLoginStatus()
+        validateLoginInput()
         initListeners()
 
         showsViewModel.errorLiveData.observe(this, Observer { error ->
             when (error) {
                 is HttpException -> Toast.makeText(
                     this,
-                    "Response error: ${error.code()} ${error.message()}",
-                    Toast.LENGTH_SHORT
+                    "Something didn't go as planned. :( Try again later.",
+                    Toast.LENGTH_LONG
                 ).show()
                 is Throwable -> Toast.makeText(
                     this,
-                    "Error occurred: ${error.message}",
-                    Toast.LENGTH_SHORT
+                    "Something didn't go as planned. :( Try again later.",
+                    Toast.LENGTH_LONG
                 ).show()
             }
         })

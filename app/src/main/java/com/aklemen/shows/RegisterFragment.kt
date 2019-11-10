@@ -3,15 +3,12 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_register.*
-import java.lang.RuntimeException
 
 
 class RegisterFragment : Fragment() {
@@ -33,7 +30,11 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
@@ -63,8 +64,11 @@ class RegisterFragment : Fragment() {
     }
 
     private fun validateRegisterInput() {
-        val isEmailOk = registerFragmentInterface?.isEmailValid(registerEditEmail.text.toString()) ?: false
-        val isPasswordOk = registerFragmentInterface?.isPasswordValid(registerEditPassword.text.toString()) ?: false
+        val isEmailOk =
+            registerFragmentInterface?.isEmailValid(registerEditEmail.text.toString()) ?: false
+        val isPasswordOk =
+            registerFragmentInterface?.isPasswordValid(registerEditPassword.text.toString())
+                ?: false
         var isPasswordAgainOk = false
 
         if (!isEmailOk) {

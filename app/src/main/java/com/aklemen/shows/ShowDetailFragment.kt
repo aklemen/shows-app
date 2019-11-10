@@ -22,6 +22,7 @@ class ShowDetailFragment : Fragment() {
     }
 
     //TODO Episodes from the last chosen Show are visible before the new livedata value is posted
+
     private lateinit var showsViewModel: ShowsViewModel
     private var showDetailFragmentInterface: ShowDetailFragmentInterface? = null
 
