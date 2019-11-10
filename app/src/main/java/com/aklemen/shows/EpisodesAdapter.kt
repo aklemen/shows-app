@@ -25,14 +25,14 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(episode: Episode) {
-            //TODO
-//            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber.season, episode.episodeNumber.episode)
+//            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber, episode.season)
+            itemView.episodeTextEpisodeNumber.text = "S${episode.episodeNumber} E${episode.season}"
             itemView.episodeTextTitle.text = episode.title
         }
 
     }
 
-    fun formatEpisode(season: Int, episode: Int) : String{
+    fun formatEpisode(season: String, episode: String) : String{
         val df = DecimalFormat("00")
         val seasonFormatted = df.format(season)
         val episodeFormatted = df.format(episode)

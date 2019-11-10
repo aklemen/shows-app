@@ -1,7 +1,6 @@
 package com.aklemen.shows
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -43,7 +42,7 @@ class ShowsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showsViewModel.showsListLiveData.observe(this, Observer {
+        showsViewModel.showListLiveData.observe(this, Observer {
             initRecyclerView(it)
         })
 
@@ -57,8 +56,7 @@ class ShowsListFragment : Fragment() {
     private fun initRecyclerView(shows: List<Show>) {
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
         showsRecyclerview.adapter = ShowsAdapter(shows.toMutableList()) {
-            showsViewModel.showLiveData.value = it
-            showsListInterface?.onShowClicked()
+            showsListInterface?.onShowClicked(it.id)
         }
     }
 
@@ -70,6 +68,6 @@ class ShowsListFragment : Fragment() {
 }
 
 interface ShowsListInterface {
-    fun onShowClicked()
+    fun onShowClicked(showId: String)
     fun logout()
 }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -35,96 +36,12 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         const val ACTIVITY_REQUEST_CHOOSE_PHOTO = 555
 
         fun newStartIntent(context: Context): Intent = Intent(context, ShowsMasterActivity::class.java)
-// region
-//        var listOfShows = mutableListOf(
-//            Show(
-//                "0",
-//                "The Big Bang Theory",
-//                "2007-2019", """A woman who moves into an apartment across the hall from two brilliant but socially awkward physicists shows
-//                    | them how little they know about life outside of the laboratory.""".trimMargin(),
-//                mutableListOf(),
-//                R.drawable.bigbang
-//            ),
-//            Show(
-//                "1",
-//                "The Office",
-//                "2005-2013",
-//                """A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium.""",
-//                mutableListOf(),
-//                R.drawable.office
-//            ),
-//            Show(
-//                "2",
-//                "House M.D.",
-//                "2004-2012",
-//                """An antisocial maverick doctor who specializes in diagnostic medicine does whatever it takes to solve puzzling cases
-//                    | that come his way using his crack team of doctors and his wits.""".trimMargin(),
-//                mutableListOf(),
-//                R.drawable.house
-//            ),
-//            Show(
-//                "3",
-//                "Jane the Virgin",
-//                "2014 - ",
-//                """A young, devout Catholic woman discovers that she was accidentally artificially inseminated.""",
-//                mutableListOf(),
-//                R.drawable.jane
-//            ),
-//            Show(
-//                "4",
-//                "Sherlock",
-//                "2010 - ",
-//                """A modern update finds the famous sleuth and his doctor partner solving crime in 21st century London.""",
-//                mutableListOf(),
-//                R.drawable.sherlock
-//            ),
-//            Show(
-//                "5",
-//                "The Big Bang Theory",
-//                "2007-2019", """A woman who moves into an apartment across the hall from two brilliant but socially awkward physicists shows
-//                    | them how little they know about life outside of the laboratory.""".trimMargin(),
-//                mutableListOf(),
-//                R.drawable.bigbang
-//            ),
-//            Show(
-//                "6",
-//                "The Office",
-//                "2005-2013",
-//                """A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium.""",
-//                mutableListOf(),
-//                R.drawable.office
-//            ),
-//            Show(
-//                "7",
-//                "House M.D.",
-//                "2004-2012",
-//                """An antisocial maverick doctor who specializes in diagnostic medicine does whatever it takes to solve puzzling cases
-//                    | that come his way using his crack team of doctors and his wits.""".trimMargin(),
-//                mutableListOf(),
-//                R.drawable.house
-//            ),
-//            Show(
-//                "8",
-//                "Jane the Virgin",
-//                "2014 - ",
-//                """A young, devout Catholic woman discovers that she was accidentally artificially inseminated.""",
-//                mutableListOf(),
-//                R.drawable.jane
-//            ),
-//            Show(
-//                "9",
-//                "Sherlock",
-//                "2010 - ",
-//                """A modern update finds the famous sleuth and his doctor partner solving crime in 21st century London.""",
-//                mutableListOf(),
-//                R.drawable.sherlock
-//            )
-//        )
-        //endregion
+
     }
 
     private lateinit var showsViewModel: ShowsViewModel
     private var dialog : NumberPickerDialog? = null
+    private lateinit var sharedPreferences : SharedPreferences
 
     private var currentPhotoPath: String? = ""
 
@@ -133,6 +50,8 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         setContentView(R.layout.activity_shows_master)
 
         showsViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
         if (savedInstanceState == null) {
             addShowsListFragment()
         }
@@ -144,11 +63,14 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .commit()
     }
 
-    override fun onShowClicked() {
+    override fun onShowClicked(showId: String) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment())
             .addToBackStack("ShowDetailFragment")
             .commit()
+
+        showsViewModel.getShow(sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId)
+        showsViewModel.getEpisodesList(sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId)
     }
 
     override fun logout() {
@@ -156,7 +78,6 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .setTitle("Log out")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
-                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
                 val editor = sharedPreferences.edit()
                 editor.clear().apply()
                 startActivity(LoginActivity.newStartIntent(this))

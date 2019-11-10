@@ -34,6 +34,16 @@ data class Token (
 )
 
 @JsonClass(generateAdapter = true)
-data class ShowsList(
+data class ShowList(
     @Json(name = "data") val shows : List<Show>
+)
+
+@JsonClass(generateAdapter = true)
+data class EpisodeList(
+    @Json(name = "data") val episodes : List<Episode>
+)
+
+@JsonClass(generateAdapter = true)
+data class DataShow(
+    @Json(name = "data") val show : Show
 )

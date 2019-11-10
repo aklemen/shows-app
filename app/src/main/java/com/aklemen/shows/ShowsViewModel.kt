@@ -1,9 +1,6 @@
 package com.aklemen.shows
 
-import android.content.SharedPreferences
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +12,6 @@ import retrofit2.http.*
 
 class ShowsViewModel : ViewModel() {
 
-    val showLiveData = MutableLiveData<Show>()
     val imageLiveData = MutableLiveData<Uri>()
 
     val episodeNumberLiveData = MutableLiveData<EpisodeNumber>()
@@ -31,8 +27,14 @@ class ShowsViewModel : ViewModel() {
     private val _tokenLiveData = MutableLiveData<String>()
     val tokenLiveData: LiveData<String> = _tokenLiveData
 
-    private val _showsListLiveData = MutableLiveData<List<Show>>()
-    val showsListLiveData: LiveData<List<Show>> = _showsListLiveData
+    private val _showListLiveData = MutableLiveData<List<Show>>()
+    val showListLiveData: LiveData<List<Show>> = _showListLiveData
+
+    private val _showLiveData = MutableLiveData<Show>()
+    val showLiveData: LiveData<Show> = _showLiveData
+
+    private val _episodeListLiveData = MutableLiveData<List<Episode>>()
+    val episodeListLiveData: LiveData<List<Episode>> = _episodeListLiveData
 
 
     fun registerUser(credentials: Credentials) {
@@ -83,23 +85,73 @@ class ShowsViewModel : ViewModel() {
 
     fun getShowsList(token: String) {
         Singleton.service.getShows(token)
-            .enqueue(object : Callback<ShowsList> {
-                override fun onFailure(call: Call<ShowsList>, t: Throwable) {
+            .enqueue(object : Callback<ShowList> {
+                override fun onFailure(call: Call<ShowList>, t: Throwable) {
                     _errorLiveData.postValue(t)
                 }
 
-                override fun onResponse(call: Call<ShowsList>, response: Response<ShowsList>) {
+                override fun onResponse(call: Call<ShowList>, response: Response<ShowList>) {
                     if (response.isSuccessful) {
                         val body = response.body()
                         if (body != null) {
-                            _showsListLiveData.postValue(body.shows.map {
+                            _showListLiveData.postValue(body.shows.map {
                                 Show(
                                     id = it.id,
                                     title = it.title,
                                     imageUrl = it.imageUrl
                                 )
                             })
-                            Log.d("EVO ME", "TUKI")
+                        } else {
+                            _errorLiveData.postValue(IllegalStateException(""))
+                        }
+                    } else {
+                        _errorLiveData.postValue(HttpException(response))
+                    }
+                }
+            })
+    }
+
+    fun getShow(token : String, showId : String){
+        Singleton.service.getShow(token, showId)
+            .enqueue(object : Callback<DataShow> {
+                override fun onFailure(call: Call<DataShow>, t: Throwable) {
+                    _errorLiveData.postValue(t)
+                }
+
+                override fun onResponse(call: Call<DataShow>, response: Response<DataShow>) {
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body != null) {
+                            _showLiveData.postValue(body.show)
+                        } else {
+                            _errorLiveData.postValue(IllegalStateException(""))
+                        }
+                    } else {
+                        _errorLiveData.postValue(HttpException(response))
+                    }
+                }
+            })
+    }
+
+    fun getEpisodesList(token : String, showId : String) {
+        Singleton.service.getEpisodes(token, showId)
+            .enqueue(object : Callback<EpisodeList> {
+                override fun onFailure(call: Call<EpisodeList>, t: Throwable) {
+                    _errorLiveData.postValue(t)
+                }
+
+                override fun onResponse(call: Call<EpisodeList>, response: Response<EpisodeList>) {
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body != null) {
+                            _episodeListLiveData.postValue(body.episodes.map {
+                                Episode(
+                                    title = it.title,
+                                    description = it.description,
+                                    episodeNumber = it.episodeNumber,
+                                    season = it.season
+                                )
+                            })
                         } else {
                             _errorLiveData.postValue(IllegalStateException(""))
                         }
@@ -128,7 +180,19 @@ interface InfinumApiService {
     fun login(@Body credentials: Credentials): Call<DataToken>
 
     @GET("shows")
-    fun getShows(@Header("Authorization") token: String): Call<ShowsList>
+    fun getShows(@Header("Authorization") token: String): Call<ShowList>
+
+    @GET("shows/{showId}")
+    fun getShow(
+        @Header("Authorization") token: String,
+        @Path("showId") showId : String
+    ): Call<DataShow>
+
+    @GET("shows/{showId}/episodes")
+    fun getEpisodes(
+        @Header("Authorization") token: String,
+        @Path("showId") showId : String
+    ): Call<EpisodeList>
 
 }
 

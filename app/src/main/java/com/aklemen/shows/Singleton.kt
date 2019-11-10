@@ -1,11 +1,17 @@
 package com.aklemen.shows
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.preference.PreferenceManager
 import android.util.Log
 import com.squareup.moshi.Moshi
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import okhttp3.Response
+
 
 object Singleton {
 
@@ -20,7 +26,20 @@ object Singleton {
                 }
             })
         )
+//        .addInterceptor(object : Interceptor{
+//            override fun intercept(chain: Interceptor.Chain): Response {
+//                val ongoing = chain.request().newBuilder()
+//                ongoing.addHeader("Accept", "application/json;versions=1")
+//                if (true){
+//                    ongoing.addHeader("Authorization", "")
+//                }
+//                return chain.proceed(ongoing.build())
+//            }
+//
+//        })
         .build()
+
+
 
 
     val moshi = Moshi.Builder()

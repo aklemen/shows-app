@@ -31,6 +31,7 @@ class ShowsAdapter(private val data: MutableList<Show>, val action: (Show) -> Un
 //                showTextYear.text = show.year
                 setOnClickListener {
                     action(show)
+                    Log.d("ID ODDDAJE", show.id)
                 }
             }
         }
