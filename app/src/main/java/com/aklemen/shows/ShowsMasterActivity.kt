@@ -118,6 +118,9 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
                 )
             )
         }
+        showsViewModel.getEpisodesList(
+            sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId
+        )
         showsViewModel.episodeNumberLiveData.value = null
         supportFragmentManager.popBackStack()
     }
