@@ -59,8 +59,8 @@ class ShowDetailFragment : Fragment() {
         })
 
         showsViewModel.episodeListLiveData.observe(this, Observer {
-            initEpisodesList(it)
             refreshEpisodesList(it)
+            initEpisodesList(it)
         })
     }
 

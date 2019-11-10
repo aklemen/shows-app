@@ -25,8 +25,10 @@ import java.io.IOException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.function.LongFunction
 
-class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface, AddEpisodeFragmentInterface {
+class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface,
+    AddEpisodeFragmentInterface {
 
     companion object {
 
@@ -35,13 +37,14 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         const val ACTIVITY_REQUEST_TAKE_PHOTO = 333
         const val ACTIVITY_REQUEST_CHOOSE_PHOTO = 555
 
-        fun newStartIntent(context: Context): Intent = Intent(context, ShowsMasterActivity::class.java)
+        fun newStartIntent(context: Context): Intent =
+            Intent(context, ShowsMasterActivity::class.java)
 
     }
 
     private lateinit var showsViewModel: ShowsViewModel
-    private var dialog : NumberPickerDialog? = null
-    private lateinit var sharedPreferences : SharedPreferences
+    private var dialog: NumberPickerDialog? = null
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var currentPhotoPath: String? = ""
 
@@ -69,8 +72,13 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .addToBackStack("ShowDetailFragment")
             .commit()
 
-        showsViewModel.getShow(sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId)
-        showsViewModel.getEpisodesList(sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId)
+        showsViewModel.getShow(
+            sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "",
+            showId
+        )
+        showsViewModel.getEpisodesList(
+            sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId
+        )
     }
 
     override fun logout() {
@@ -95,24 +103,23 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .commit()
     }
 
-    override fun onSaveEpisodeClick(show: Show, title: String, description: String) {
-        //TODO
-//        if (title.isNotEmpty() && description.isNotEmpty() && showsViewModel.episodeNumberLiveData.value != null) {
-//            if (show.listOfEpisodes.add(
-//                    Episode(
-//                        title,
-//                        description,
-//                        showsViewModel.episodeNumberLiveData.value ?: EpisodeNumber(0,1)
-//                    )
-//                )
-//            ) {
-//                Toast.makeText(this, "Episode successfully added.", Toast.LENGTH_SHORT).show()
-//            } else {
-//                Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        showsViewModel.episodeNumberLiveData.value = null
-//        supportFragmentManager.popBackStack()
+    override fun onSaveEpisodeClick(showId: String, title: String, description: String) {
+
+        if (title.isNotEmpty() && description.isNotEmpty() && showsViewModel.episodeNumberLiveData.value != null) {
+            val episodeNumbers = showsViewModel.episodeNumberLiveData.value
+            showsViewModel.addNewEpisode(
+                sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "",
+                Episode(
+                    title = title,
+                    description = description,
+                    episodeNumber = episodeNumbers?.season.toString(),
+                    season = episodeNumbers?.episode.toString(),
+                    showId = showId
+                )
+            )
+        }
+        showsViewModel.episodeNumberLiveData.value = null
+        supportFragmentManager.popBackStack()
     }
 
     override fun onUploadPhotoClick() {
@@ -145,7 +152,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         hideKeyboard(showsFragmentContainer)
     }
 
-    override fun formatEpisodeWithComma(season: Int, episode: Int) : String{
+    override fun formatEpisodeWithComma(season: Int, episode: Int): String {
         val df = DecimalFormat("00")
         val seasonFormatted = df.format(season)
         val episodeFormatted = df.format(episode)
@@ -165,12 +172,20 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     private fun openGallery() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
             startActivityForResult(intent, ACTIVITY_REQUEST_CHOOSE_PHOTO)
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
                 android.app.AlertDialog.Builder(this)
                     .setMessage("We just need your permission so you can choose a photo.")
                     .setPositiveButton("Ok") { _, _ ->
@@ -193,8 +208,14 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     private fun openCamera() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 takePictureIntent.resolveActivity(packageManager)?.also {
@@ -215,13 +236,20 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
                 }
             }
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.CAMERA
+                )
+            ) {
                 AlertDialog.Builder(this)
                     .setMessage("We just need your permission so you can take a photo.")
                     .setPositiveButton("Ok") { _, _ ->
                         ActivityCompat.requestPermissions(
                             this,
-                            arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            arrayOf(
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ),
                             PERMISSION_REQUEST_CAMERA
                         )
                     }
@@ -251,20 +279,26 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             PERMISSION_REQUEST_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
                 } else {
-                    Toast.makeText(this, "Camera permissions not granted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Camera permissions not granted", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             PERMISSION_REQUEST_READ_EXT_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openGallery()
                 } else {
-                    Toast.makeText(this, "Storage permission not granted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Storage permission not granted", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             else -> {

@@ -1,9 +1,11 @@
 package com.aklemen.shows
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -35,6 +37,9 @@ class ShowsViewModel : ViewModel() {
 
     private val _episodeListLiveData = MutableLiveData<List<Episode>>()
     val episodeListLiveData: LiveData<List<Episode>> = _episodeListLiveData
+
+    private val _episodeLiveData = MutableLiveData<Episode>()
+    val episodeLiveData: LiveData<Episode> = _episodeLiveData
 
 
     fun registerUser(credentials: Credentials) {
@@ -162,6 +167,29 @@ class ShowsViewModel : ViewModel() {
             })
     }
 
+    fun addNewEpisode(token: String, episode: Episode) {
+        Singleton.service.addEpisode(token, episode)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    _errorLiveData.postValue(t)
+                }
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body != null) {
+
+                        } else {
+                            _errorLiveData.postValue(IllegalStateException(""))
+                        }
+                    } else {
+                        _errorLiveData.postValue(HttpException(response))
+                    }
+                }
+
+            })
+    }
+
 
 }
 
@@ -193,6 +221,9 @@ interface InfinumApiService {
         @Header("Authorization") token: String,
         @Path("showId") showId : String
     ): Call<EpisodeList>
+
+    @POST("episodes")
+    fun addEpisode(@Header("Authorization") token: String, @Body episode: Episode): Call<ResponseBody>
 
 }
 

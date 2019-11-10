@@ -24,8 +24,6 @@ class AddEpisodeFragment : Fragment() {
     private lateinit var showsViewModel: ShowsViewModel
     private var addEpisodeFragmentInterface: AddEpisodeFragmentInterface? = null
 
-    private var episodesAdapter: EpisodesAdapter? = null
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -47,7 +45,6 @@ class AddEpisodeFragment : Fragment() {
 
         showsViewModel.showLiveData.observe(this, Observer {
             initListeners(it)
-            initVariables(it)
         })
 
         showsViewModel.imageLiveData.observe(this, Observer {
@@ -70,18 +67,15 @@ class AddEpisodeFragment : Fragment() {
         })
     }
 
-    private fun initVariables(currentShow: Show) {
-        //TODO
-//        episodesAdapter = EpisodesAdapter(currentShow.listOfEpisodes)
-    }
-
     private fun initListeners(currentShow: Show) {
         addToolbar.setNavigationOnClickListener {
             addEpisodeFragmentInterface?.onBackNavigation(addEditTitle.text.toString(), addEditDescription.text.toString())
         }
 
         addButtonSave.setOnClickListener {
-            addEpisodeFragmentInterface?.onSaveEpisodeClick(currentShow, addEditTitle.text.toString(), addEditDescription.text.toString())
+            addEpisodeFragmentInterface?.onSaveEpisodeClick(
+                currentShow.id, addEditTitle.text.toString(), addEditDescription.text.toString()
+            )
         }
 
         addEditTitle.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditDescription) }
@@ -103,7 +97,7 @@ class AddEpisodeFragment : Fragment() {
 
 
 interface AddEpisodeFragmentInterface {
-    fun onSaveEpisodeClick(show: Show, title: String, description: String)
+    fun onSaveEpisodeClick(showId: String, title: String, description: String)
     fun onUploadPhotoClick()
     fun onChooseEpisodeNumber()
     fun onBackNavigation(title: String, description: String)

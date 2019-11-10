@@ -7,6 +7,7 @@ import com.squareup.moshi.JsonClass
 data class Episode (
     @Json(name = "title") val title : String,
     @Json(name = "description") val description : String,
-    @Json(name = "episodeNumber") val episodeNumber: String,
-    @Json(name = "season") val season: String
+    @Json(name = "episodeNumber") val episodeNumber: String?,
+    @Json(name = "season") val season: String?,
+    @Json(name = "showId") val showId: String = ""
 )
