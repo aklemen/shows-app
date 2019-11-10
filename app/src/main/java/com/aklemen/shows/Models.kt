@@ -17,3 +17,13 @@ data class Credentials(
     @Json(name = "email") val email: String,
     @Json(name = "password") val password: String
 )
+
+@JsonClass(generateAdapter = true)
+class Data (
+    @Json(name = "data") val data: Token
+)
+
+@JsonClass(generateAdapter = true)
+class Token (
+    @Json(name = "token") val token: String
+)

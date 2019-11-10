@@ -13,6 +13,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_login.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -42,12 +43,31 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         checkLoginStatus()
         initViews()
         initListeners()
+
+        showsViewModel.errorLiveData.observe(this, Observer { error ->
+            when (error) {
+                is HttpException -> Toast.makeText(this, "Response error: ${error.code()} ${error.message()}", Toast.LENGTH_SHORT).show()
+                is Throwable -> Toast.makeText(this, "Error occurred: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        showsViewModel.credentialsLiveData.observe(this, Observer {
+            login(it)
+        })
+
     }
 
     private fun checkLoginStatus() {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if (sharedPrefs?.getString(PREF_USERNAME, "")?.isNotEmpty() == true && sharedPrefs?.getString(PREF_PASSWORD, "")?.isNotEmpty() == true) {
+        if (sharedPrefs?.getString(
+                PREF_USERNAME,
+                ""
+            )?.isNotEmpty() == true && sharedPrefs?.getString(
+                PREF_PASSWORD,
+                ""
+            )?.isNotEmpty() == true
+        ) {
             startActivity(ShowsMasterActivity.newStartIntent(this))
             finish()
         }
@@ -62,7 +82,10 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         loginEditUsername.doOnTextChanged { _, _, _, _ -> validateLoginInput() }
         loginEditPassword.doOnTextChanged { _, _, _, _ -> validateLoginInput() }
 
-        loginButtonLogin.setOnClickListener { login() }
+        loginButtonLogin.setOnClickListener {
+            val credentials = Credentials(loginEditUsername.text.toString(), loginEditPassword.text.toString())
+            login(credentials)
+        }
 
         loginTextCreate.setOnClickListener {
             openRegisterFragment()
@@ -76,14 +99,17 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
             .commit()
     }
 
-    private fun login() {
-//TODO
+    private fun login(credentials: Credentials) {
+        showsViewModel.loginUser(credentials)
+
 //        if (loginCheckboxRemember.isChecked) {
 //            val editor: SharedPreferences.Editor? = sharedPrefs?.edit()
 //            editor?.putString(PREF_USERNAME, loginEditUsername.text.toString())
 //            editor?.putString(PREF_PASSWORD, loginEditPassword.text.toString())
 //            editor?.apply()
 //        }
+
+
 //
 //        startActivity(WelcomeActivity.newStartIntent(this, loginEditUsername.text.toString()))
 //        finish()
@@ -117,7 +143,7 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         if (!isPasswordOk) {
             loginLayoutPassword.error = "At least six characters needed. You can do it!"
         } else {
-            loginEditPassword.error = null
+            loginLayoutPassword.error = null
         }
 
         loginButtonLogin.isEnabled = isUsernameOk && isPasswordOk
@@ -125,31 +151,12 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
     }
 
     override fun onRegister(email: String, password: String) {
-        Singleton.service.register(Credentials(email, password)).enqueue(object : Callback<User> {
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                showsViewModel.errorLiveData.postValue(t)
-            }
-
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        var user = body.let {
-                            User(
-                                id = it.id,
-                                email = it.email,
-                                type = it.type
-                            )
-                        }
-                        Log.d("Uporabnik", user.email)
-                    }
-                }
-            }
-
-        })
+        showsViewModel.registerUser(Credentials(email, password))
+        supportFragmentManager.popBackStack()
     }
 
-    override fun isEmailValid(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    override fun isEmailValid(email: String): Boolean =
+        Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     override fun isPasswordValid(password: String): Boolean = password.length >= MIN_PASSWORD_LENGTH
 }
