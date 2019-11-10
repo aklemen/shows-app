@@ -1,11 +1,14 @@
 package com.aklemen.shows
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_shows.*
@@ -40,14 +43,20 @@ class ShowsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewsAndVariables()
+        showsViewModel.showsListLiveData.observe(this, Observer {
+            initRecyclerView(it)
+        })
+
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        showsViewModel.getShowsList(sharedPrefs.getString(LoginActivity.PREF_TOKEN, "") ?: "")
+
         initListeners()
     }
 
 
-    private fun initViewsAndVariables() {
+    private fun initRecyclerView(shows: List<Show>) {
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
-        showsRecyclerview.adapter = ShowsAdapter(ShowsMasterActivity.listOfShows) {
+        showsRecyclerview.adapter = ShowsAdapter(shows.toMutableList()) {
             showsViewModel.showLiveData.value = it
             showsListInterface?.onShowClicked()
         }

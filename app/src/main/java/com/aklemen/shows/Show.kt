@@ -1,11 +1,13 @@
 package com.aklemen.shows
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Show(
-    val id : String,
-    val name: String,
-    val year : String,
-    val description : String,
-    var listOfEpisodes : MutableList<Episode>,
-    val imgResId : Int
+    @Json(name = "_id") val id : String,
+    @Json(name = "title") val title: String,
+//    val year : String,
+    @Json(name = "description") val description : String? = "",
+    @Json(name = "imageUrl") val imageUrl : String
 )

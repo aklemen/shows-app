@@ -32,3 +32,8 @@ data class DataToken (
 data class Token (
     @Json(name = "token") val token: String
 )
+
+@JsonClass(generateAdapter = true)
+data class ShowsList(
+    @Json(name = "data") val shows : List<Show>
+)

@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         private const val MIN_PASSWORD_LENGTH: Int = 6
         private const val PREF_USERNAME = "LoginActivity.username"
         private const val PREF_PASSWORD = "LoginActivity.password"
-        private const val PREF_TOKEN = "LoginActivity.token"
+        const val PREF_TOKEN = "LoginActivity.token"
 
         fun newStartIntent(context: Context): Intent = Intent(context, LoginActivity::class.java)
     }

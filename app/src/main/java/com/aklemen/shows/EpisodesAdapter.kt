@@ -25,7 +25,8 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(episode: Episode) {
-            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber.season, episode.episodeNumber.episode)
+            //TODO
+//            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber.season, episode.episodeNumber.episode)
             itemView.episodeTextTitle.text = episode.title
         }
 

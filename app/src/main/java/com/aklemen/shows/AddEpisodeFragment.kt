@@ -71,7 +71,8 @@ class AddEpisodeFragment : Fragment() {
     }
 
     private fun initVariables(currentShow: Show) {
-        episodesAdapter = EpisodesAdapter(currentShow.listOfEpisodes)
+        //TODO
+//        episodesAdapter = EpisodesAdapter(currentShow.listOfEpisodes)
     }
 
     private fun initListeners(currentShow: Show) {

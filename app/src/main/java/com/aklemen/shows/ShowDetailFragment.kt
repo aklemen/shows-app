@@ -45,43 +45,43 @@ class ShowDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initListeners()
-
-        showsViewModel.showLiveData.observe(this, Observer {
-            show = it
-            initViewsAndVariables()
-            refreshEpisodesList()
-        })
+//TODO
+//        initListeners()
+//
+//        showsViewModel.showLiveData.observe(this, Observer {
+//            show = it
+//            initViewsAndVariables()
+//            refreshEpisodesList()
+//        })
     }
 
-    private fun initViewsAndVariables() {
-        episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
-
-        detailToolbar.title = show?.name
-        detailTextDescription.text = show?.description
-
-        detailRecyclerview.layoutManager = LinearLayoutManager(activity)
-        detailRecyclerview.adapter = episodesAdapter
-    }
-
-    private fun initListeners() {
-        detailToolbar.setNavigationOnClickListener { fragmentManager?.popBackStack() }
-
-        detailFab.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
-
-        detailTextAddEpisodes.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
-    }
-
-    private fun refreshEpisodesList() {
-        if (show?.listOfEpisodes?.isNotEmpty() == true) {
-            detailGroup.visibility = View.GONE
-            detailRecyclerview.visibility = View.VISIBLE
-        } else {
-            detailRecyclerview.visibility = View.GONE
-            detailGroup.visibility = View.VISIBLE
-        }
-    }
+//    private fun initViewsAndVariables() {
+//        episodesAdapter = show?.listOfEpisodes?.let { EpisodesAdapter(it) }
+//
+//        detailToolbar.title = show?.name
+//        detailTextDescription.text = show?.description
+//
+//        detailRecyclerview.layoutManager = LinearLayoutManager(activity)
+//        detailRecyclerview.adapter = episodesAdapter
+//    }
+//
+//    private fun initListeners() {
+//        detailToolbar.setNavigationOnClickListener { fragmentManager?.popBackStack() }
+//
+//        detailFab.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
+//
+//        detailTextAddEpisodes.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
+//    }
+//
+//    private fun refreshEpisodesList() {
+//        if (show?.listOfEpisodes?.isNotEmpty() == true) {
+//            detailGroup.visibility = View.GONE
+//            detailRecyclerview.visibility = View.VISIBLE
+//        } else {
+//            detailRecyclerview.visibility = View.GONE
+//            detailGroup.visibility = View.VISIBLE
+//        }
+//    }
 }
 
 interface ShowDetailFragmentInterface {

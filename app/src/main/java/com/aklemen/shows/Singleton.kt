@@ -9,6 +9,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object Singleton {
 
+    const val BASE_API_URL = "https://api.infinum.academy/api/"
+    const val BASE_URL = "https://api.infinum.academy"
+
     val okHttp = OkHttpClient.Builder()
         .addInterceptor(
             HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
@@ -24,7 +27,7 @@ object Singleton {
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.infinum.academy/api/")
+        .baseUrl(BASE_API_URL)
         .client(okHttp)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()

@@ -21,7 +21,7 @@ class RegisterFragment : Fragment() {
         fun newStartFragment(): RegisterFragment = RegisterFragment()
     }
 
-    var registerFragmentInterface: RegisterFragmentInterface? = null
+    private var registerFragmentInterface: RegisterFragmentInterface? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
