@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_episode_item.view.*
+import java.text.DecimalFormat
 
 class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
 
@@ -24,9 +25,16 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(episode: Episode, position: Int) {
-            itemView.episodeTextTitle.text = "${position + 1}. ${episode.title}"
+            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber.season, episode.episodeNumber.episode)
+            itemView.episodeTextTitle.text = "${episode.title}"
         }
 
     }
 
+    fun formatEpisode(season: Int, episode: Int) : String{
+        val df = DecimalFormat("00")
+        val seasonFormatted = df.format(season)
+        val episodeFormatted = df.format(episode)
+        return "S$seasonFormatted E$episodeFormatted"
+    }
 }

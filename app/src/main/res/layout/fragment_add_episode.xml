@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginVertical="16dp"
-    tools:context=".AddEpisodeActivity">
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".AddEpisodeFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/addToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -122,18 +124,43 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/episode_title"
                     android:inputType="text"
-                    android:paddingBottom="25dp" />
+                    android:paddingBottom="25dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/addTextSAndE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/addLayoutTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/season_and_episode"
+                android:textSize="17sp"
+                android:textColor="@color/grey"/>
+
+            <TextView
+                android:id="@+id/addTextEpisodeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/addTextSAndE"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="5dp"
+                android:text="S 00, E 01"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addLayoutDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addLayoutTitle">
+                app:layout_constraintTop_toBottomOf="@id/addTextEpisodeNumber">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -161,6 +188,7 @@
         android:text="@string/save"
         android:textColor="@android:color/white"
         android:textSize="16sp"
+        android:layout_marginVertical="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
