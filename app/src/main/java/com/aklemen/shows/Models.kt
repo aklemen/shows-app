@@ -3,7 +3,6 @@ package com.aklemen.shows
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-
 @JsonClass(generateAdapter = true)
 data class User(
     @Json(name = "_id") val id: String,

@@ -21,12 +21,6 @@ class ShowsViewModel : ViewModel() {
     private val _errorLiveData = MutableLiveData<Throwable>()
     val errorLiveData: LiveData<Throwable> = _errorLiveData
 
-    private val _credentialsLiveData = MutableLiveData<Credentials>()
-    val credentialsLiveData: LiveData<Credentials> = _credentialsLiveData
-
-    private val _tokenLiveData = MutableLiveData<String>()
-    val tokenLiveData: LiveData<String> = _tokenLiveData
-
     private val _showListLiveData = MutableLiveData<List<Show>>()
     val showListLiveData: LiveData<List<Show>> = _showListLiveData
 
@@ -39,52 +33,6 @@ class ShowsViewModel : ViewModel() {
     private val _episodeLiveData = MutableLiveData<Episode>()
     val episodeLiveData: LiveData<Episode> = _episodeLiveData
 
-
-    fun registerUser(credentials: Credentials) {
-        Singleton.service.register(credentials)
-            .enqueue(object : Callback<DataUser> {
-                override fun onFailure(call: Call<DataUser>, t: Throwable) {
-                    _errorLiveData.postValue(t)
-                }
-
-                override fun onResponse(call: Call<DataUser>, response: Response<DataUser>) {
-                    if (response.isSuccessful) {
-                        val body = response.body()
-                        if (body != null) {
-                            _credentialsLiveData.postValue(credentials)
-                        } else {
-                            _errorLiveData.postValue(IllegalStateException(""))
-                        }
-                    } else {
-                        _errorLiveData.postValue(HttpException(response))
-                    }
-                }
-
-            })
-    }
-
-    fun loginUser(credentials: Credentials) {
-        Singleton.service.login(credentials)
-            .enqueue(object : Callback<DataToken> {
-                override fun onFailure(call: Call<DataToken>, t: Throwable) {
-                    _errorLiveData.postValue(t)
-                }
-
-                override fun onResponse(call: Call<DataToken>, response: Response<DataToken>) {
-                    if (response.isSuccessful) {
-                        val body = response.body()
-                        if (body != null) {
-                            _tokenLiveData.postValue(body.data.token)
-                        } else {
-                            _errorLiveData.postValue(IllegalStateException(""))
-                        }
-                    } else {
-                        _errorLiveData.postValue(HttpException(response))
-                    }
-                }
-
-            })
-    }
 
     fun getShowsList() {
         Singleton.service.getShows()

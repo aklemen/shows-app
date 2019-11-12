@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         fun newStartIntent(context: Context): Intent = Intent(context, LoginActivity::class.java)
     }
 
-    private lateinit var showsViewModel: ShowsViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     private var sharedPrefs: SharedPreferences? = null
 
@@ -36,14 +36,14 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        showsViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
         initViewsAndVariables()
         checkLoginStatus()
         validateLoginInput()
         initListeners()
 
-        showsViewModel.errorLiveData.observe(this, Observer { error ->
+        loginViewModel.errorLiveData.observe(this, Observer { error ->
             when (error) {
                 is HttpException -> Toast.makeText(
                     this,
@@ -58,14 +58,14 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
             }
         })
 
-        showsViewModel.credentialsLiveData.observe(this, Observer {
+        loginViewModel.credentialsLiveData.observe(this, Observer {
             login(it)
         })
 
-        showsViewModel.tokenLiveData.observe(this, Observer {
+        loginViewModel.tokenLiveData.observe(this, Observer {
             sharedPrefs?.edit()?.putString(PREF_TOKEN, it)?.apply()
             if (welcomeScreen) {
-                val username = showsViewModel.credentialsLiveData.value?.email
+                val username = loginViewModel.credentialsLiveData.value?.email
                 startActivity(WelcomeActivity.newStartIntent(this, username ?: "to Shows App!"))
             } else {
                 startActivity(ShowsMasterActivity.newStartIntent(this))
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         if (credentials.email.isNotEmpty() && credentials.password.isNotEmpty()) {
             loginEditUsername.setText(credentials.email)
             loginEditPassword.setText(credentials.password)
-            showsViewModel.loginUser(credentials)
+            loginViewModel.loginUser(credentials)
         }
     }
 
@@ -125,7 +125,7 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
             editor?.apply()
         }
 
-        showsViewModel.loginUser(credentials)
+        loginViewModel.loginUser(credentials)
     }
 
     private fun validateLoginInput() {
@@ -149,7 +149,7 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
     }
 
     override fun onRegister(email: String, password: String) {
-        showsViewModel.registerUser(Credentials(email, password))
+        loginViewModel.registerUser(Credentials(email, password))
         welcomeScreen = true
     }
 
