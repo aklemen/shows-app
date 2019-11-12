@@ -50,8 +50,7 @@ class ShowsListFragment : Fragment() {
             initRecyclerView(it)
         })
 
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        showsViewModel.getShowsList(sharedPrefs.getString(LoginActivity.PREF_TOKEN, "") ?: "")
+        showsViewModel.getShowsList()
 
         initListeners()
     }

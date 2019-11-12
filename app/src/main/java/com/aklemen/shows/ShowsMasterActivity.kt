@@ -88,12 +88,9 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .commit()
 
         showsViewModel.getShow(
-            sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "",
             showId
         )
-        showsViewModel.getEpisodesList(
-            sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId
-        )
+        showsViewModel.getEpisodesList(showId)
     }
 
     override fun logout() {
@@ -124,7 +121,6 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             val episodeNumbers = showsViewModel.episodeNumberLiveData.value
 
             showsViewModel.addNewEpisode(
-                sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "",
                 Episode(
                     title = title,
                     description = description,
@@ -136,9 +132,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
 
         }
         // Refresh list
-        showsViewModel.getEpisodesList(
-            sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: "", showId
-        )
+        showsViewModel.getEpisodesList(showId)
         showsViewModel.episodeNumberLiveData.value = null
         supportFragmentManager.popBackStack()
     }

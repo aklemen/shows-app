@@ -11,3 +11,8 @@ data class Episode(
     @Json(name = "episodeNumber") val episodeNumber: String,
     @Json(name = "season") val season: String?
 )
+
+data class EpisodeNumber(
+    val season: Int,
+    val episode: Int
+)

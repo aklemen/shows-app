@@ -86,8 +86,8 @@ class ShowsViewModel : ViewModel() {
             })
     }
 
-    fun getShowsList(token: String) {
-        Singleton.service.getShows(token)
+    fun getShowsList() {
+        Singleton.service.getShows()
             .enqueue(object : Callback<ShowList> {
                 override fun onFailure(call: Call<ShowList>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -114,8 +114,8 @@ class ShowsViewModel : ViewModel() {
             })
     }
 
-    fun getShow(token: String, showId: String) {
-        Singleton.service.getShow(token, showId)
+    fun getShow(showId: String) {
+        Singleton.service.getShow(showId)
             .enqueue(object : Callback<DataShow> {
                 override fun onFailure(call: Call<DataShow>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -136,8 +136,8 @@ class ShowsViewModel : ViewModel() {
             })
     }
 
-    fun getEpisodesList(token: String, showId: String) {
-        Singleton.service.getEpisodes(token, showId)
+    fun getEpisodesList(showId: String) {
+        Singleton.service.getEpisodes(showId)
             .enqueue(object : Callback<EpisodeList> {
                 override fun onFailure(call: Call<EpisodeList>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -165,8 +165,8 @@ class ShowsViewModel : ViewModel() {
             })
     }
 
-    fun addNewEpisode(token: String, episode: Episode) {
-        Singleton.service.addEpisode(token, episode)
+    fun addNewEpisode(episode: Episode) {
+        Singleton.service.addEpisode(episode)
             .enqueue(object : Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -190,41 +190,4 @@ class ShowsViewModel : ViewModel() {
 
             })
     }
-
-
 }
-
-data class EpisodeNumber(
-    val season: Int,
-    val episode: Int
-)
-
-
-interface InfinumApiService {
-
-    @POST("users")
-    fun register(@Body credentials: Credentials): Call<DataUser>
-
-    @POST("users/sessions")
-    fun login(@Body credentials: Credentials): Call<DataToken>
-
-    @GET("shows")
-    fun getShows(@Header("Authorization") token: String): Call<ShowList>
-
-    @GET("shows/{showId}")
-    fun getShow(
-        @Header("Authorization") token: String,
-        @Path("showId") showId: String
-    ): Call<DataShow>
-
-    @GET("shows/{showId}/episodes")
-    fun getEpisodes(
-        @Header("Authorization") token: String,
-        @Path("showId") showId: String
-    ): Call<EpisodeList>
-
-    @POST("episodes")
-    fun addEpisode(@Header("Authorization") token: String, @Body episode: Episode): Call<ResponseBody>
-
-}
-
