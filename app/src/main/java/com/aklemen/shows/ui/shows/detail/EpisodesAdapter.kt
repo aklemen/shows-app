@@ -1,10 +1,10 @@
-package com.aklemen.shows.adapters
+package com.aklemen.shows.ui.shows.detail
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aklemen.shows.models.Episode
+import com.aklemen.shows.data.model.Episode
 import com.aklemen.shows.R
 import kotlinx.android.synthetic.main.view_episode_item.view.*
 import java.text.DecimalFormat

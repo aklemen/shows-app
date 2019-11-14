@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.util
 
 import android.app.Application
 import android.content.SharedPreferences

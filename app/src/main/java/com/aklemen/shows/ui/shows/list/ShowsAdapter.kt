@@ -1,12 +1,12 @@
-package com.aklemen.shows.adapters
+package com.aklemen.shows.ui.shows.list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aklemen.shows.R
-import com.aklemen.shows.models.Show
-import com.aklemen.shows.Singleton
+import com.aklemen.shows.data.model.Show
+import com.aklemen.shows.data.api.RestClient
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.view_show_item.view.*
 
@@ -35,7 +35,7 @@ class ShowsAdapter(private val data: MutableList<Show>, val action: (Show) -> Un
 
         fun bind(show: Show) {
             with(itemView) {
-                Picasso.get().load(Singleton.BASE_URL + show.imageUrl).into(showImage)
+                Picasso.get().load(RestClient.BASE_URL + show.imageUrl).into(showImage)
                 showTextTitle.text = show.title
 //                showTextYear.text = show.year
                 setOnClickListener {

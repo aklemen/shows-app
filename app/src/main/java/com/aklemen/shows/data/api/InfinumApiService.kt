@@ -1,6 +1,6 @@
-package com.aklemen.shows
+package com.aklemen.shows.data.api
 
-import com.aklemen.shows.models.*
+import com.aklemen.shows.data.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*

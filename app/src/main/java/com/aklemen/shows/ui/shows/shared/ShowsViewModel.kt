@@ -1,11 +1,11 @@
-package com.aklemen.shows.viewmodels
+package com.aklemen.shows.ui.shows.shared
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.aklemen.shows.*
-import com.aklemen.shows.models.*
+import com.aklemen.shows.data.api.RestClient
+import com.aklemen.shows.data.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,7 +36,7 @@ class ShowsViewModel : ViewModel() {
 
 
     fun getShowsList() {
-        Singleton.service.getShows()
+        RestClient.service.getShows()
             .enqueue(object : Callback<ShowList> {
                 override fun onFailure(call: Call<ShowList>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -64,7 +64,7 @@ class ShowsViewModel : ViewModel() {
     }
 
     fun getShow(showId: String) {
-        Singleton.service.getShow(showId)
+        RestClient.service.getShow(showId)
             .enqueue(object : Callback<DataShow> {
                 override fun onFailure(call: Call<DataShow>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -86,7 +86,7 @@ class ShowsViewModel : ViewModel() {
     }
 
     fun getEpisodesList(showId: String) {
-        Singleton.service.getEpisodes(showId)
+        RestClient.service.getEpisodes(showId)
             .enqueue(object : Callback<EpisodeList> {
                 override fun onFailure(call: Call<EpisodeList>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -115,7 +115,7 @@ class ShowsViewModel : ViewModel() {
     }
 
     fun addNewEpisode(episode: Episode) {
-        Singleton.service.addEpisode(episode)
+        RestClient.service.addEpisode(episode)
             .enqueue(object : Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     _errorLiveData.postValue(t)

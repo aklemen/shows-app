@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.login
 
 
 import android.content.Context
@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import com.aklemen.shows.R
+import com.aklemen.shows.util.setInputTypeToPassword
 import kotlinx.android.synthetic.main.fragment_register.*
 
 
@@ -15,7 +17,8 @@ class RegisterFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): RegisterFragment = RegisterFragment()
+        fun newStartFragment(): RegisterFragment =
+            RegisterFragment()
     }
 
     private var registerFragmentInterface: RegisterFragmentInterface? = null

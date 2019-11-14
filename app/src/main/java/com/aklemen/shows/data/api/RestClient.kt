@@ -1,6 +1,8 @@
-package com.aklemen.shows
+package com.aklemen.shows.data.api
 
 import android.util.Log
+import com.aklemen.shows.util.ShowsApplication
+import com.aklemen.shows.ui.login.LoginActivity
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -10,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 
-object Singleton {
+object RestClient {
 
     const val BASE_API_URL = "https://api.infinum.academy/api/"
     const val BASE_URL = "https://api.infinum.academy"

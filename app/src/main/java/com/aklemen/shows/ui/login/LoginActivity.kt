@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.login
 
 import android.content.Context
 import android.content.Intent
@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.aklemen.shows.models.Credentials
-import com.aklemen.shows.viewmodels.LoginViewModel
+import com.aklemen.shows.*
+import com.aklemen.shows.data.model.Credentials
+import com.aklemen.shows.ui.shows.shared.ShowsMasterActivity
+import com.aklemen.shows.util.setInputTypeToPassword
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.HttpException
 
@@ -68,7 +70,12 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
             sharedPrefs?.edit()?.putString(PREF_TOKEN, it)?.apply()
             if (welcomeScreen) {
                 val username = loginViewModel.credentialsLiveData.value?.email
-                startActivity(WelcomeActivity.newStartIntent(this, username ?: "to Shows App!"))
+                startActivity(
+                    WelcomeActivity.newStartIntent(
+                        this,
+                        username ?: "to Shows App!"
+                    )
+                )
             } else {
                 startActivity(ShowsMasterActivity.newStartIntent(this))
             }
@@ -116,7 +123,10 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
 
     private fun openRegisterFragment() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.loginFragmentContainer, RegisterFragment.newStartFragment())
+            .add(
+                R.id.loginFragmentContainer,
+                RegisterFragment.newStartFragment()
+            )
             .addToBackStack("RegisterFragment")
             .commit()
     }

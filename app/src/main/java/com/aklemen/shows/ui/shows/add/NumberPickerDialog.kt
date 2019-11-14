@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.shows.add
 
 import android.content.Context
 import android.os.Bundle
@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
-import com.aklemen.shows.models.EpisodeNumber
-import com.aklemen.shows.viewmodels.ShowsViewModel
+import com.aklemen.shows.R
+import com.aklemen.shows.data.model.EpisodeNumber
+import com.aklemen.shows.ui.shows.shared.ShowsViewModel
 import kotlinx.android.synthetic.main.dialog_number_picker.*
 
 
@@ -16,7 +17,8 @@ class NumberPickerDialog : DialogFragment() {
 
     companion object {
 
-        fun newStartFragment(): NumberPickerDialog = NumberPickerDialog()
+        fun newStartFragment(): NumberPickerDialog =
+            NumberPickerDialog()
 
     }
 

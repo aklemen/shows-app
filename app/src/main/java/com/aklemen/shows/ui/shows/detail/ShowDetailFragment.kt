@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.shows.detail
 
 import android.content.Context
 import android.os.Bundle
@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aklemen.shows.adapters.EpisodesAdapter
-import com.aklemen.shows.models.Episode
-import com.aklemen.shows.models.Show
-import com.aklemen.shows.viewmodels.ShowsViewModel
+import com.aklemen.shows.R
+import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.data.model.Show
+import com.aklemen.shows.ui.shows.shared.ShowsViewModel
 import kotlinx.android.synthetic.main.fragment_show_detail.*
 
 
@@ -21,7 +21,8 @@ class ShowDetailFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): ShowDetailFragment = ShowDetailFragment()
+        fun newStartFragment(): ShowDetailFragment =
+            ShowDetailFragment()
 
     }
 

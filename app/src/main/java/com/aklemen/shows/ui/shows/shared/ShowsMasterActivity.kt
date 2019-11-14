@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.shows.shared
 
 import android.Manifest
 import android.app.Activity
@@ -19,8 +19,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
-import com.aklemen.shows.models.Episode
-import com.aklemen.shows.viewmodels.ShowsViewModel
+import com.aklemen.shows.R
+import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.ui.shows.add.AddEpisodeFragment
+import com.aklemen.shows.ui.shows.add.AddEpisodeFragmentInterface
+import com.aklemen.shows.ui.shows.add.NumberPickerDialog
+import com.aklemen.shows.ui.shows.detail.ShowDetailFragment
+import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
+import com.aklemen.shows.ui.shows.list.ShowsListFragment
+import com.aklemen.shows.ui.shows.list.ShowsListInterface
+import com.aklemen.shows.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_shows_master.*
 import retrofit2.HttpException
 import java.io.File
@@ -29,7 +37,8 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface,
+class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface,
+    ShowDetailFragmentInterface,
     AddEpisodeFragmentInterface {
 
     companion object {
@@ -196,7 +205,9 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         ) {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
-            startActivityForResult(intent, ACTIVITY_REQUEST_CHOOSE_PHOTO)
+            startActivityForResult(intent,
+                ACTIVITY_REQUEST_CHOOSE_PHOTO
+            )
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
@@ -248,7 +259,9 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
                             it
                         )
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                        startActivityForResult(takePictureIntent, ACTIVITY_REQUEST_TAKE_PHOTO)
+                        startActivityForResult(takePictureIntent,
+                            ACTIVITY_REQUEST_TAKE_PHOTO
+                        )
                     }
                 }
             }

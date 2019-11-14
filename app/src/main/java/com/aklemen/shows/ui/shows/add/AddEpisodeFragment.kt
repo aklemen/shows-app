@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.shows.add
 
 import android.content.Context
 import android.os.Bundle
@@ -10,9 +10,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.aklemen.shows.models.EpisodeNumber
-import com.aklemen.shows.models.Show
-import com.aklemen.shows.viewmodels.ShowsViewModel
+import com.aklemen.shows.R
+import com.aklemen.shows.data.model.EpisodeNumber
+import com.aklemen.shows.data.model.Show
+import com.aklemen.shows.ui.shows.shared.ShowsViewModel
 import kotlinx.android.synthetic.main.fragment_add_episode.*
 
 
@@ -20,7 +21,8 @@ class AddEpisodeFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): AddEpisodeFragment = AddEpisodeFragment()
+        fun newStartFragment(): AddEpisodeFragment =
+            AddEpisodeFragment()
     }
 
     private lateinit var showsViewModel: ShowsViewModel
@@ -64,7 +66,8 @@ class AddEpisodeFragment : Fragment() {
             }
         })
 
-        showsViewModel.episodeNumberLiveData.value = EpisodeNumber(0, 1)
+        showsViewModel.episodeNumberLiveData.value =
+            EpisodeNumber(0, 1)
 
         showsViewModel.episodeNumberLiveData.observe(this, Observer {
             if (it != null) {

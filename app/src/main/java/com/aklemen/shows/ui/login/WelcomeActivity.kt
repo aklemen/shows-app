@@ -1,10 +1,12 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.login
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.aklemen.shows.R
+import com.aklemen.shows.ui.shows.shared.ShowsMasterActivity
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 

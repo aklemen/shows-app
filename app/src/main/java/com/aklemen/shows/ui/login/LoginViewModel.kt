@@ -1,12 +1,12 @@
-package com.aklemen.shows.viewmodels
+package com.aklemen.shows.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.aklemen.shows.models.Credentials
-import com.aklemen.shows.models.DataToken
-import com.aklemen.shows.models.DataUser
-import com.aklemen.shows.Singleton
+import com.aklemen.shows.data.model.Credentials
+import com.aklemen.shows.data.model.DataToken
+import com.aklemen.shows.data.model.DataUser
+import com.aklemen.shows.data.api.RestClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -25,7 +25,7 @@ class LoginViewModel : ViewModel(){
 
 
     fun registerUser(credentials: Credentials) {
-        Singleton.service.register(credentials)
+        RestClient.service.register(credentials)
             .enqueue(object : Callback<DataUser> {
                 override fun onFailure(call: Call<DataUser>, t: Throwable) {
                     _errorLiveData.postValue(t)
@@ -48,7 +48,7 @@ class LoginViewModel : ViewModel(){
     }
 
     fun loginUser(credentials: Credentials) {
-        Singleton.service.login(credentials)
+        RestClient.service.login(credentials)
             .enqueue(object : Callback<DataToken> {
                 override fun onFailure(call: Call<DataToken>, t: Throwable) {
                     _errorLiveData.postValue(t)
