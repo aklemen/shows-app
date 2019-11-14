@@ -19,19 +19,20 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: EpisodesViewHolder, position: Int) {
-        holder.bind(data[position], position)
+        holder.bind(data[position])
     }
 
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(episode: Episode, position: Int) {
-            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber.season, episode.episodeNumber.episode)
-            itemView.episodeTextTitle.text = "${episode.title}"
+        fun bind(episode: Episode) {
+//            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber, episode.season)
+            itemView.episodeTextEpisodeNumber.text = "S${episode.episodeNumber} E${episode.season}"
+            itemView.episodeTextTitle.text = episode.title
         }
 
     }
 
-    fun formatEpisode(season: Int, episode: Int) : String{
+    fun formatEpisode(season: String, episode: String) : String{
         val df = DecimalFormat("00")
         val seasonFormatted = df.format(season)
         val episodeFormatted = df.format(episode)

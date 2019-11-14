@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_add_episode.*
-import java.text.DecimalFormat
 
 
 class AddEpisodeFragment : Fragment() {
@@ -23,8 +22,6 @@ class AddEpisodeFragment : Fragment() {
 
     private lateinit var showsViewModel: ShowsViewModel
     private var addEpisodeFragmentInterface: AddEpisodeFragmentInterface? = null
-
-    private var episodesAdapter: EpisodesAdapter? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -38,7 +35,11 @@ class AddEpisodeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_add_episode, container, false)
     }
 
@@ -47,7 +48,6 @@ class AddEpisodeFragment : Fragment() {
 
         showsViewModel.showLiveData.observe(this, Observer {
             initListeners(it)
-            initVariables(it)
         })
 
         showsViewModel.imageLiveData.observe(this, Observer {
@@ -61,30 +61,42 @@ class AddEpisodeFragment : Fragment() {
             }
         })
 
-        showsViewModel.episodeNumberLiveData.value = EpisodeNumber(0,1)
+        showsViewModel.episodeNumberLiveData.value = EpisodeNumber(0, 1)
 
         showsViewModel.episodeNumberLiveData.observe(this, Observer {
             if (it != null) {
-                addTextEpisodeNumber.text = addEpisodeFragmentInterface?.formatEpisodeWithComma(it.season, it.episode)
+                addTextEpisodeNumber.text =
+                    addEpisodeFragmentInterface?.formatEpisodeWithComma(it.season, it.episode)
             }
         })
     }
 
-    private fun initVariables(currentShow: Show) {
-        episodesAdapter = EpisodesAdapter(currentShow.listOfEpisodes)
-    }
-
     private fun initListeners(currentShow: Show) {
         addToolbar.setNavigationOnClickListener {
-            addEpisodeFragmentInterface?.onBackNavigation(addEditTitle.text.toString(), addEditDescription.text.toString())
+            addEpisodeFragmentInterface?.onBackNavigation(
+                addEditTitle.text.toString(),
+                addEditDescription.text.toString()
+            )
         }
 
         addButtonSave.setOnClickListener {
-            addEpisodeFragmentInterface?.onSaveEpisodeClick(currentShow, addEditTitle.text.toString(), addEditDescription.text.toString())
+            addEpisodeFragmentInterface?.onSaveEpisodeClick(
+                currentShow.id, addEditTitle.text.toString(), addEditDescription.text.toString()
+            )
         }
 
-        addEditTitle.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditDescription) }
-        addEditDescription.doOnTextChanged { text, _, _, _ -> setSaveButtonState(text.toString(), addEditTitle) }
+        addEditTitle.doOnTextChanged { text, _, _, _ ->
+            setSaveButtonState(
+                text.toString(),
+                addEditDescription
+            )
+        }
+        addEditDescription.doOnTextChanged { text, _, _, _ ->
+            setSaveButtonState(
+                text.toString(),
+                addEditTitle
+            )
+        }
 
         addImageCamera.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
         addTextUploadImage.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
@@ -102,9 +114,9 @@ class AddEpisodeFragment : Fragment() {
 
 
 interface AddEpisodeFragmentInterface {
-    fun onSaveEpisodeClick(show: Show, title: String, description: String)
+    fun onSaveEpisodeClick(showId: String, title: String, description: String)
     fun onUploadPhotoClick()
     fun onChooseEpisodeNumber()
     fun onBackNavigation(title: String, description: String)
-    fun formatEpisodeWithComma(season: Int, episode: Int) : String
+    fun formatEpisodeWithComma(season: Int, episode: Int): String
 }

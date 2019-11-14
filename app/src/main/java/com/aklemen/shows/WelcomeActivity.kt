@@ -2,9 +2,9 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 
@@ -22,7 +22,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     }
 
-    var handler: Handler? = null
+    private var handler: Handler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +32,12 @@ class WelcomeActivity : AppCompatActivity() {
         startNextActivityWithDelay(2000)
     }
 
-    private fun initViewsAndVariables(){
+    private fun initViewsAndVariables() {
         val username: String = intent.getStringExtra(EXTRA_USER_NAME)
         welcomeTextWelcome.text = "Welcome $username"
     }
 
-    private fun startNextActivityWithDelay(delay: Long){
+    private fun startNextActivityWithDelay(delay: Long) {
         handler = Handler()
         handler?.postDelayed({
             startActivity(ShowsMasterActivity.newStartIntent(this))

@@ -19,7 +19,7 @@ class NumberPickerDialog : DialogFragment() {
     }
 
 
-    lateinit var showsViewModel : ShowsViewModel
+    private lateinit var showsViewModel: ShowsViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -27,7 +27,11 @@ class NumberPickerDialog : DialogFragment() {
         showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.dialog_number_picker, container, false)
     }
 
@@ -54,7 +58,8 @@ class NumberPickerDialog : DialogFragment() {
 
     private fun initListeners() {
         dialogPickerSave.setOnClickListener {
-            showsViewModel.episodeNumberLiveData.value = EpisodeNumber(dialogPickerSeason.value, dialogPickerEpisode.value)
+            showsViewModel.episodeNumberLiveData.value =
+                EpisodeNumber(dialogPickerSeason.value, dialogPickerEpisode.value)
             dialog?.dismiss()
         }
     }

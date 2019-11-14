@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -17,17 +18,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_shows_master.*
-import kotlinx.android.synthetic.main.dialog_number_picker.*
+import retrofit2.HttpException
 import java.io.File
 import java.io.IOException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface, AddEpisodeFragmentInterface {
+class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface,
+    AddEpisodeFragmentInterface {
 
     companion object {
 
@@ -36,96 +37,14 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         const val ACTIVITY_REQUEST_TAKE_PHOTO = 333
         const val ACTIVITY_REQUEST_CHOOSE_PHOTO = 555
 
-        fun newStartIntent(context: Context): Intent = Intent(context, ShowsMasterActivity::class.java)
+        fun newStartIntent(context: Context): Intent =
+            Intent(context, ShowsMasterActivity::class.java)
 
-        var listOfShows = mutableListOf(
-            Show(
-                "0",
-                "The Big Bang Theory",
-                "2007-2019", """A woman who moves into an apartment across the hall from two brilliant but socially awkward physicists shows
-                    | them how little they know about life outside of the laboratory.""".trimMargin(),
-                mutableListOf(),
-                R.drawable.bigbang
-            ),
-            Show(
-                "1",
-                "The Office",
-                "2005-2013",
-                """A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium.""",
-                mutableListOf(),
-                R.drawable.office
-            ),
-            Show(
-                "2",
-                "House M.D.",
-                "2004-2012",
-                """An antisocial maverick doctor who specializes in diagnostic medicine does whatever it takes to solve puzzling cases
-                    | that come his way using his crack team of doctors and his wits.""".trimMargin(),
-                mutableListOf(),
-                R.drawable.house
-            ),
-            Show(
-                "3",
-                "Jane the Virgin",
-                "2014 - ",
-                """A young, devout Catholic woman discovers that she was accidentally artificially inseminated.""",
-                mutableListOf(),
-                R.drawable.jane
-            ),
-            Show(
-                "4",
-                "Sherlock",
-                "2010 - ",
-                """A modern update finds the famous sleuth and his doctor partner solving crime in 21st century London.""",
-                mutableListOf(),
-                R.drawable.sherlock
-            ),
-            Show(
-                "5",
-                "The Big Bang Theory",
-                "2007-2019", """A woman who moves into an apartment across the hall from two brilliant but socially awkward physicists shows
-                    | them how little they know about life outside of the laboratory.""".trimMargin(),
-                mutableListOf(),
-                R.drawable.bigbang
-            ),
-            Show(
-                "6",
-                "The Office",
-                "2005-2013",
-                """A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium.""",
-                mutableListOf(),
-                R.drawable.office
-            ),
-            Show(
-                "7",
-                "House M.D.",
-                "2004-2012",
-                """An antisocial maverick doctor who specializes in diagnostic medicine does whatever it takes to solve puzzling cases
-                    | that come his way using his crack team of doctors and his wits.""".trimMargin(),
-                mutableListOf(),
-                R.drawable.house
-            ),
-            Show(
-                "8",
-                "Jane the Virgin",
-                "2014 - ",
-                """A young, devout Catholic woman discovers that she was accidentally artificially inseminated.""",
-                mutableListOf(),
-                R.drawable.jane
-            ),
-            Show(
-                "9",
-                "Sherlock",
-                "2010 - ",
-                """A modern update finds the famous sleuth and his doctor partner solving crime in 21st century London.""",
-                mutableListOf(),
-                R.drawable.sherlock
-            )
-        )
     }
 
     private lateinit var showsViewModel: ShowsViewModel
-    private var dialog : NumberPickerDialog? = null
+    private var dialog: NumberPickerDialog? = null
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var currentPhotoPath: String? = ""
 
@@ -134,9 +53,26 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         setContentView(R.layout.activity_shows_master)
 
         showsViewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
         if (savedInstanceState == null) {
             addShowsListFragment()
         }
+
+        showsViewModel.errorLiveData.observe(this, androidx.lifecycle.Observer { error ->
+            when (error) {
+                is HttpException -> Toast.makeText(
+                    this,
+                    "Something didn't go as planned. :( Try again later.",
+                    Toast.LENGTH_LONG
+                ).show()
+                is Throwable -> Toast.makeText(
+                    this,
+                    "Something didn't go as planned. :( Try again later.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 
     private fun addShowsListFragment() {
@@ -145,11 +81,16 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .commit()
     }
 
-    override fun onShowClicked() {
+    override fun onShowClicked(showId: String) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment())
             .addToBackStack("ShowDetailFragment")
             .commit()
+
+        showsViewModel.getShow(
+            showId
+        )
+        showsViewModel.getEpisodesList(showId)
     }
 
     override fun logout() {
@@ -157,7 +98,6 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .setTitle("Log out")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
-                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
                 val editor = sharedPreferences.edit()
                 editor.clear().apply()
                 startActivity(LoginActivity.newStartIntent(this))
@@ -175,21 +115,24 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .commit()
     }
 
-    override fun onSaveEpisodeClick(show: Show, title: String, description: String) {
+    override fun onSaveEpisodeClick(showId: String, title: String, description: String) {
+
         if (title.isNotEmpty() && description.isNotEmpty() && showsViewModel.episodeNumberLiveData.value != null) {
-            if (show.listOfEpisodes.add(
-                    Episode(
-                        title,
-                        description,
-                        showsViewModel.episodeNumberLiveData.value ?: EpisodeNumber(0,1)
-                    )
+            val episodeNumbers = showsViewModel.episodeNumberLiveData.value
+
+            showsViewModel.addNewEpisode(
+                Episode(
+                    title = title,
+                    description = description,
+                    episodeNumber = episodeNumbers?.season.toString(),
+                    season = episodeNumbers?.episode.toString(),
+                    showId = showId
                 )
-            ) {
-                Toast.makeText(this, "Episode successfully added.", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Adding the episode failed!", Toast.LENGTH_SHORT).show()
-            }
+            )
+
         }
+        // Refresh list
+        showsViewModel.getEpisodesList(showId)
         showsViewModel.episodeNumberLiveData.value = null
         supportFragmentManager.popBackStack()
     }
@@ -224,7 +167,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         hideKeyboard(showsFragmentContainer)
     }
 
-    override fun formatEpisodeWithComma(season: Int, episode: Int) : String{
+    override fun formatEpisodeWithComma(season: Int, episode: Int): String {
         val df = DecimalFormat("00")
         val seasonFormatted = df.format(season)
         val episodeFormatted = df.format(episode)
@@ -244,12 +187,20 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     private fun openGallery() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
             startActivityForResult(intent, ACTIVITY_REQUEST_CHOOSE_PHOTO)
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
                 android.app.AlertDialog.Builder(this)
                     .setMessage("We just need your permission so you can choose a photo.")
                     .setPositiveButton("Ok") { _, _ ->
@@ -272,8 +223,14 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
     }
 
     private fun openCamera() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 takePictureIntent.resolveActivity(packageManager)?.also {
@@ -294,13 +251,20 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
                 }
             }
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.CAMERA
+                )
+            ) {
                 AlertDialog.Builder(this)
                     .setMessage("We just need your permission so you can take a photo.")
                     .setPositiveButton("Ok") { _, _ ->
                         ActivityCompat.requestPermissions(
                             this,
-                            arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            arrayOf(
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ),
                             PERMISSION_REQUEST_CAMERA
                         )
                     }
@@ -330,20 +294,26 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             PERMISSION_REQUEST_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
                 } else {
-                    Toast.makeText(this, "Camera permissions not granted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Camera permissions not granted", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             PERMISSION_REQUEST_READ_EXT_STORAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openGallery()
                 } else {
-                    Toast.makeText(this, "Storage permission not granted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Storage permission not granted", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             else -> {

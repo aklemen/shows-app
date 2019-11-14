@@ -17,7 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/add_episode" />
+        app:title="@string/add_episode"
+        android:theme="@style/AppTheme.Toolbar"/>
 
     <ScrollView
         android:id="@+id/addScrollView"

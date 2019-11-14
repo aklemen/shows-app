@@ -2,10 +2,12 @@ package com.aklemen.shows
 
 import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_shows.*
@@ -33,23 +35,31 @@ class ShowsListFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_shows, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewsAndVariables()
+        showsViewModel.showListLiveData.observe(this, Observer {
+            initRecyclerView(it)
+        })
+
+        showsViewModel.getShowsList()
+
         initListeners()
     }
 
 
-    private fun initViewsAndVariables() {
+    private fun initRecyclerView(shows: List<Show>) {
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
-        showsRecyclerview.adapter = ShowsAdapter(ShowsMasterActivity.listOfShows) {
-            showsViewModel.showLiveData.value = it
-            showsListInterface?.onShowClicked()
+        showsRecyclerview.adapter = ShowsAdapter(shows.toMutableList()) {
+            showsListInterface?.onShowClicked(it.id)
         }
     }
 
@@ -61,6 +71,6 @@ class ShowsListFragment : Fragment() {
 }
 
 interface ShowsListInterface {
-    fun onShowClicked()
+    fun onShowClicked(showId: String)
     fun logout()
 }
