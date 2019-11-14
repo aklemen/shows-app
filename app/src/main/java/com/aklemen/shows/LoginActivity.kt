@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.aklemen.shows.models.Credentials
+import com.aklemen.shows.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.HttpException
 
@@ -100,7 +102,10 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
 
         loginButtonLogin.setOnClickListener {
             val credentials =
-                Credentials(loginEditUsername.text.toString(), loginEditPassword.text.toString())
+                Credentials(
+                    loginEditUsername.text.toString(),
+                    loginEditPassword.text.toString()
+                )
             login(credentials)
         }
 

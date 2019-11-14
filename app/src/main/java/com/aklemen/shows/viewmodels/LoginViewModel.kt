@@ -1,8 +1,12 @@
-package com.aklemen.shows
+package com.aklemen.shows.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.aklemen.shows.models.Credentials
+import com.aklemen.shows.models.DataToken
+import com.aklemen.shows.models.DataUser
+import com.aklemen.shows.Singleton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException

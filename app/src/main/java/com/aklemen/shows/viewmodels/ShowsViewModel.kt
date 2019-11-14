@@ -1,15 +1,16 @@
-package com.aklemen.shows
+package com.aklemen.shows.viewmodels
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.aklemen.shows.*
+import com.aklemen.shows.models.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
-import retrofit2.http.*
 
 
 class ShowsViewModel : ViewModel() {

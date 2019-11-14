@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aklemen.shows.adapters.EpisodesAdapter
+import com.aklemen.shows.models.Episode
+import com.aklemen.shows.models.Show
+import com.aklemen.shows.viewmodels.ShowsViewModel
 import kotlinx.android.synthetic.main.fragment_show_detail.*
 
 

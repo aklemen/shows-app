@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
+import com.aklemen.shows.models.Episode
+import com.aklemen.shows.viewmodels.ShowsViewModel
 import kotlinx.android.synthetic.main.activity_shows_master.*
 import retrofit2.HttpException
 import java.io.File

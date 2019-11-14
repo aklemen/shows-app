@@ -1,9 +1,12 @@
-package com.aklemen.shows
+package com.aklemen.shows.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aklemen.shows.R
+import com.aklemen.shows.models.Show
+import com.aklemen.shows.Singleton
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.view_show_item.view.*
 

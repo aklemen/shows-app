@@ -10,6 +10,9 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.aklemen.shows.models.EpisodeNumber
+import com.aklemen.shows.models.Show
+import com.aklemen.shows.viewmodels.ShowsViewModel
 import kotlinx.android.synthetic.main.fragment_add_episode.*
 
 

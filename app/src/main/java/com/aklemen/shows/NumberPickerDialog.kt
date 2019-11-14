@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
+import com.aklemen.shows.models.EpisodeNumber
+import com.aklemen.shows.viewmodels.ShowsViewModel
 import kotlinx.android.synthetic.main.dialog_number_picker.*
 
 
@@ -59,7 +61,10 @@ class NumberPickerDialog : DialogFragment() {
     private fun initListeners() {
         dialogPickerSave.setOnClickListener {
             showsViewModel.episodeNumberLiveData.value =
-                EpisodeNumber(dialogPickerSeason.value, dialogPickerEpisode.value)
+                EpisodeNumber(
+                    dialogPickerSeason.value,
+                    dialogPickerEpisode.value
+                )
             dialog?.dismiss()
         }
     }
