@@ -17,10 +17,7 @@ object RestClient {
     const val BASE_API_URL = "https://api.infinum.academy/api/"
     const val BASE_URL = "https://api.infinum.academy"
 
-    val sharedPreferences = ShowsApplication.sharedPreferences
-
-
-    val okHttp = OkHttpClient.Builder()
+    private val okHttp = OkHttpClient.Builder()
         .addInterceptor(
             HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
                 override fun log(message: String) {
@@ -36,7 +33,7 @@ object RestClient {
             override fun intercept(chain: Interceptor.Chain): Response {
                 val ongoing = chain.request().newBuilder()
                 ongoing.addHeader("Accept", "application/json;versions=1")
-                val token = sharedPreferences.getString(LoginActivity.PREF_TOKEN, "") ?: ""
+                val token = ShowsApplication.getToken()
                 if (token != ""){
                     ongoing.addHeader("Authorization", token)
                 }
@@ -47,15 +44,15 @@ object RestClient {
         .build()
 
 
-    val moshi = Moshi.Builder()
+    val moshi: Moshi = Moshi.Builder()
         .build()
 
-    val retrofit = Retrofit.Builder()
+    private val retrofit : Retrofit = Retrofit.Builder()
         .baseUrl(BASE_API_URL)
         .client(okHttp)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    val service = retrofit.create(InfinumApiService::class.java)
+    val service: InfinumApiService = retrofit.create(InfinumApiService::class.java)
 
 }

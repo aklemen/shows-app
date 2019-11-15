@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -29,6 +30,7 @@ import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
 import com.aklemen.shows.ui.shows.list.ShowsListFragment
 import com.aklemen.shows.ui.shows.list.ShowsListInterface
 import com.aklemen.shows.ui.login.LoginActivity
+import com.aklemen.shows.util.ShowsApplication
 import kotlinx.android.synthetic.main.activity_shows_master.*
 import retrofit2.HttpException
 import java.io.File
@@ -113,8 +115,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface,
             .setTitle("Log out")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
-                val editor = sharedPreferences.edit()
-                editor.clear().apply()
+                ShowsApplication.clearPrefs()
                 startActivity(LoginActivity.newStartIntent(this))
                 finish()
             }

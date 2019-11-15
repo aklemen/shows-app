@@ -35,7 +35,8 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun initViewsAndVariables() {
-        val username: String = intent.getStringExtra(EXTRA_USER_NAME)
+        var username: String = intent.getStringExtra(EXTRA_USER_NAME)
+        username = username.substring(0,1).toUpperCase() + username.substring(1, username.indexOf("@"))
         welcomeTextWelcome.text = "Welcome $username"
     }
 

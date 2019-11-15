@@ -7,15 +7,13 @@ import com.aklemen.shows.data.model.Credentials
 import com.aklemen.shows.data.model.DataToken
 import com.aklemen.shows.data.model.DataUser
 import com.aklemen.shows.data.api.RestClient
+import com.aklemen.shows.util.ShowsApplication
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-class LoginViewModel : ViewModel(){
-
-    private val _credentialsLiveData = MutableLiveData<Credentials>()
-    val credentialsLiveData: LiveData<Credentials> = _credentialsLiveData
+class LoginViewModel : ViewModel() {
 
     private val _tokenLiveData = MutableLiveData<String>()
     val tokenLiveData: LiveData<String> = _tokenLiveData
@@ -30,12 +28,13 @@ class LoginViewModel : ViewModel(){
                 override fun onFailure(call: Call<DataUser>, t: Throwable) {
                     _errorLiveData.postValue(t)
                 }
-
                 override fun onResponse(call: Call<DataUser>, response: Response<DataUser>) {
                     if (response.isSuccessful) {
                         val body = response.body()
                         if (body != null) {
-                            _credentialsLiveData.postValue(credentials)
+
+                            loginUser(credentials, false)
+
                         } else {
                             _errorLiveData.postValue(IllegalStateException(""))
                         }
@@ -47,18 +46,21 @@ class LoginViewModel : ViewModel(){
             })
     }
 
-    fun loginUser(credentials: Credentials) {
+    fun loginUser(credentials : Credentials, rememberMe : Boolean) {
         RestClient.service.login(credentials)
             .enqueue(object : Callback<DataToken> {
                 override fun onFailure(call: Call<DataToken>, t: Throwable) {
                     _errorLiveData.postValue(t)
                 }
-
                 override fun onResponse(call: Call<DataToken>, response: Response<DataToken>) {
                     if (response.isSuccessful) {
                         val body = response.body()
                         if (body != null) {
+
+                            ShowsApplication.setRememberMe(rememberMe)
+                            ShowsApplication.setToken(body.data.token)
                             _tokenLiveData.postValue(body.data.token)
+
                         } else {
                             _errorLiveData.postValue(IllegalStateException(""))
                         }
