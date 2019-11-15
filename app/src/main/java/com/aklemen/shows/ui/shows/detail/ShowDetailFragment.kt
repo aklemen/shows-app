@@ -28,6 +28,13 @@ class ShowDetailFragment : Fragment() {
 
     //TODO Episodes from the last chosen Show are visible before the new livedata value is posted
 
+    //TODO separate the view model so each time we show a fragment it tries to fetch the data and
+    // it handles error and all other scenarios it self. No shared data necessary for displaying details.
+
+    //TODO If you lose internet connection or if API call takes a bit longer to load you will get the
+    // wrong data on ShowDetails screen. You will have the latest show loaded there. This is cause
+    // livedata is used in a bit wrong way and it shares the data as a setup of the screen.
+
     private lateinit var showsViewModel: ShowsViewModel
     private var showDetailFragmentInterface: ShowDetailFragmentInterface? = null
 

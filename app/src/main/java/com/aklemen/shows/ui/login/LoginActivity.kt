@@ -18,6 +18,7 @@ import com.aklemen.shows.util.setInputTypeToPassword
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.HttpException
 
+//TODO token storage
 
 class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
 

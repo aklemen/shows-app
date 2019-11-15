@@ -37,9 +37,13 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface,
     ShowDetailFragmentInterface,
     AddEpisodeFragmentInterface {
+
+    //TODO Separate the logic between fragments, activities and viewmodels
+    // (so that your activity only takes care of communication and passing the responsibility to the fragments)
 
     companion object {
 
