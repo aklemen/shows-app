@@ -15,7 +15,7 @@
         android:text="@string/shows"
         android:textSize="28sp"
         android:fontFamily="@font/karla_bold"
-        android:textColor="@color/colorBlackish"
+        android:textColor="@color/textRegular"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/showsImageLogout"

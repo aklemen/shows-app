@@ -60,7 +60,7 @@
                 android:paddingVertical="16dp"
                 android:text="@string/upload_photo"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/addGuideUpper"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
                 android:paddingVertical="16dp"
                 android:text="@string/change_photo"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/addGuideUpper"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +139,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/season_and_episode"
                 android:textSize="17sp"
-                android:textColor="@color/grey"/>
+                android:textColor="@color/colorLight"/>
 
             <TextView
                 android:id="@+id/addTextEpisodeNumber"
@@ -150,7 +150,7 @@
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="5dp"
                 android:text="S 00, E 01"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:textSize="14sp"/>
 
             <com.google.android.material.textfield.TextInputLayout

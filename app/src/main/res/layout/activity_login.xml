@@ -64,7 +64,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loginLayoutUsername"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/colorAccent">
+                app:passwordToggleTint="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loginEditPassword"
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/or"
-                android:textColor="@color/colorBlackish2"
+                android:textColor="@color/textLight"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@id/loginTextCreate"
                 app:layout_constraintEnd_toEndOf="parent"
