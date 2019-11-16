@@ -31,23 +31,35 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textLight"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/showTextYear"
+            app:layout_constraintBottom_toTopOf="@+id/showTextLikes"
             app:layout_constraintStart_toEndOf="@id/showImage"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
             tools:text="Sherlock" />
 
-        <TextView
-            android:id="@+id/showTextYear"
+        <ImageView
+            android:id="@+id/showImageThumbUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textLight"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/showImage"
             app:layout_constraintTop_toBottomOf="@+id/showTextTitle"
             android:layout_marginStart="16dp"
-            tools:text="2009 - 2015" />
+            android:src="@drawable/ic_thumbs_up" />
+
+
+        <TextView
+            android:id="@+id/showTextLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLight"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/showImageThumbUp"
+            app:layout_constraintTop_toBottomOf="@+id/showTextTitle"
+            android:layout_marginStart="5dp"
+            tools:text="128"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

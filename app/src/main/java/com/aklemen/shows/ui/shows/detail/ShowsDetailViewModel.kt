@@ -1,4 +1,4 @@
-package com.aklemen.shows.ui.shows.shared
+package com.aklemen.shows.ui.shows.detail
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -13,11 +13,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 
-class ShowsViewModel : ViewModel() {
-
-    val imageLiveData = MutableLiveData<Uri>()
-    val episodeNumberLiveData = MutableLiveData<EpisodeNumber>()
-
+class ShowsDetailViewModel : ViewModel() {
 
     private val _errorLiveData = MutableLiveData<Throwable>()
     val errorLiveData: LiveData<Throwable> = _errorLiveData

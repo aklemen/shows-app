@@ -37,7 +37,6 @@ class ShowsAdapter(private val data: MutableList<Show>, val action: (Show) -> Un
             with(itemView) {
                 Picasso.get().load(RestClient.BASE_URL + show.imageUrl).into(showImage)
                 showTextTitle.text = show.title
-//                showTextYear.text = show.year
                 setOnClickListener {
                     action(show)
                 }

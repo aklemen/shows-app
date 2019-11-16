@@ -47,6 +47,8 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface,
     //TODO Separate the logic between fragments, activities and viewmodels
     // (so that your activity only takes care of communication and passing the responsibility to the fragments)
 
+    //TODO Add error handling everywhere - errorLiveData
+
     companion object {
 
         const val PERMISSION_REQUEST_CAMERA = 222
