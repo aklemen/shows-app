@@ -19,8 +19,6 @@ import kotlinx.android.synthetic.main.fragment_add_episode.*
 
 class AddEpisodeFragment : Fragment() {
 
-    //TODO There is a problem with orientation change so the season and episode number is not saved
-
     companion object {
 
         fun newStartFragment(): AddEpisodeFragment =
@@ -67,9 +65,6 @@ class AddEpisodeFragment : Fragment() {
                 addGroupEpisodeImage.visibility = View.GONE
             }
         })
-
-        showsViewModel.episodeNumberLiveData.value =
-            EpisodeNumber(0, 1)
 
         showsViewModel.episodeNumberLiveData.observe(this, Observer {
             if (it != null) {
