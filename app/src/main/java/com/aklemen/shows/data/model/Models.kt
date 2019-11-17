@@ -3,6 +3,8 @@ package com.aklemen.shows.data.model
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+//TODO one generic class for "data" property
+
 @JsonClass(generateAdapter = true)
 data class User(
     @Json(name = "_id") val id: String,
