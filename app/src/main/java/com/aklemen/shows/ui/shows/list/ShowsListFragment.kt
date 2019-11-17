@@ -27,7 +27,7 @@ class ShowsListFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        showsListViewModel = ViewModelProviders.of(requireActivity()).get(ShowsListViewModel::class.java)
+        showsListViewModel = ViewModelProviders.of(this).get(ShowsListViewModel::class.java)
 
         if (context is ShowsListInterface) {
             showsListInterface = context
@@ -54,7 +54,7 @@ class ShowsListFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
         showsListViewModel.getShowsList()
     }

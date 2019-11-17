@@ -22,7 +22,7 @@ class ShowDetailFragment : Fragment() {
 
         private const val EXTRA_SHOW_ID = "ShowDetailFragment.showId"
 
-        fun newStartFragment(showId: String): ShowDetailFragment{
+        fun newStartFragment(showId: String): ShowDetailFragment {
             val args = Bundle()
             args.putString(EXTRA_SHOW_ID, showId)
             val fragment = ShowDetailFragment()
@@ -36,7 +36,6 @@ class ShowDetailFragment : Fragment() {
     private var showDetailFragmentInterface: ShowDetailFragmentInterface? = null
 
     private var show: Show? = null
-
     private var showId: String? = null
 
     override fun onAttach(context: Context) {
@@ -68,11 +67,11 @@ class ShowDetailFragment : Fragment() {
 
     private fun initListeners() {
         detailToolbar.setNavigationOnClickListener { fragmentManager?.popBackStack() }
-        detailFab.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
-        detailTextAddEpisodes.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
+        detailFab.setOnClickListener { showId?.let { showDetailFragmentInterface?.onAddEpisodeClick(it) } }
+        detailTextAddEpisodes.setOnClickListener { showId?.let { showDetailFragmentInterface?.onAddEpisodeClick(it) } }
     }
 
-    private fun initObservers(){
+    private fun initObservers() {
         showsDetailViewModel.showLiveData.observe(this, Observer {
             show = it
             initViews()
@@ -84,13 +83,13 @@ class ShowDetailFragment : Fragment() {
         })
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         detailRecyclerview.layoutManager = LinearLayoutManager(activity)
         detailGroup.visibility = View.GONE
         detailRecyclerview.visibility = View.GONE
     }
 
-    private fun getShowData(){
+    private fun getShowData() {
         showId?.let { showsDetailViewModel.getShow(it) }
         showId?.let { showsDetailViewModel.getEpisodesList(it) }
     }
@@ -116,5 +115,5 @@ class ShowDetailFragment : Fragment() {
 }
 
 interface ShowDetailFragmentInterface {
-    fun onAddEpisodeClick()
+    fun onAddEpisodeClick(showId: String)
 }

@@ -1,11 +1,10 @@
 package com.aklemen.shows.ui.shows.add
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.model.*
+import com.aklemen.shows.data.model.Episode
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,9 +13,6 @@ import retrofit2.Response
 
 
 class AddEpisodeViewModel : ViewModel() {
-
-    val imageLiveData = MutableLiveData<Uri>()
-    val episodeNumberLiveData = MutableLiveData<EpisodeNumber>()
 
     private val _errorLiveData = MutableLiveData<Throwable>()
     val errorLiveData: LiveData<Throwable> = _errorLiveData

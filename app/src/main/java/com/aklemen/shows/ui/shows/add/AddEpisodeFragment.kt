@@ -11,70 +11,61 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
-import com.aklemen.shows.data.model.EpisodeNumber
-import com.aklemen.shows.data.model.Show
-import com.aklemen.shows.ui.shows.shared.ShowsViewModel
+import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.ui.shows.shared.ShowsSharedViewModel
 import kotlinx.android.synthetic.main.fragment_add_episode.*
+import java.text.DecimalFormat
 
 
 class AddEpisodeFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): AddEpisodeFragment =
-            AddEpisodeFragment()
+        private const val EXTRA_SHOW_ID = "AddEpisodeFragment.showId"
+
+        fun newStartFragment(showId: String): AddEpisodeFragment {
+            val args = Bundle()
+            args.putString(EXTRA_SHOW_ID, showId)
+            val fragment = AddEpisodeFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
-    private lateinit var showsViewModel: ShowsViewModel
+    private lateinit var showsSharedViewModel: ShowsSharedViewModel
+    private lateinit var addEpisodeViewModel: AddEpisodeViewModel
     private var addEpisodeFragmentInterface: AddEpisodeFragmentInterface? = null
+
+    private var showId: String? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
+
+        showsSharedViewModel = ViewModelProviders.of(requireActivity()).get(ShowsSharedViewModel::class.java)
+        addEpisodeViewModel = ViewModelProviders.of(requireActivity()).get(AddEpisodeViewModel::class.java)
 
         if (context is AddEpisodeFragmentInterface) {
             addEpisodeFragmentInterface = context
         } else {
             throw RuntimeException("Please implement ShowDetailFragmentInterface")
         }
+
+        showId = arguments?.getString(EXTRA_SHOW_ID, "") ?: ""
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_episode, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showsViewModel.showLiveData.observe(this, Observer {
-            initListeners(it)
-        })
-
-        showsViewModel.imageLiveData.observe(this, Observer {
-            if (it != null) {
-                addGroupEpisodePlaceholder.visibility = View.GONE
-                addGroupEpisodeImage.visibility = View.VISIBLE
-                addImageEpisode.setImageURI(it)
-            } else {
-                addGroupEpisodePlaceholder.visibility = View.VISIBLE
-                addGroupEpisodeImage.visibility = View.GONE
-            }
-        })
-
-        showsViewModel.episodeNumberLiveData.observe(this, Observer {
-            if (it != null) {
-                addTextEpisodeNumber.text =
-                    addEpisodeFragmentInterface?.formatEpisodeWithComma(it.season, it.episode)
-            }
-        })
+        initListeners()
+        initObservers()
     }
 
-    private fun initListeners(currentShow: Show) {
+    private fun initListeners() {
         addToolbar.setNavigationOnClickListener {
             addEpisodeFragmentInterface?.onBackNavigation(
                 addEditTitle.text.toString(),
@@ -82,44 +73,80 @@ class AddEpisodeFragment : Fragment() {
             )
         }
 
-        addButtonSave.setOnClickListener {
-            addEpisodeFragmentInterface?.onSaveEpisodeClick(
-                currentShow.id, addEditTitle.text.toString(), addEditDescription.text.toString()
-            )
-        }
+        addButtonSave.setOnClickListener { saveEpisode() }
 
-        addEditTitle.doOnTextChanged { text, _, _, _ ->
-            setSaveButtonState(
-                text.toString(),
-                addEditDescription
-            )
-        }
-        addEditDescription.doOnTextChanged { text, _, _, _ ->
-            setSaveButtonState(
-                text.toString(),
-                addEditTitle
-            )
-        }
+        addEditTitle.doOnTextChanged { _, _, _, _ -> setSaveButtonState() }
+        addEditDescription.doOnTextChanged { _, _, _, _ -> setSaveButtonState() }
 
         addImageCamera.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
         addTextUploadImage.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
         addImageEpisode.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
         addTextChangeImage.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
 
-        addTextEpisodeNumber.setOnClickListener { addEpisodeFragmentInterface?.onChooseEpisodeNumber() }
+        addTextEpisodeNumber.setOnClickListener { openNumberPickerDialog() }
 
     }
 
-    private fun setSaveButtonState(text: String, editText: EditText) {
-        addButtonSave.isEnabled = text.isNotEmpty() && editText.text.toString().isNotEmpty()
+    private fun initObservers() {
+        showsSharedViewModel.imageLiveData.observe(this, Observer {
+            if (it != null) {
+                addGroupEpisodePlaceholder.visibility = View.GONE
+                addGroupEpisodeImage.visibility = View.VISIBLE
+                addImageEpisode.setImageURI(it)
+                setSaveButtonState()
+            } else {
+                addGroupEpisodePlaceholder.visibility = View.VISIBLE
+                addGroupEpisodeImage.visibility = View.GONE
+            }
+        })
+
+        showsSharedViewModel.episodeNumberLiveData.observe(this, Observer {
+            if (it != null) {
+                addTextEpisodeNumber.text = formatEpisodeWithComma(it.season, it.episode)
+                setSaveButtonState()
+            }
+        })
+    }
+
+    private fun saveEpisode() {
+        val episodeNumbers = showsSharedViewModel.episodeNumberLiveData.value
+
+        showId?.let {
+            Episode(
+                title = addEditTitle.text.toString(),
+                description = addEditDescription.text.toString(),
+                episodeNumber = episodeNumbers?.season.toString(),
+                season = episodeNumbers?.episode.toString(),
+                showId = it
+            )
+        }?.let {
+            addEpisodeViewModel.addNewEpisode(it)
+        }
+
+        fragmentManager?.popBackStack()
+    }
+
+    private fun openNumberPickerDialog() {
+        fragmentManager?.let { NumberPickerDialog.newStartFragment().show(it, "NumberPickerDialog") }
+    }
+
+    private fun setSaveButtonState() {
+        val imageUri = showsSharedViewModel.imageLiveData.value
+        val episodeNumbers = showsSharedViewModel.episodeNumberLiveData.value
+        addButtonSave.isEnabled =
+            addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty() && imageUri != null && episodeNumbers != null
+    }
+
+    private fun formatEpisodeWithComma(season: Int, episode: Int): String {
+        val df = DecimalFormat("00")
+        val seasonFormatted = df.format(season)
+        val episodeFormatted = df.format(episode)
+        return "S $seasonFormatted, E $episodeFormatted"
     }
 }
 
 
 interface AddEpisodeFragmentInterface {
-    fun onSaveEpisodeClick(showId: String, title: String, description: String)
-    fun onUploadPhotoClick()
-    fun onChooseEpisodeNumber()
     fun onBackNavigation(title: String, description: String)
-    fun formatEpisodeWithComma(season: Int, episode: Int): String
+    fun onUploadPhotoClick()
 }

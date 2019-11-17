@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
 import com.aklemen.shows.data.model.EpisodeNumber
-import com.aklemen.shows.ui.shows.shared.ShowsViewModel
+import com.aklemen.shows.ui.shows.shared.ShowsSharedViewModel
 import kotlinx.android.synthetic.main.dialog_number_picker.*
 
 
@@ -23,19 +23,15 @@ class NumberPickerDialog : DialogFragment() {
     }
 
 
-    private lateinit var showsViewModel: ShowsViewModel
+    private lateinit var showsSharedViewModel: ShowsSharedViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
+        showsSharedViewModel = ViewModelProviders.of(requireActivity()).get(ShowsSharedViewModel::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_number_picker, container, false)
     }
 
@@ -62,11 +58,12 @@ class NumberPickerDialog : DialogFragment() {
 
     private fun initListeners() {
         dialogPickerSave.setOnClickListener {
-            showsViewModel.episodeNumberLiveData.value =
+            showsSharedViewModel.setEpisodeNumber(
                 EpisodeNumber(
                     dialogPickerSeason.value,
                     dialogPickerEpisode.value
                 )
+            )
             dialog?.dismiss()
         }
     }
