@@ -77,21 +77,6 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface,
         if (savedInstanceState == null) {
             addShowsListFragment()
         }
-
-        showsViewModel.errorLiveData.observe(this, androidx.lifecycle.Observer { error ->
-            when (error) {
-                is HttpException -> Toast.makeText(
-                    this,
-                    "Something didn't go as planned. :( Try again later.",
-                    Toast.LENGTH_LONG
-                ).show()
-                is Throwable -> Toast.makeText(
-                    this,
-                    "Something didn't go as planned. :( Try again later.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        })
     }
 
     private fun addShowsListFragment() {
@@ -102,14 +87,9 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface,
 
     override fun onShowClicked(showId: String) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment())
+            .replace(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment(showId))
             .addToBackStack("ShowDetailFragment")
             .commit()
-
-        showsViewModel.getShow(
-            showId
-        )
-        showsViewModel.getEpisodesList(showId)
     }
 
     override fun logout() {
@@ -128,7 +108,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface,
 
     override fun onAddEpisodeClick() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment())
+            .add(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment())
             .addToBackStack("AddEpisodeFragment")
             .commit()
     }

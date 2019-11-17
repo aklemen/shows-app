@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aklemen.shows.R
 import com.aklemen.shows.data.model.Episode
 import com.aklemen.shows.data.model.Show
-import com.aklemen.shows.ui.shows.shared.ShowsViewModel
 import kotlinx.android.synthetic.main.fragment_show_detail.*
 
 
@@ -21,43 +20,40 @@ class ShowDetailFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): ShowDetailFragment =
-            ShowDetailFragment()
+        private const val EXTRA_SHOW_ID = "ShowDetailFragment.showId"
+
+        fun newStartFragment(showId: String): ShowDetailFragment{
+            val args = Bundle()
+            args.putString(EXTRA_SHOW_ID, showId)
+            val fragment = ShowDetailFragment()
+            fragment.arguments = args
+            return fragment
+        }
 
     }
 
-    //TODO Episodes from the last chosen Show are visible before the new livedata value is posted
-
-    //TODO separate the view model so each time we show a fragment it tries to fetch the data and
-    // it handles error and all other scenarios it self. No shared data necessary for displaying details.
-
-    //TODO If you lose internet connection or if API call takes a bit longer to load you will get the
-    // wrong data on ShowDetails screen. You will have the latest show loaded there. This is cause
-    // livedata is used in a bit wrong way and it shares the data as a setup of the screen.
-
-    private lateinit var showsViewModel: ShowsViewModel
+    private lateinit var showsDetailViewModel: ShowsDetailViewModel
     private var showDetailFragmentInterface: ShowDetailFragmentInterface? = null
 
     private var show: Show? = null
-    private var episodesAdapter: EpisodesAdapter? = null
+
+    private var showId: String? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        showsViewModel = ViewModelProviders.of(requireActivity()).get(ShowsViewModel::class.java)
+        showsDetailViewModel = ViewModelProviders.of(this).get(ShowsDetailViewModel::class.java)
 
         if (context is ShowDetailFragmentInterface) {
             showDetailFragmentInterface = context
         } else {
             throw RuntimeException("Please implement ShowDetailFragmentInterface")
         }
+
+        showId = arguments?.getString(EXTRA_SHOW_ID, "") ?: ""
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_detail, container, false)
     }
 
@@ -65,16 +61,38 @@ class ShowDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initListeners()
+        initObservers()
+        initRecyclerView()
+        getShowData()
+    }
 
-        showsViewModel.showLiveData.observe(this, Observer {
+    private fun initListeners() {
+        detailToolbar.setNavigationOnClickListener { fragmentManager?.popBackStack() }
+        detailFab.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
+        detailTextAddEpisodes.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
+    }
+
+    private fun initObservers(){
+        showsDetailViewModel.showLiveData.observe(this, Observer {
             show = it
             initViews()
         })
 
-        showsViewModel.episodeListLiveData.observe(this, Observer {
+        showsDetailViewModel.episodeListLiveData.observe(this, Observer {
+            updateEpisodesList(it)
             refreshEpisodesList(it)
-            initEpisodesList(it)
         })
+    }
+
+    private fun initRecyclerView(){
+        detailRecyclerview.layoutManager = LinearLayoutManager(activity)
+        detailGroup.visibility = View.GONE
+        detailRecyclerview.visibility = View.GONE
+    }
+
+    private fun getShowData(){
+        showId?.let { showsDetailViewModel.getShow(it) }
+        showId?.let { showsDetailViewModel.getEpisodesList(it) }
     }
 
     private fun initViews() {
@@ -82,20 +100,8 @@ class ShowDetailFragment : Fragment() {
         detailTextDescription.text = show?.description
     }
 
-    private fun initEpisodesList(list: List<Episode>) {
-        episodesAdapter = EpisodesAdapter(list.toMutableList())
-        detailRecyclerview.layoutManager = LinearLayoutManager(activity)
-        detailRecyclerview.adapter = episodesAdapter
-    }
-
-    private fun initListeners() {
-        detailToolbar.setNavigationOnClickListener {
-            fragmentManager?.popBackStack()
-        }
-
-        detailFab.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
-
-        detailTextAddEpisodes.setOnClickListener { showDetailFragmentInterface?.onAddEpisodeClick() }
+    private fun updateEpisodesList(list: List<Episode>) {
+        detailRecyclerview.adapter = EpisodesAdapter(list.toMutableList())
     }
 
     private fun refreshEpisodesList(list: List<Episode>) {

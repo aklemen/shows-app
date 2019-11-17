@@ -1,12 +1,11 @@
 package com.aklemen.shows.ui.shows.list
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.model.*
-import okhttp3.ResponseBody
+import com.aklemen.shows.data.model.Show
+import com.aklemen.shows.data.model.ShowList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -27,6 +26,7 @@ class ShowsListViewModel : ViewModel() {
                 override fun onFailure(call: Call<ShowList>, t: Throwable) {
                     _errorLiveData.postValue(t)
                 }
+
                 override fun onResponse(call: Call<ShowList>, response: Response<ShowList>) {
                     if (response.isSuccessful) {
                         val body = response.body()

@@ -44,8 +44,8 @@ class ShowsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initListeners()
-        initRecyclerView()
         initObservers()
+        initRecyclerView()
     }
 
     private fun initListeners() {
@@ -61,11 +61,11 @@ class ShowsListFragment : Fragment() {
 
     private fun initObservers() {
         showsListViewModel.showListLiveData.observe(this, Observer {
-            updateAdapter(it)
+            updateShowList(it)
         })
     }
 
-    private fun updateAdapter(shows: List<Show>) {
+    private fun updateShowList(shows: List<Show>) {
         showsRecyclerview.adapter = ShowsAdapter(shows.toMutableList()) {
             showsListInterface?.onShowClicked(it.id)
         }
