@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -66,12 +66,7 @@ class AddEpisodeFragment : Fragment() {
     }
 
     private fun initListeners() {
-        addToolbar.setNavigationOnClickListener {
-            addEpisodeFragmentInterface?.onBackNavigation(
-                addEditTitle.text.toString(),
-                addEditDescription.text.toString()
-            )
-        }
+        addToolbar.setNavigationOnClickListener { navigateBack() }
 
         addButtonSave.setOnClickListener { saveEpisode() }
 
@@ -124,6 +119,34 @@ class AddEpisodeFragment : Fragment() {
         }
 
         fragmentManager?.popBackStack()
+        showsSharedViewModel.setImageUri(null)
+        showsSharedViewModel.setEpisodeNumber(null)
+        addEpisodeFragmentInterface?.hideKeyboard()
+    }
+
+    private fun navigateBack() {
+        if (addEditTitle.text.toString().isNotEmpty() ||
+            addEditDescription.text.toString().isNotEmpty() ||
+            showsSharedViewModel.imageLiveData.value != null ||
+            showsSharedViewModel.episodeNumberLiveData.value != null
+        ) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Watch out")
+                .setMessage("Your changes will be lost. Are you sure you want to continue?")
+                .setPositiveButton("Yes") { _, _ ->
+                    fragmentManager?.popBackStack()
+                    showsSharedViewModel.setImageUri(null)
+                    showsSharedViewModel.setEpisodeNumber(null)
+                }
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show()
+        } else {
+            fragmentManager?.popBackStack()
+            showsSharedViewModel.setImageUri(null)
+            showsSharedViewModel.setEpisodeNumber(null)
+        }
+        addEpisodeFragmentInterface?.hideKeyboard()
     }
 
     private fun openNumberPickerDialog() {
@@ -147,6 +170,6 @@ class AddEpisodeFragment : Fragment() {
 
 
 interface AddEpisodeFragmentInterface {
-    fun onBackNavigation(title: String, description: String)
+    fun hideKeyboard()
     fun onUploadPhotoClick()
 }

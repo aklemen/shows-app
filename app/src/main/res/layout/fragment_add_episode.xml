@@ -149,9 +149,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="5dp"
-                android:text="S 01, E 00"
+                android:text="@string/episode_number"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:fontFamily="@font/karla_bold"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addLayoutDescription"
@@ -193,6 +194,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addScrollView" />
+        app:layout_constraintTop_toBottomOf="@id/addScrollView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

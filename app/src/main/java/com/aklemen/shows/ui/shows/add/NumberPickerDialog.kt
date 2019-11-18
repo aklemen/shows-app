@@ -50,7 +50,7 @@ class NumberPickerDialog : DialogFragment() {
         }
 
         dialogPickerEpisode.apply {
-            minValue = 0
+            minValue = 1
             maxValue = 99
             wrapSelectorWheel = false
         }

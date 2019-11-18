@@ -4,14 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.preference.PreferenceManager
 import android.provider.MediaStore
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -20,19 +17,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
+import com.aklemen.shows.ui.login.LoginActivity
 import com.aklemen.shows.ui.shows.add.AddEpisodeFragment
 import com.aklemen.shows.ui.shows.add.AddEpisodeFragmentInterface
-import com.aklemen.shows.ui.shows.add.NumberPickerDialog
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragment
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
 import com.aklemen.shows.ui.shows.list.ShowsListFragment
 import com.aklemen.shows.ui.shows.list.ShowsListInterface
-import com.aklemen.shows.ui.login.LoginActivity
 import com.aklemen.shows.util.ShowsApplication
 import kotlinx.android.synthetic.main.activity_shows_master.*
 import java.io.File
 import java.io.IOException
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -100,27 +95,6 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment(showId))
             .addToBackStack("AddEpisodeFragment")
             .commit()
-    }
-
-    override fun onBackNavigation(title: String, description: String) {
-        if (title.isNotEmpty() || description.isNotEmpty() || showsSharedViewModel.imageLiveData.value != null) {
-            AlertDialog.Builder(this)
-                .setTitle("Watch out")
-                .setMessage("Your changes will be lost. Are you sure you want to continue?")
-                .setPositiveButton("Yes") { _, _ ->
-                    supportFragmentManager.popBackStack()
-                    showsSharedViewModel.setImageUri(null)
-                    showsSharedViewModel.setEpisodeNumber(null)
-                }
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show()
-        } else {
-            supportFragmentManager.popBackStack()
-            showsSharedViewModel.setImageUri(null)
-            showsSharedViewModel.setEpisodeNumber(null)
-        }
-        hideKeyboard(showsFragmentContainer)
     }
 
     override fun onUploadPhotoClick() {
@@ -266,10 +240,14 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         showsSharedViewModel.setImageUri(uri)
     }
 
-    private fun hideKeyboard(view: View) {
-        view.apply {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
+    override fun hideKeyboard() {
+        try {
+            showsFragmentContainer.apply {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(showsFragmentContainer.windowToken, 0)
+            }
+        } catch (e: Exception) {
+
         }
     }
 
