@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aklemen.shows.R
-import com.aklemen.shows.data.model.Show
+import com.aklemen.shows.data.api.model.Show
 import com.aklemen.shows.data.api.RestClient
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.view_show_item.view.*

@@ -3,12 +3,13 @@ package com.aklemen.shows.util
 import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import android.util.Log
 import com.aklemen.shows.ui.login.LoginActivity
 
-class ShowsApplication : Application() {
+class ShowsApp : Application() {
 
     companion object {
+
+        lateinit var instance: ShowsApp
 
         lateinit var sharedPreferences: SharedPreferences
 
@@ -25,6 +26,8 @@ class ShowsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        instance = this
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
     }
 }

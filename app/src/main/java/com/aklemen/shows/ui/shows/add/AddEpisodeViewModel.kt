@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.data.api.model.Episode
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

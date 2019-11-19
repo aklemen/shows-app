@@ -3,7 +3,6 @@ package com.aklemen.shows.ui.login
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
-import com.aklemen.shows.data.model.Credentials
-import com.aklemen.shows.ui.shows.shared.ShowsMasterActivity
+import com.aklemen.shows.data.api.model.Credentials
 import com.aklemen.shows.util.setInputTypeToPassword
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_register.*
 
 

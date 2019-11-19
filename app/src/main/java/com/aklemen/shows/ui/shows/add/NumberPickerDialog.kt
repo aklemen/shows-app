@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
-import com.aklemen.shows.data.model.EpisodeNumber
+import com.aklemen.shows.data.api.model.EpisodeNumber
 import com.aklemen.shows.ui.shows.shared.ShowsSharedViewModel
 import kotlinx.android.synthetic.main.dialog_number_picker.*
 

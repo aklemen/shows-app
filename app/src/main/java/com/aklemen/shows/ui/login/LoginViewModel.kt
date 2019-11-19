@@ -3,11 +3,11 @@ package com.aklemen.shows.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.aklemen.shows.data.model.Credentials
-import com.aklemen.shows.data.model.DataToken
-import com.aklemen.shows.data.model.DataUser
+import com.aklemen.shows.data.api.model.Credentials
+import com.aklemen.shows.data.api.model.DataToken
+import com.aklemen.shows.data.api.model.DataUser
 import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.util.ShowsApplication
+import com.aklemen.shows.util.ShowsApp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -57,8 +57,8 @@ class LoginViewModel : ViewModel() {
                         val body = response.body()
                         if (body != null) {
 
-                            ShowsApplication.setRememberMe(rememberMe)
-                            ShowsApplication.setToken(body.data.token)
+                            ShowsApp.setRememberMe(rememberMe)
+                            ShowsApp.setToken(body.data.token)
                             _tokenLiveData.postValue(body.data.token)
 
                         } else {

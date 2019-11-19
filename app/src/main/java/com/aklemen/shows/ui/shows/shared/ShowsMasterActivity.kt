@@ -24,7 +24,7 @@ import com.aklemen.shows.ui.shows.detail.ShowDetailFragment
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
 import com.aklemen.shows.ui.shows.list.ShowsListFragment
 import com.aklemen.shows.ui.shows.list.ShowsListInterface
-import com.aklemen.shows.util.ShowsApplication
+import com.aklemen.shows.util.ShowsApp
 import kotlinx.android.synthetic.main.activity_shows_master.*
 import java.io.File
 import java.io.IOException
@@ -81,7 +81,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .setTitle("Log out")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
-                ShowsApplication.clearPrefs()
+                ShowsApp.clearPrefs()
                 startActivity(LoginActivity.newStartIntent(this))
                 finish()
             }

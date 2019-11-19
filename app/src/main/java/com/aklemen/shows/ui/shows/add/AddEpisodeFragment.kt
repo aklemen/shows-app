@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
-import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.data.api.model.Episode
 import com.aklemen.shows.ui.shows.shared.ShowsSharedViewModel
 import kotlinx.android.synthetic.main.fragment_add_episode.*
 import java.text.DecimalFormat

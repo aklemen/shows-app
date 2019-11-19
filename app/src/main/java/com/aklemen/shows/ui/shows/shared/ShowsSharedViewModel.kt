@@ -4,13 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.model.*
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
+import com.aklemen.shows.data.api.model.*
 
 
 class ShowsSharedViewModel : ViewModel() {

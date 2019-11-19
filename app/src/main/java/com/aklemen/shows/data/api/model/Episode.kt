@@ -1,4 +1,4 @@
-package com.aklemen.shows.data.model
+package com.aklemen.shows.data.api.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

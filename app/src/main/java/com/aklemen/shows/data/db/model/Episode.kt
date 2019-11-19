@@ -1,4 +1,4 @@
-package com.aklemen.shows.data.db
+package com.aklemen.shows.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,7 +7,7 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "episodes",
+    tableName = "episodes_table",
     foreignKeys = [
         ForeignKey(
             entity = Show::class,

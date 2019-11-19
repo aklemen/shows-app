@@ -1,8 +1,7 @@
 package com.aklemen.shows.data.api
 
 import android.util.Log
-import com.aklemen.shows.util.ShowsApplication
-import com.aklemen.shows.ui.login.LoginActivity
+import com.aklemen.shows.util.ShowsApp
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -33,7 +32,7 @@ object RestClient {
             override fun intercept(chain: Interceptor.Chain): Response {
                 val ongoing = chain.request().newBuilder()
                 ongoing.addHeader("Accept", "application/json;versions=1")
-                val token = ShowsApplication.getToken()
+                val token = ShowsApp.getToken()
                 if (token != ""){
                     ongoing.addHeader("Authorization", token)
                 }

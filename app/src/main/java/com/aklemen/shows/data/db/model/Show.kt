@@ -1,10 +1,10 @@
-package com.aklemen.shows.data.db
+package com.aklemen.shows.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "shows")
+@Entity(tableName = "shows_table")
 data class Show(
     // TODO autogenerate id or use existing one?
     @PrimaryKey (autoGenerate = true) val id : Int,
