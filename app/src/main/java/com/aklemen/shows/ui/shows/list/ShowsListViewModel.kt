@@ -4,21 +4,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.api.model.Show
-import com.aklemen.shows.data.api.model.ShowList
+import com.aklemen.shows.data.model.ShowList
+import com.aklemen.shows.data.model.Show
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
 
-class ShowsListViewModel : ViewModel() {
+class ShowsListViewModel : ViewModel(){
 
     private val _showListLiveData = MutableLiveData<List<Show>>()
     val showListLiveData: LiveData<List<Show>> = _showListLiveData
 
     private val _errorLiveData = MutableLiveData<Throwable>()
     val errorLiveData: LiveData<Throwable> = _errorLiveData
+
+//    private var showsList = listOf<Show>()
+//
+//    init {
+//        _showListLiveData.value = showsList
+////        ShowsRepository.getShows().observeForever(this)
+//    }
+//
+//    override fun onChanged(shows: List<Show>?) {
+//        showsList = shows ?: listOf()
+//        _showListLiveData.value = showsList
+//    }
+//
+//    override fun onCleared() {
+////        ShowsRepository.getShows().removeObserver(this)
+//    }
 
     fun getShowsList() {
         RestClient.service.getShows()
@@ -49,4 +65,6 @@ class ShowsListViewModel : ViewModel() {
                 }
             })
     }
+
+
 }

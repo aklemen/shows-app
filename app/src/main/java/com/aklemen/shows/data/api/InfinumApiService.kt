@@ -1,6 +1,6 @@
 package com.aklemen.shows.data.api
 
-import com.aklemen.shows.data.api.model.*
+import com.aklemen.shows.data.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -23,6 +23,6 @@ interface InfinumApiService {
     fun getEpisodes(@Path("showId") showId: String): Call<EpisodeList>
 
     @POST("episodes")
-    fun addEpisode(@Body episode: Episode): Call<ResponseBody>
+    fun addEpisode(@Body episode: EpisodePost): Call<ResponseBody>
 
 }

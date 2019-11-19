@@ -1,7 +1,8 @@
-package com.aklemen.shows.data.api.model
+package com.aklemen.shows.data.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.android.synthetic.main.fragment_add_episode.*
 
 @JsonClass(generateAdapter = true)
 data class User(

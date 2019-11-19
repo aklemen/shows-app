@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aklemen.shows.R
-import com.aklemen.shows.data.api.model.Episode
-import com.aklemen.shows.data.api.model.Show
+import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.data.model.Show
 import kotlinx.android.synthetic.main.fragment_show_detail.*
 
 

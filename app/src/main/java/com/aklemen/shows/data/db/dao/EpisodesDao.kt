@@ -2,8 +2,7 @@ package com.aklemen.shows.data.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.aklemen.shows.data.db.model.Episode
-import com.aklemen.shows.data.db.model.Show
+import com.aklemen.shows.data.model.Episode
 
 @Dao
 interface EpisodesDao {

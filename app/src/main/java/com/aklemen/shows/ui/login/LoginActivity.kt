@@ -10,7 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
-import com.aklemen.shows.data.api.model.Credentials
+import com.aklemen.shows.data.model.Credentials
 import com.aklemen.shows.ui.shows.shared.ShowsMasterActivity
 import com.aklemen.shows.util.ShowsApp
 import com.aklemen.shows.util.setInputTypeToPassword

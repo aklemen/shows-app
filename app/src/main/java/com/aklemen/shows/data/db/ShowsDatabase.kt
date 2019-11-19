@@ -5,8 +5,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.aklemen.shows.data.db.dao.EpisodesDao
 import com.aklemen.shows.data.db.dao.ShowsDao
-import com.aklemen.shows.data.db.model.Episode
-import com.aklemen.shows.data.db.model.Show
+import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.data.model.Show
 import com.aklemen.shows.util.ShowsApp
 
 @Database(
@@ -14,7 +14,8 @@ import com.aklemen.shows.util.ShowsApp
         Show::class,
         Episode::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class ShowsDatabase : RoomDatabase() {
 

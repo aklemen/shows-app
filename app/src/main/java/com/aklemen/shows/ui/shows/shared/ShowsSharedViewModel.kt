@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.aklemen.shows.data.api.model.*
+import com.aklemen.shows.data.model.EpisodeNumber
 
 
 class ShowsSharedViewModel : ViewModel() {

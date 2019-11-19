@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.api.model.DataShow
-import com.aklemen.shows.data.api.model.Episode
-import com.aklemen.shows.data.api.model.EpisodeList
-import com.aklemen.shows.data.api.model.Show
+import com.aklemen.shows.data.model.DataShow
+import com.aklemen.shows.data.model.EpisodeList
+import com.aklemen.shows.data.model.Episode
+import com.aklemen.shows.data.model.Show
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -63,10 +63,13 @@ class ShowsDetailViewModel : ViewModel() {
 
                             _episodeListLiveData.postValue(body.episodes.map {
                                 Episode(
+                                    id = it.id,
                                     title = it.title,
                                     description = it.description,
+                                    imageUrl = it.imageUrl,
                                     episodeNumber = it.episodeNumber,
-                                    season = it.season
+                                    season = it.season,
+                                    showId = ""
                                 )
                             })
 

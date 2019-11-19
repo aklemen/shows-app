@@ -3,9 +3,9 @@ package com.aklemen.shows.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.aklemen.shows.data.api.model.Credentials
-import com.aklemen.shows.data.api.model.DataToken
-import com.aklemen.shows.data.api.model.DataUser
+import com.aklemen.shows.data.model.Credentials
+import com.aklemen.shows.data.model.DataToken
+import com.aklemen.shows.data.model.DataUser
 import com.aklemen.shows.data.api.RestClient
 import com.aklemen.shows.util.ShowsApp
 import retrofit2.Call
