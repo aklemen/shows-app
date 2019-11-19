@@ -16,7 +16,7 @@ import com.aklemen.shows.util.ShowsApp
     ],
     version = 1
 )
-abstract class InfinumDatabase : RoomDatabase() {
+abstract class ShowsDatabase : RoomDatabase() {
 
     abstract fun showsDao(): ShowsDao
 
@@ -25,9 +25,9 @@ abstract class InfinumDatabase : RoomDatabase() {
     companion object {
 
         @Volatile
-        private var INSTANCE: InfinumDatabase? = null
+        private var INSTANCE: ShowsDatabase? = null
 
-        fun getDatabase(): InfinumDatabase {
+        fun getDatabase(): ShowsDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -35,7 +35,7 @@ abstract class InfinumDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     ShowsApp.instance,
-                    InfinumDatabase::class.java,
+                    ShowsDatabase::class.java,
                     "infinum_database"
                 ).build()
                 INSTANCE = instance
