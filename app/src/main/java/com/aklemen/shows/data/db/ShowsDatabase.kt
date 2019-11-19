@@ -34,11 +34,14 @@ abstract class ShowsDatabase : RoomDatabase() {
                 return tempInstance
             }
             synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    ShowsApp.instance,
-                    ShowsDatabase::class.java,
-                    "infinum_database"
-                ).build()
+                val instance =
+                    Room.databaseBuilder(
+                        ShowsApp.instance,
+                        ShowsDatabase::class.java,
+                        "shows_database"
+                    )
+//                        .fallbackToDestructiveMigration()
+                        .build()
                 INSTANCE = instance
                 return instance
             }

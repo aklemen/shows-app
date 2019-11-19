@@ -8,13 +8,13 @@ import com.aklemen.shows.data.model.Episode
 interface EpisodesDao {
 
     @Query("SELECT * FROM episodes_table WHERE show_id= :showId")
-    fun getAllForShow(showId: Int): LiveData<List<Episode>>
+    fun getAllForShow(showId: String): LiveData<List<Episode>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(episodes: List<Episode>)
 
     @Query("SELECT * FROM episodes_table WHERE id =:id")
-    fun getById(id: Int): LiveData<Episode>
+    fun getById(id: String): LiveData<Episode>
 
     @Insert
     fun insert(episode: Episode)

@@ -14,7 +14,7 @@ interface ShowsDao {
     fun insertAll(shows: List<Show>)
 
     @Query("SELECT * FROM shows_table WHERE id =:id")
-    fun getById(id: Int): LiveData<Show>
+    fun getById(id: String): LiveData<Show>
 
     @Insert
     fun insert(show: Show)
