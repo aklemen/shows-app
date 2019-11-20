@@ -164,7 +164,7 @@ class AddEpisodeFragment : Fragment() {
         }
 
         addLayoutDescription.apply {
-            error = if (addEditDescription.text.toString().length < 50) "Descriptions need to have at least 50 characters."
+            error = if (addEditDescription.text.toString().length < MIN_DESCRIPTION_LENGTH) "Descriptions need to have at least 50 characters."
             else null
         }
 
