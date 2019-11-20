@@ -20,6 +20,8 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
+    private var handler: Handler? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -60,17 +62,23 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkLoginStatus() {
+        handler = Handler()
         if (ShowsApp.getToken().isNotEmpty() && ShowsApp.getRememberMe()) {
-            Handler().postDelayed({
+            handler?.postDelayed({
                 startActivity(ShowsMasterActivity.newStartIntent(this))
                 finish()
             }, START_DELAY)
         } else {
-            Handler().postDelayed({
+            handler?.postDelayed({
                 startActivity(LoginActivity.newStartIntent(this))
                 finish()
             }, START_DELAY)
 
         }
+    }
+
+    override fun onBackPressed() {
+        handler?.removeCallbacksAndMessages(null)
+        super.onBackPressed()
     }
 }
