@@ -34,7 +34,6 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         setContentView(R.layout.activity_login)
 
         initViewsAndVariables()
-        checkLoginStatus()
         initObservers()
         initListeners()
     }
@@ -58,12 +57,6 @@ class LoginActivity : AppCompatActivity(), RegisterFragmentInterface {
         loginViewModel.tokenLiveData.observe(this, Observer {
             login()
         })
-    }
-
-    private fun checkLoginStatus() {
-        if (ShowsApp.getToken().isNotEmpty() && ShowsApp.getRememberMe()) {
-            login()
-        }
     }
 
     private fun initViewsAndVariables() {
