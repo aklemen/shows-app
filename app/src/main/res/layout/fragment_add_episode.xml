@@ -149,7 +149,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/episode_number"
+                android:text="@string/select_number"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 android:fontFamily="@font/karla_bold"/>

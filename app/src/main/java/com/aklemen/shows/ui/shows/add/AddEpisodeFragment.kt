@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
-import com.aklemen.shows.data.model.Episode
 import com.aklemen.shows.data.model.EpisodePost
 import com.aklemen.shows.ui.shows.shared.ShowsSharedViewModel
 import kotlinx.android.synthetic.main.fragment_add_episode.*
@@ -23,6 +22,7 @@ class AddEpisodeFragment : Fragment() {
     companion object {
 
         private const val EXTRA_SHOW_ID = "AddEpisodeFragment.showId"
+        private const val MIN_DESCRIPTION_LENGTH: Int = 50
 
         fun newStartFragment(showId: String): AddEpisodeFragment {
             val args = Bundle()
@@ -71,8 +71,8 @@ class AddEpisodeFragment : Fragment() {
 
         addButtonSave.setOnClickListener { saveEpisode() }
 
-        addEditTitle.doOnTextChanged { _, _, _, _ -> setSaveButtonState() }
-        addEditDescription.doOnTextChanged { _, _, _, _ -> setSaveButtonState() }
+        addEditTitle.doOnTextChanged { _, _, _, _ -> validateInput() }
+        addEditDescription.doOnTextChanged { _, _, _, _ -> validateInput() }
 
         addImageCamera.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
         addTextUploadImage.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
@@ -89,7 +89,7 @@ class AddEpisodeFragment : Fragment() {
                 addGroupEpisodePlaceholder.visibility = View.GONE
                 addGroupEpisodeImage.visibility = View.VISIBLE
                 addImageEpisode.setImageURI(it)
-                setSaveButtonState()
+                validateInput()
             } else {
                 addGroupEpisodePlaceholder.visibility = View.VISIBLE
                 addGroupEpisodeImage.visibility = View.GONE
@@ -99,7 +99,7 @@ class AddEpisodeFragment : Fragment() {
         showsSharedViewModel.episodeNumberLiveData.observe(this, Observer {
             if (it != null) {
                 addTextEpisodeNumber.text = formatEpisodeWithComma(it.season, it.episode)
-                setSaveButtonState()
+                validateInput()
             }
         })
     }
@@ -154,9 +154,21 @@ class AddEpisodeFragment : Fragment() {
         fragmentManager?.let { NumberPickerDialog.newStartFragment().show(it, "NumberPickerDialog") }
     }
 
-    private fun setSaveButtonState() {
+    private fun validateInput() {
         val imageUri = showsSharedViewModel.imageLiveData.value
         val episodeNumbers = showsSharedViewModel.episodeNumberLiveData.value
+
+        addLayoutTitle.apply {
+            error = if (addEditTitle.text.toString().isEmpty()) "Title is required."
+            else null
+        }
+
+        addLayoutDescription.apply {
+            error = if (addEditDescription.text.toString().length < 50) "Descriptions need to have at least 50 characters."
+            else null
+        }
+
+
         addButtonSave.isEnabled =
             addEditTitle.text.toString().isNotEmpty() && addEditDescription.text.toString().isNotEmpty() && imageUri != null && episodeNumbers != null
     }
