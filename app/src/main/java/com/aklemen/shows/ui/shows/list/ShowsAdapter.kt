@@ -10,7 +10,7 @@ import com.aklemen.shows.data.model.Show
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.view_show_item.view.*
 
-class ShowsAdapter(private val data: MutableList<Show>, val action: (Show) -> Unit) :
+class ShowsAdapter(private var data: MutableList<Show>, val action: (Show) -> Unit) :
     RecyclerView.Adapter<ShowsAdapter.ShowsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowsViewHolder {
@@ -30,6 +30,12 @@ class ShowsAdapter(private val data: MutableList<Show>, val action: (Show) -> Un
     override fun onBindViewHolder(holder: ShowsViewHolder, position: Int) {
         holder.bind(data[position])
     }
+
+    fun setData(list: List<Show>){
+        this.data = list.toMutableList()
+        notifyDataSetChanged()
+    }
+
 
     inner class ShowsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

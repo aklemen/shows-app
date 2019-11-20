@@ -24,6 +24,8 @@ class ShowsListFragment : Fragment() {
     private lateinit var showsListViewModel: ShowsListViewModel
     private var showsListInterface: ShowsListInterface? = null
 
+    private var showsAdapter: ShowsAdapter? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -55,7 +57,14 @@ class ShowsListFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
+        showsGroup.visibility = View.GONE
+        showsRecyclerview.visibility = View.GONE
+
         showsRecyclerview.layoutManager = LinearLayoutManager(activity)
+        showsAdapter =  ShowsAdapter(emptyList<Show>().toMutableList()) {
+            showsListInterface?.onShowClicked(it.id)
+        }
+        showsRecyclerview.adapter = showsAdapter
         showsListViewModel.getShowsList()
     }
 
@@ -66,8 +75,14 @@ class ShowsListFragment : Fragment() {
     }
 
     private fun updateShowList(shows: List<Show>) {
-        showsRecyclerview.adapter = ShowsAdapter(shows.toMutableList()) {
-            showsListInterface?.onShowClicked(it.id)
+        showsAdapter?.setData(shows)
+
+        if (shows.isNotEmpty()) {
+            showsGroup.visibility = View.GONE
+            showsRecyclerview.visibility = View.VISIBLE
+        } else {
+            showsRecyclerview.visibility = View.GONE
+            showsGroup.visibility = View.VISIBLE
         }
     }
 }

@@ -31,7 +31,40 @@
         app:layout_constraintTop_toTopOf="@id/showsTextPageTitle"
         app:layout_constraintBottom_toBottomOf="@id/showsTextPageTitle"/>
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/showsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="showsImageSleep,showsTextWake" />
+
+    <ImageView
+        android:id="@+id/showsImageSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_placeholder_registration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/showsTextPageTitle"
+        app:layout_constraintBottom_toTopOf="@id/showsTextWake"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+
+    <TextView
+        android:id="@+id/showsTextWake"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:lineHeight="24sp"
+        android:text="@string/wake_him_up"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/showsImageSleep" />
+
     <androidx.recyclerview.widget.RecyclerView
+        tools:visibility="invisible"
         android:id="@+id/showsRecyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"

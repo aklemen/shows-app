@@ -72,13 +72,6 @@
         app:layout_constraintTop_toBottomOf="@id/detailTextEpisodes"
         tools:visibility="gone"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/detailGuide"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintGuide_percent="0.5"
-        android:orientation="horizontal"/>
-
     <androidx.constraintlayout.widget.Group
         android:id="@+id/detailGroup"
         android:layout_width="wrap_content"
@@ -92,8 +85,9 @@
         android:src="@drawable/img_placeholder_registration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailGuide" />
-
+        app:layout_constraintTop_toBottomOf="@id/detailTextEpisodes"
+        app:layout_constraintBottom_toTopOf="@id/detailTextWake"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/detailTextWake"
@@ -106,7 +100,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailImage" />
+        app:layout_constraintTop_toBottomOf="@id/detailImage"
+        app:layout_constraintBottom_toTopOf="@id/detailTextAddEpisodes"/>
 
     <TextView
         android:id="@+id/detailTextAddEpisodes"
@@ -121,7 +116,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailTextWake" />
+        app:layout_constraintTop_toBottomOf="@id/detailTextWake"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,11 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
         holder.bind(data[position])
     }
 
+    fun setData(list: List<Episode>){
+        this.data = list.toMutableList()
+        notifyDataSetChanged()
+    }
+
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(episode: Episode) {

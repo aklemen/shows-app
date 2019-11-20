@@ -35,6 +35,8 @@ class ShowDetailFragment : Fragment() {
     private lateinit var showsDetailViewModel: ShowsDetailViewModel
     private var showDetailFragmentInterface: ShowDetailFragmentInterface? = null
 
+    private var episodesAdapter: EpisodesAdapter? = null
+
     private var show: Show? = null
     private var showId: String? = null
 
@@ -79,14 +81,16 @@ class ShowDetailFragment : Fragment() {
 
         showsDetailViewModel.episodeListLiveData.observe(this, Observer {
             updateEpisodesList(it)
-            refreshEpisodesList(it)
         })
     }
 
     private fun initRecyclerView() {
-        detailRecyclerview.layoutManager = LinearLayoutManager(activity)
         detailGroup.visibility = View.GONE
         detailRecyclerview.visibility = View.GONE
+
+        detailRecyclerview.layoutManager = LinearLayoutManager(activity)
+        episodesAdapter =  EpisodesAdapter(emptyList<Episode>().toMutableList())
+        detailRecyclerview.adapter = episodesAdapter
     }
 
     private fun getShowData() {
@@ -99,12 +103,10 @@ class ShowDetailFragment : Fragment() {
         detailTextDescription.text = show?.description
     }
 
-    private fun updateEpisodesList(list: List<Episode>) {
-        detailRecyclerview.adapter = EpisodesAdapter(list.toMutableList())
-    }
+    private fun updateEpisodesList(episodes: List<Episode>) {
+        episodesAdapter?.setData(episodes)
 
-    private fun refreshEpisodesList(list: List<Episode>) {
-        if (list.isNotEmpty()) {
+        if (episodes.isNotEmpty()) {
             detailGroup.visibility = View.GONE
             detailRecyclerview.visibility = View.VISIBLE
         } else {
