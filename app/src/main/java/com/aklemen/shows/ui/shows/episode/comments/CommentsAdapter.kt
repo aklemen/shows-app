@@ -15,7 +15,7 @@ class CommentsAdapter(private var data: MutableList<Comment>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
         return CommentsViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.view_show_item,
+                R.layout.view_comment_item,
                 parent,
                 false
             )
@@ -35,6 +35,11 @@ class CommentsAdapter(private var data: MutableList<Comment>) :
         notifyDataSetChanged()
     }
 
+    fun addItem(comment: Comment){
+        this.data.add(itemCount, comment)
+        notifyItemInserted(itemCount)
+    }
+
 
     inner class CommentsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -42,6 +47,7 @@ class CommentsAdapter(private var data: MutableList<Comment>) :
             with(itemView) {
                 commentTextUser.text = comment.userEmail
                 commentTextComment.text = comment.text
+
             }
         }
 

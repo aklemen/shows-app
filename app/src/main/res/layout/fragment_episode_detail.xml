@@ -18,9 +18,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/episodeDetailGuide"
-        android:src="@drawable/bg_gradient_vertical_white"
+        tools:src="@drawable/the_affair_poster"
         android:scaleType="centerCrop"
-        tools:background="@drawable/the_affair_poster"
+        android:foreground="@drawable/bg_gradient_vertical_white"
         />
 
     <androidx.appcompat.widget.Toolbar
@@ -102,8 +102,11 @@
         app:layout_constraintStart_toEndOf="@id/episodeDetailImageComment"
         app:layout_constraintTop_toTopOf="@id/episodeDetailImageComment"
         app:layout_constraintBottom_toBottomOf="@id/episodeDetailImageComment"
-        android:layout_marginStart="9dp"
         android:fontFamily="@font/karla_bold"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         />
 
     <androidx.constraintlayout.widget.Guideline

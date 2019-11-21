@@ -18,17 +18,31 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="@string/comments" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/commentsRecyclerview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/commentsRefresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@id/commentsInputField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/commentsToolbar"
-        tools:visibility="invisible" />
+        app:layout_constraintTop_toBottomOf="@id/commentsToolbar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentsRecyclerview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 
     <androidx.constraintlayout.widget.Group
@@ -71,7 +85,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/bg_round_border_grey"
