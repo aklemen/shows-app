@@ -9,7 +9,8 @@ import com.aklemen.shows.data.model.Episode
 import kotlinx.android.synthetic.main.view_episode_item.view.*
 import java.text.DecimalFormat
 
-class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
+class EpisodesAdapter(private var data: MutableList<Episode>, val action: (Episode) -> Unit) :
+    RecyclerView.Adapter<EpisodesAdapter.EpisodesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_episode_item, parent, false)
@@ -35,6 +36,9 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
 //            itemView.episodeTextEpisodeNumber.text = formatEpisode(episode.episodeNumber, episode.season)
             itemView.episodeTextEpisodeNumber.text = "S${episode.episodeNumber} E${episode.season}"
             itemView.episodeTextTitle.text = episode.title
+            itemView.setOnClickListener {
+                action(episode)
+            }
         }
 
     }

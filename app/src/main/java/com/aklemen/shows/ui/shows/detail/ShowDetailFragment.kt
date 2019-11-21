@@ -90,7 +90,9 @@ class ShowDetailFragment : Fragment() {
         detailRecyclerview.visibility = View.GONE
 
         detailRecyclerview.layoutManager = LinearLayoutManager(activity)
-        episodesAdapter =  EpisodesAdapter(emptyList<Episode>().toMutableList())
+        episodesAdapter =  EpisodesAdapter(emptyList<Episode>().toMutableList()){
+            showDetailFragmentInterface?.onEpisodeClick(it.id)
+        }
         detailRecyclerview.adapter = episodesAdapter
     }
 
@@ -119,4 +121,5 @@ class ShowDetailFragment : Fragment() {
 
 interface ShowDetailFragmentInterface {
     fun onAddEpisodeClick(showId: String)
+    fun onEpisodeClick(episodeId: String)
 }

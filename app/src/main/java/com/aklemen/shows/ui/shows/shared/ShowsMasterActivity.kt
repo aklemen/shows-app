@@ -22,6 +22,7 @@ import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragment
 import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragmentInterface
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragment
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
+import com.aklemen.shows.ui.shows.episode.detail.EpisodeDetailFragment
 import com.aklemen.shows.ui.shows.list.ShowsListFragment
 import com.aklemen.shows.ui.shows.list.ShowsListInterface
 import com.aklemen.shows.util.ShowsApp
@@ -94,6 +95,13 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
         supportFragmentManager.beginTransaction()
             .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment(showId))
             .addToBackStack("AddEpisodeFragment")
+            .commit()
+    }
+
+    override fun onEpisodeClick(episodeId: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.showsFragmentContainer, EpisodeDetailFragment.newStartFragment(episodeId))
+            .addToBackStack("EpisodeDetailFragment")
             .commit()
     }
 
