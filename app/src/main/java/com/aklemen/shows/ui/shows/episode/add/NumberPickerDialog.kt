@@ -1,4 +1,4 @@
-package com.aklemen.shows.ui.shows.add
+package com.aklemen.shows.ui.shows.episode.add
 
 import android.content.Context
 import android.os.Bundle

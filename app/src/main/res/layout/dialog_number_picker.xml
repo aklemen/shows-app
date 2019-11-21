@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.shows.add.NumberPickerDialog"
+    tools:context=".ui.shows.episode.add.NumberPickerDialog"
     android:paddingHorizontal="50dp"
     android:paddingVertical="30dp">
 

@@ -18,8 +18,8 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
 import com.aklemen.shows.ui.login.LoginActivity
-import com.aklemen.shows.ui.shows.add.AddEpisodeFragment
-import com.aklemen.shows.ui.shows.add.AddEpisodeFragmentInterface
+import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragment
+import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragmentInterface
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragment
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
 import com.aklemen.shows.ui.shows.list.ShowsListFragment

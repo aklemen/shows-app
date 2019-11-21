@@ -1,10 +1,9 @@
-package com.aklemen.shows.ui.shows.add
+package com.aklemen.shows.ui.shows.episode.add
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.model.Episode
 import com.aklemen.shows.data.model.EpisodePost
 import okhttp3.ResponseBody
 import retrofit2.Call
