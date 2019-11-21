@@ -13,6 +13,7 @@ import com.aklemen.shows.R
 import com.aklemen.shows.data.api.RestClient
 import com.aklemen.shows.data.model.Episode
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_shows_master.*
 import kotlinx.android.synthetic.main.fragment_episode_detail.*
 
 class EpisodeDetailFragment : Fragment() {
@@ -56,6 +57,8 @@ class EpisodeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.showsProgressBarHolder?.visibility = View.VISIBLE
+
         initListeners()
         initObservers()
         episodeId?.let { episodeDetailViewModel?.getEpisode(it) }
@@ -71,6 +74,8 @@ class EpisodeDetailFragment : Fragment() {
         episodeDetailViewModel.episodeLiveData.observe(this, Observer {
             episode = it
             initViews()
+            activity?.showsProgressBarHolder?.visibility = View.GONE
+
         })
     }
 

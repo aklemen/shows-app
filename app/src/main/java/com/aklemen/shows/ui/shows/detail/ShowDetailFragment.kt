@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aklemen.shows.R
 import com.aklemen.shows.data.model.Episode
 import com.aklemen.shows.data.model.Show
+import kotlinx.android.synthetic.main.activity_shows_master.*
 import kotlinx.android.synthetic.main.fragment_show_detail.*
 
 
@@ -61,6 +62,8 @@ class ShowDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.showsProgressBarHolder?.visibility = View.VISIBLE
+
         initListeners()
         initObservers()
         initRecyclerView()
@@ -80,8 +83,9 @@ class ShowDetailFragment : Fragment() {
         })
 
         showsDetailViewModel.episodeListLiveData.observe(this, Observer {
-            progressBarHolder.visibility = View.GONE
             updateEpisodesList(it)
+            activity?.showsProgressBarHolder?.visibility = View.GONE
+
         })
     }
 

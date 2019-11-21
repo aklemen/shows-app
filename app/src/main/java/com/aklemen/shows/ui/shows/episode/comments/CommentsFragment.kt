@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.aklemen.shows.R
 import com.aklemen.shows.data.model.Comment
+import kotlinx.android.synthetic.main.activity_shows_master.*
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.view_comment_item.*
 
@@ -54,6 +55,8 @@ class CommentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.showsProgressBarHolder?.visibility = View.VISIBLE
+
         initListeners()
         initObservers()
         initRecyclerView()
@@ -75,6 +78,8 @@ class CommentsFragment : Fragment() {
         commentsViewModel.commentListLiveData.observe(this, Observer {
             updateCommentsList(it)
             commentsRefresh.isRefreshing = false
+            activity?.showsProgressBarHolder?.visibility = View.GONE
+
         })
     }
 

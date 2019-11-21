@@ -9,12 +9,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.transition.Transition
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
 import com.aklemen.shows.ui.login.LoginActivity
@@ -80,6 +82,7 @@ class ShowsMasterActivity :
 
     override fun onShowClicked(showId: String) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment(showId))
             .addToBackStack("ShowDetailFragment")
             .commit()
@@ -92,6 +95,7 @@ class ShowsMasterActivity :
             .setPositiveButton("Yes") { _, _ ->
                 ShowsApp.clearPrefs()
                 startActivity(LoginActivity.newStartIntent(this))
+                overridePendingTransition(Transition.)
                 finish()
             }
             .setNegativeButton("Cancel", null)
@@ -101,6 +105,7 @@ class ShowsMasterActivity :
 
     override fun onEpisodeClick(episodeId: String) {
         supportFragmentManager.beginTransaction()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
             .replace(R.id.showsFragmentContainer, EpisodeDetailFragment.newStartFragment(episodeId))
             .addToBackStack("EpisodeDetailFragment")
             .commit()
@@ -108,6 +113,7 @@ class ShowsMasterActivity :
 
     override fun onCommentsClick(episodeId: String) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.showsFragmentContainer, CommentsFragment.newStartFragment(episodeId))
             .addToBackStack("CommentsFragment")
             .commit()
@@ -115,6 +121,7 @@ class ShowsMasterActivity :
 
     override fun onAddEpisodeClick(showId: String) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment(showId))
             .addToBackStack("AddEpisodeFragment")
             .commit()

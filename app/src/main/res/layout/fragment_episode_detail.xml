@@ -40,16 +40,17 @@
         android:id="@+id/episodeDetailTextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="28sp"
-        android:textColor="@color/textRegular"
-        android:fontFamily="@font/karla_bold"
-        tools:text="Garden Party"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/karla_bold"
+        android:textColor="@color/textRegular"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toBottomOf="@id/episodeDetailImage"
-        />
+        tools:text="Garden Party" />
 
     <TextView
         android:id="@+id/episodeDetailNumber"

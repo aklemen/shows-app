@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
     companion object {
 
         //TODO Change back to 2000L
-        private const val START_DELAY = 100L
+        private const val START_DELAY = 200L
 
     }
 
@@ -67,6 +67,7 @@ class SplashActivity : AppCompatActivity() {
         if (ShowsApp.getToken().isNotEmpty() && ShowsApp.getRememberMe()) {
             handler?.postDelayed({
                 startActivity(ShowsMasterActivity.newStartIntent(this))
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 finish()
             }, START_DELAY)
         } else {
