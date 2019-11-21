@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.transition.Slide
 import android.transition.Transition
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -95,7 +96,7 @@ class ShowsMasterActivity :
             .setPositiveButton("Yes") { _, _ ->
                 ShowsApp.clearPrefs()
                 startActivity(LoginActivity.newStartIntent(this))
-                overridePendingTransition(Transition.)
+                overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right)
                 finish()
             }
             .setNegativeButton("Cancel", null)
