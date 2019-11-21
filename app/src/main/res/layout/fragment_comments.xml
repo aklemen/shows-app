@@ -30,6 +30,13 @@
         app:layout_constraintTop_toBottomOf="@id/commentsToolbar"
         tools:visibility="invisible" />
 
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/commentsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="commentsImage,commentsTextEmpty" />
+
     <ImageView
         android:id="@+id/commentsImage"
         android:layout_width="wrap_content"
