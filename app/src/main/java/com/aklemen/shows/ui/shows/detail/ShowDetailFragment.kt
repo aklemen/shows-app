@@ -80,6 +80,7 @@ class ShowDetailFragment : Fragment() {
         })
 
         showsDetailViewModel.episodeListLiveData.observe(this, Observer {
+            progressBarHolder.visibility = View.GONE
             updateEpisodesList(it)
         })
     }

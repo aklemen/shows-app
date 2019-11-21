@@ -64,6 +64,8 @@ class AddEpisodeFragment : Fragment() {
 
         initListeners()
         initObservers()
+
+
     }
 
     private fun initListeners() {
