@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.shows.episode.detail.EpisodeDetailFragment"
+    android:clickable="true"
+    android:focusable="true">
+
+<!--TODO make scrollable and implement collapsing toolbar-->
+
+    <ImageView
+        android:id="@+id/episodeDetailImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/episodeDetailGuide"
+        android:src="@drawable/bg_gradient_vertical_white"
+        android:scaleType="centerCrop"
+        android:background="@drawable/the_affair_poster"
+        />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/episodeDetailToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:paddingTop="16dp"
+        android:theme="@style/AppTheme.Toolbar"
+        android:background="@drawable/bg_gradient_horizontal_white"
+        />
+
+    <TextView
+        android:id="@+id/episodeDetailTextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textColor="@color/textRegular"
+        android:fontFamily="@font/karla_bold"
+        android:text="Garden Party"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/episodeDetailImage"
+        />
+
+    <TextView
+        android:id="@+id/episodeDetailNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/karla_bold"
+        android:text="S8 E2"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/episodeDetailTextTitle"
+        />
+
+
+    <TextView
+        android:id="@+id/episodeDetailTextDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/episodeDetailNumber"
+        android:lineSpacingExtra="8sp"
+        android:text="Andy claims to be throwing a garden party at Dwight&apos;s farm to impress Robert California, but he&apos;s really doing it to win the approval of his parents, who appear to favor his younger brother."
+        />
+
+    <ImageView
+        android:id="@+id/episodeDetailImageComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_message_circle"
+        app:layout_constraintTop_toBottomOf="@id/episodeDetailTextDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/episodeDetailTextComments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/textRegular"
+        android:text="@string/comments"
+        app:layout_constraintStart_toEndOf="@id/episodeDetailImageComment"
+        app:layout_constraintTop_toTopOf="@id/episodeDetailImageComment"
+        app:layout_constraintBottom_toBottomOf="@id/episodeDetailImageComment"
+        android:layout_marginStart="9dp"
+        android:fontFamily="@font/karla_bold"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/episodeDetailGuide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintGuide_percent="0.4"
+        android:orientation="horizontal"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

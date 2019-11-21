@@ -16,7 +16,8 @@ class SplashActivity : AppCompatActivity() {
 
     companion object {
 
-        private const val START_DELAY = 2000L
+        //TODO Change back to 2000L
+        private const val START_DELAY = 100L
 
     }
 

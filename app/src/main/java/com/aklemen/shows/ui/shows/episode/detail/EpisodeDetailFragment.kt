@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.aklemen.shows.R
-import kotlinx.android.synthetic.main.episode_detail_fragment.*
+import kotlinx.android.synthetic.main.fragment_episode_detail.*
 
 class EpisodeDetailFragment : Fragment() {
 
@@ -26,6 +26,7 @@ class EpisodeDetailFragment : Fragment() {
     }
 
     private lateinit var episodeDetailViewModel: EpisodeDetailViewModel
+    private var episodeDetailInterface: EpisodeDetailInterface? = null
 
     private var episodeId: String? = null
 
@@ -34,16 +35,32 @@ class EpisodeDetailFragment : Fragment() {
 
         episodeDetailViewModel = ViewModelProviders.of(this).get(EpisodeDetailViewModel::class.java)
 
+        if (context is EpisodeDetailInterface) {
+            episodeDetailInterface = context
+        } else {
+            throw RuntimeException("Please implement EpisodeDetailInterface")
+        }
+
         episodeId = arguments?.getString(EXTRA_EPISODE_ID, "") ?: ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.episode_detail_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_episode_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        test.text = episodeId
+        initListeners()
     }
+
+    private fun initListeners() {
+        episodeDetailToolbar.setNavigationOnClickListener { fragmentManager?.popBackStack() }
+        episodeDetailImageComment.setOnClickListener { episodeId?.let { episodeDetailInterface?.onCommentsClick(it) } }
+        episodeDetailTextComments.setOnClickListener { episodeId?.let { episodeDetailInterface?.onCommentsClick(it) } }
+    }
+}
+
+interface EpisodeDetailInterface{
+    fun onCommentsClick(episodeId: String)
 }

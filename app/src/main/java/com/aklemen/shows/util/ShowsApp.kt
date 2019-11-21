@@ -3,6 +3,7 @@ package com.aklemen.shows.util
 import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.widget.ProgressBar
 import com.aklemen.shows.ui.login.LoginActivity
 
 class ShowsApp : Application() {
@@ -20,7 +21,6 @@ class ShowsApp : Application() {
         fun setRememberMe(rememberMe: Boolean) = sharedPreferences.edit().putBoolean(LoginActivity.PREF_REMEMBER_ME, rememberMe).apply()
 
         fun clearPrefs() = sharedPreferences.edit().clear().commit()
-
     }
 
     override fun onCreate() {

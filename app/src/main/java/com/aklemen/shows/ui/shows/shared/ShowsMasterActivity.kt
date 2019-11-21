@@ -22,7 +22,9 @@ import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragment
 import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragmentInterface
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragment
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
+import com.aklemen.shows.ui.shows.episode.comments.CommentsFragment
 import com.aklemen.shows.ui.shows.episode.detail.EpisodeDetailFragment
+import com.aklemen.shows.ui.shows.episode.detail.EpisodeDetailInterface
 import com.aklemen.shows.ui.shows.list.ShowsListFragment
 import com.aklemen.shows.ui.shows.list.ShowsListInterface
 import com.aklemen.shows.util.ShowsApp
@@ -33,7 +35,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface, AddEpisodeFragmentInterface {
+class ShowsMasterActivity :
+    AppCompatActivity(),
+    ShowsListInterface,
+    ShowDetailFragmentInterface,
+    AddEpisodeFragmentInterface,
+    EpisodeDetailInterface {
 
     //TODO Add error handling everywhere - errorLiveData
 
@@ -91,17 +98,24 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .show()
     }
 
-    override fun onAddEpisodeClick(showId: String) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment(showId))
-            .addToBackStack("AddEpisodeFragment")
-            .commit()
-    }
-
     override fun onEpisodeClick(episodeId: String) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.showsFragmentContainer, EpisodeDetailFragment.newStartFragment(episodeId))
             .addToBackStack("EpisodeDetailFragment")
+            .commit()
+    }
+
+    override fun onCommentsClick(episodeId: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.showsFragmentContainer, CommentsFragment.newStartFragment(episodeId))
+            .addToBackStack("CommentsFragment")
+            .commit()
+    }
+
+    override fun onAddEpisodeClick(showId: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment(showId))
+            .addToBackStack("AddEpisodeFragment")
             .commit()
     }
 
