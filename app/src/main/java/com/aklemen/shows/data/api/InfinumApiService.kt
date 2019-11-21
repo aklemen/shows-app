@@ -1,9 +1,11 @@
 package com.aklemen.shows.data.api
 
 import com.aklemen.shows.data.model.*
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface InfinumApiService {
 
@@ -41,6 +43,10 @@ interface InfinumApiService {
 
     @POST("comments")
     fun addComment(@Body comment: Comment): Call<ResponseBody>
+
+    @POST("/api/media")
+    @Multipart
+    fun uploadMedia(@Part("file\"; filename=\"image.jpg\"") request: RequestBody): Call<ResponseBody>
 
 
 

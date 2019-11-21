@@ -116,6 +116,7 @@ class AddEpisodeFragment : Fragment() {
             )
         }?.let {
             addEpisodeViewModel.addNewEpisode(it)
+            showsSharedViewModel.uploadImage()
         }
 
         fragmentManager?.popBackStack()

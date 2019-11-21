@@ -43,6 +43,7 @@ class ShowsMasterActivity :
     EpisodeDetailInterface {
 
     //TODO Add error handling everywhere - errorLiveData
+    //TODO Add animations for fragments and activities
 
     companion object {
 
