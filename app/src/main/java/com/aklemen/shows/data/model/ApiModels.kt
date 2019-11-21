@@ -47,3 +47,8 @@ data class EpisodeList(
 data class DataShow(
     @Json(name = "data") val show: Show
 )
+
+@JsonClass(generateAdapter = true)
+data class DataEpisode(
+    @Json(name = "data") val episode: Episode
+)

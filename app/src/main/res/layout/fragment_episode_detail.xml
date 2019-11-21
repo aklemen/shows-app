@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toTopOf="@id/episodeDetailGuide"
         android:src="@drawable/bg_gradient_vertical_white"
         android:scaleType="centerCrop"
-        android:background="@drawable/the_affair_poster"
+        tools:background="@drawable/the_affair_poster"
         />
 
     <androidx.appcompat.widget.Toolbar
@@ -43,7 +43,7 @@
         android:textSize="28sp"
         android:textColor="@color/textRegular"
         android:fontFamily="@font/karla_bold"
-        android:text="Garden Party"
+        tools:text="Garden Party"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="20dp"
@@ -58,7 +58,7 @@
         android:textSize="16sp"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/karla_bold"
-        android:text="S8 E2"
+        tools:text="S8 E2"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/episodeDetailNumber"
         android:lineSpacingExtra="8sp"
-        android:text="Andy claims to be throwing a garden party at Dwight&apos;s farm to impress Robert California, but he&apos;s really doing it to win the approval of his parents, who appear to favor his younger brother."
+        tools:text="Andy claims to be throwing a garden party at Dwight&apos;s farm to impress Robert California, but he&apos;s really doing it to win the approval of his parents, who appear to favor his younger brother."
         />
 
     <ImageView

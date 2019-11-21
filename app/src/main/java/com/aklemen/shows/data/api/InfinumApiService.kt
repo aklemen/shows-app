@@ -25,4 +25,7 @@ interface InfinumApiService {
     @POST("episodes")
     fun addEpisode(@Body episode: EpisodePost): Call<ResponseBody>
 
+    @GET("episodes/{episodeId}")
+    fun getEpisode(@Path("episodeId") episodeId: String): Call<DataEpisode>
+
 }
