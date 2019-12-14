@@ -1,3 +1,3 @@
 # Infinum Academy 2019
 
-## Shows app
+An Android app called Shows that we've been working on at Infinum Academy 2019.
