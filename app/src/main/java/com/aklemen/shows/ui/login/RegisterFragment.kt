@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.login
 
 
 import android.content.Context
@@ -8,6 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.aklemen.shows.R
+import com.aklemen.shows.data.model.Credentials
+import com.aklemen.shows.util.setInputTypeToPassword
 import kotlinx.android.synthetic.main.fragment_register.*
 
 
@@ -15,13 +20,17 @@ class RegisterFragment : Fragment() {
 
     companion object {
 
-        fun newStartFragment(): RegisterFragment = RegisterFragment()
+        fun newStartFragment(): RegisterFragment =
+            RegisterFragment()
     }
 
+    private lateinit var loginViewModel: LoginViewModel
     private var registerFragmentInterface: RegisterFragmentInterface? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        loginViewModel = ViewModelProviders.of(requireActivity()).get(LoginViewModel::class.java)
 
         if (context is RegisterFragmentInterface) {
             registerFragmentInterface = context
@@ -30,11 +39,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
@@ -43,32 +48,40 @@ class RegisterFragment : Fragment() {
 
         initViews()
         initListeners()
+        initObservers()
     }
 
     private fun initViews() {
-        // Need to set this here instead of XML so the right font is applied
         registerEditPassword.setInputTypeToPassword()
         registerEditPasswordAgain.setInputTypeToPassword()
     }
 
+    private fun initObservers() {
+        loginViewModel.tokenLiveData.observe(this, Observer {
+            startActivity(WelcomeActivity.newStartIntent(requireContext(), registerEditEmail.text.toString()))
+            activity?.finish()
+        })
+    }
+
     private fun initListeners() {
+        registerToolbar.setNavigationOnClickListener { registerFragmentInterface?.onBackNavigation() }
         registerEditEmail.doOnTextChanged { _, _, _, _ -> validateRegisterInput() }
         registerEditPassword.doOnTextChanged { _, _, _, _ -> validateRegisterInput() }
         registerEditPasswordAgain.doOnTextChanged { _, _, _, _ -> validateRegisterInput() }
 
         registerButton.setOnClickListener {
-            val email = registerEditEmail.text.toString()
-            val password = registerEditPassword.text.toString()
-            registerFragmentInterface?.onRegister(email, password)
+            val credentials =
+                Credentials(
+                    registerEditEmail.text.toString(),
+                    registerEditPassword.text.toString()
+                )
+            loginViewModel.registerUser(credentials)
         }
     }
 
     private fun validateRegisterInput() {
-        val isEmailOk =
-            registerFragmentInterface?.isEmailValid(registerEditEmail.text.toString()) ?: false
-        val isPasswordOk =
-            registerFragmentInterface?.isPasswordValid(registerEditPassword.text.toString())
-                ?: false
+        val isEmailOk = registerFragmentInterface?.isEmailValid(registerEditEmail.text.toString()) ?: false
+        val isPasswordOk = registerFragmentInterface?.isPasswordValid(registerEditPassword.text.toString()) ?: false
         var isPasswordAgainOk = false
 
         if (!isEmailOk) {
@@ -97,7 +110,7 @@ class RegisterFragment : Fragment() {
 
 
 interface RegisterFragmentInterface {
-    fun onRegister(email: String, password: String)
+    fun onBackNavigation()
     fun isEmailValid(email: String): Boolean
     fun isPasswordValid(password: String): Boolean
 }

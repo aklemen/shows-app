@@ -1,4 +1,4 @@
-package com.aklemen.shows
+package com.aklemen.shows.util
 
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod

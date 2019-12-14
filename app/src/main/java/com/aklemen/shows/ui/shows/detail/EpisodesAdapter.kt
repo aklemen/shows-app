@@ -1,9 +1,11 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.shows.detail
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aklemen.shows.R
+import com.aklemen.shows.data.model.Episode
 import kotlinx.android.synthetic.main.view_episode_item.view.*
 import java.text.DecimalFormat
 
@@ -20,6 +22,11 @@ class EpisodesAdapter(private var data: MutableList<Episode>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: EpisodesViewHolder, position: Int) {
         holder.bind(data[position])
+    }
+
+    fun setData(list: List<Episode>){
+        this.data = list.toMutableList()
+        notifyDataSetChanged()
     }
 
     inner class EpisodesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

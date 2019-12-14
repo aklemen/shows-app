@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textSize="18sp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
             android:fontFamily="@font/karla_bold"
             tools:text="S01 E02"/>
 
@@ -37,7 +37,7 @@
             android:id="@+id/episodeTextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlackish2"
+            android:textColor="@color/textLight"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@id/episodeGuide"
             app:layout_constraintTop_toTopOf="parent"

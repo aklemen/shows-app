@@ -1,10 +1,12 @@
-package com.aklemen.shows
+package com.aklemen.shows.ui.login
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.aklemen.shows.R
+import com.aklemen.shows.ui.shows.shared.ShowsMasterActivity
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 
@@ -33,7 +35,8 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun initViewsAndVariables() {
-        val username: String = intent.getStringExtra(EXTRA_USER_NAME)
+        var username: String = intent.getStringExtra(EXTRA_USER_NAME)
+        username = username.substring(0,1).toUpperCase() + username.substring(1, username.indexOf("@"))
         welcomeTextWelcome.text = "Welcome $username"
     }
 
