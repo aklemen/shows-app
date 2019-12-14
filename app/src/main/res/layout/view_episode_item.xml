@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
     app:cardElevation="0dp"
@@ -12,7 +12,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        >
 
         <TextView
             android:id="@+id/episodeTextEpisodeNumber"
@@ -30,8 +33,8 @@
             android:id="@+id/episodeGuide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintGuide_percent="0.25"
-            android:orientation="vertical"/>
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="103dp" />
 
         <TextView
             android:id="@+id/episodeTextTitle"

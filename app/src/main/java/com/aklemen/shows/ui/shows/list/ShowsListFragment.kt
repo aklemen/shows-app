@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aklemen.shows.R
 import com.aklemen.shows.data.model.Show
+import kotlinx.android.synthetic.main.activity_shows_master.*
 import kotlinx.android.synthetic.main.fragment_shows_list.*
 
 
@@ -71,6 +72,7 @@ class ShowsListFragment : Fragment() {
     private fun initObservers() {
         showsListViewModel.showListLiveData.observe(this, Observer {
             updateShowList(it)
+            activity?.showsProgressBarHolder?.visibility = View.GONE
         })
     }
 

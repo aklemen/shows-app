@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.shows.detail.ShowDetailFragment"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/detailFab"
@@ -38,7 +39,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:lineHeight="24sp"
+        android:lineSpacingExtra="8sp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +66,8 @@
         android:id="@+id/detailRecyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +96,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:lineHeight="24sp"
+        android:lineSpacingExtra="7sp"
         android:text="@string/wake_him_up"
         android:textAlignment="center"
         android:textSize="16sp"
@@ -109,7 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:lineHeight="24sp"
+        android:lineSpacingExtra="7sp"
         android:text="@string/add_some_episodes"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
@@ -118,19 +120,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detailTextWake"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <FrameLayout
-        android:id="@+id/progressBarHolder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBlack15">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"/>
-    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,16 +2,9 @@ package com.aklemen.shows.ui.shows.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.aklemen.shows.data.api.RestClient
-import com.aklemen.shows.data.model.ShowList
 import com.aklemen.shows.data.model.Show
 import com.aklemen.shows.data.repository.ShowsRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
 
 
 class ShowsListViewModel :

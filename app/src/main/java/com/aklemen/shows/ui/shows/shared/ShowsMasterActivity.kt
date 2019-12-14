@@ -9,12 +9,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.transition.Slide
+import android.transition.Transition
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import com.aklemen.shows.R
 import com.aklemen.shows.ui.login.LoginActivity
@@ -22,6 +25,9 @@ import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragment
 import com.aklemen.shows.ui.shows.episode.add.AddEpisodeFragmentInterface
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragment
 import com.aklemen.shows.ui.shows.detail.ShowDetailFragmentInterface
+import com.aklemen.shows.ui.shows.episode.comments.CommentsFragment
+import com.aklemen.shows.ui.shows.episode.detail.EpisodeDetailFragment
+import com.aklemen.shows.ui.shows.episode.detail.EpisodeDetailInterface
 import com.aklemen.shows.ui.shows.list.ShowsListFragment
 import com.aklemen.shows.ui.shows.list.ShowsListInterface
 import com.aklemen.shows.util.ShowsApp
@@ -32,9 +38,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailFragmentInterface, AddEpisodeFragmentInterface {
+class ShowsMasterActivity :
+    AppCompatActivity(),
+    ShowsListInterface,
+    ShowDetailFragmentInterface,
+    AddEpisodeFragmentInterface,
+    EpisodeDetailInterface {
 
     //TODO Add error handling everywhere - errorLiveData
+    //TODO Add animations for fragments and activities
 
     companion object {
 
@@ -71,6 +83,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
 
     override fun onShowClicked(showId: String) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.showsFragmentContainer, ShowDetailFragment.newStartFragment(showId))
             .addToBackStack("ShowDetailFragment")
             .commit()
@@ -83,6 +96,7 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .setPositiveButton("Yes") { _, _ ->
                 ShowsApp.clearPrefs()
                 startActivity(LoginActivity.newStartIntent(this))
+                overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right)
                 finish()
             }
             .setNegativeButton("Cancel", null)
@@ -90,8 +104,25 @@ class ShowsMasterActivity : AppCompatActivity(), ShowsListInterface, ShowDetailF
             .show()
     }
 
+    override fun onEpisodeClick(episodeId: String) {
+        supportFragmentManager.beginTransaction()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+            .replace(R.id.showsFragmentContainer, EpisodeDetailFragment.newStartFragment(episodeId))
+            .addToBackStack("EpisodeDetailFragment")
+            .commit()
+    }
+
+    override fun onCommentsClick(episodeId: String) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            .replace(R.id.showsFragmentContainer, CommentsFragment.newStartFragment(episodeId))
+            .addToBackStack("CommentsFragment")
+            .commit()
+    }
+
     override fun onAddEpisodeClick(showId: String) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.showsFragmentContainer, AddEpisodeFragment.newStartFragment(showId))
             .addToBackStack("AddEpisodeFragment")
             .commit()

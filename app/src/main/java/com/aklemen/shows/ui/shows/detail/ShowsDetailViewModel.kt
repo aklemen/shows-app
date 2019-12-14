@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aklemen.shows.data.api.RestClient
 import com.aklemen.shows.data.model.DataShow
-import com.aklemen.shows.data.model.EpisodeList
+import com.aklemen.shows.data.model.DataEpisodeList
 import com.aklemen.shows.data.model.Episode
 import com.aklemen.shows.data.model.Show
 import retrofit2.Call
@@ -51,12 +51,12 @@ class ShowsDetailViewModel : ViewModel() {
 
     fun getEpisodesList(showId: String) {
         RestClient.service.getEpisodes(showId)
-            .enqueue(object : Callback<EpisodeList> {
-                override fun onFailure(call: Call<EpisodeList>, t: Throwable) {
+            .enqueue(object : Callback<DataEpisodeList> {
+                override fun onFailure(call: Call<DataEpisodeList>, t: Throwable) {
                     _errorLiveData.postValue(t)
                 }
 
-                override fun onResponse(call: Call<EpisodeList>, response: Response<EpisodeList>) {
+                override fun onResponse(call: Call<DataEpisodeList>, response: Response<DataEpisodeList>) {
                     if (response.isSuccessful) {
                         val body = response.body()
                         if (body != null) {

@@ -64,8 +64,6 @@ class AddEpisodeFragment : Fragment() {
 
         initListeners()
         initObservers()
-
-
     }
 
     private fun initListeners() {
@@ -82,7 +80,6 @@ class AddEpisodeFragment : Fragment() {
         addTextChangeImage.setOnClickListener { addEpisodeFragmentInterface?.onUploadPhotoClick() }
 
         addTextEpisodeNumber.setOnClickListener { openNumberPickerDialog() }
-
     }
 
     private fun initObservers() {
@@ -119,6 +116,7 @@ class AddEpisodeFragment : Fragment() {
             )
         }?.let {
             addEpisodeViewModel.addNewEpisode(it)
+            showsSharedViewModel.uploadImage()
         }
 
         fragmentManager?.popBackStack()
